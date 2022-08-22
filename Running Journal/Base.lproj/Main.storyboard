@@ -1,24 +1,165 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="yhQ-bH-pVq">
+    <device id="retina6_1" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
+        <!--Sharing-->
+        <scene sceneID="DXw-21-CLh">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                <viewController id="jas-Z5-OJB" customClass="SharingVC" customModule="Running_Journal" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="x4M-HC-ASP">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <viewLayoutGuide key="safeArea" id="1cl-7L-Ucj"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Sharing" image="person.2.fill" catalog="system" id="AIx-kD-Y2X"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0gx-8f-EoU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="419" y="1298"/>
+        </scene>
+        <!--Past Runs-->
+        <scene sceneID="HWD-q2-mYX">
+            <objects>
+                <viewController id="jU1-AF-LpR" customClass="PastRunsVC" customModule="Running_Journal" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="YEt-xG-yhi">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N0h-5P-aHQ">
+                                <rect key="frame" x="370" y="44" width="44" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain">
+                                    <imageReference key="image" image="plus" catalog="system" symbolScale="large"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <segue destination="Z9y-VP-Ank" kind="presentation" modalPresentationStyle="fullScreen" id="44U-t6-3QW"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pJT-Ze-zWk">
+                                <rect key="frame" x="0.0" y="44" width="47" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="gear" catalog="system"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Past Runs" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bur-yq-dWB">
+                                <rect key="frame" x="169" y="44" width="76" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="waG-bI-f3r">
+                                <rect key="frame" x="19" y="83" width="395" height="30"/>
+                                <state key="normal" title="Sort By: Date"/>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="LX6-Jm-w1P"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Bur-yq-dWB" firstAttribute="top" secondItem="LX6-Jm-w1P" secondAttribute="top" id="6zv-uh-MsJ"/>
+                            <constraint firstItem="N0h-5P-aHQ" firstAttribute="trailing" secondItem="LX6-Jm-w1P" secondAttribute="trailing" id="KOr-2z-L4t"/>
+                            <constraint firstItem="LX6-Jm-w1P" firstAttribute="trailing" secondItem="waG-bI-f3r" secondAttribute="trailing" id="Ybs-Kg-WOm"/>
+                            <constraint firstItem="N0h-5P-aHQ" firstAttribute="top" secondItem="LX6-Jm-w1P" secondAttribute="top" id="daF-Kf-xRt"/>
+                            <constraint firstItem="pJT-Ze-zWk" firstAttribute="leading" secondItem="LX6-Jm-w1P" secondAttribute="leading" id="hON-V0-0jm"/>
+                            <constraint firstItem="pJT-Ze-zWk" firstAttribute="top" secondItem="LX6-Jm-w1P" secondAttribute="top" id="iME-uC-HUd"/>
+                            <constraint firstItem="waG-bI-f3r" firstAttribute="leading" secondItem="LX6-Jm-w1P" secondAttribute="leading" constant="19" id="q4N-du-qwq"/>
+                            <constraint firstItem="Bur-yq-dWB" firstAttribute="centerX" secondItem="YEt-xG-yhi" secondAttribute="centerX" id="sEC-j0-OaM"/>
+                            <constraint firstItem="waG-bI-f3r" firstAttribute="top" secondItem="N0h-5P-aHQ" secondAttribute="bottom" constant="8" id="wHK-Z8-WHK"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Past Runs" id="LaD-wh-fmF">
+                        <imageReference key="image" image="figure.walk" catalog="system" symbolScale="large"/>
+                    </tabBarItem>
+                    <connections>
+                        <outlet property="sortButton" destination="waG-bI-f3r" id="ETN-bx-VOv"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LCg-FP-dBO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="418.84057971014494" y="525.66964285714289"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="4Hh-hX-Dgw">
+            <objects>
+                <viewController id="Z9y-VP-Ank" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bFb-qT-NXf">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kzd-oO-8nc">
+                                <rect key="frame" x="0.0" y="44" width="56" height="31"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Back"/>
+                                <connections>
+                                    <segue destination="3kh-GF-1jX" kind="unwind" unwindAction="myUnwindActionWithUnwindSegue:" id="tvC-m0-fdx"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Qex-Wc-906"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Kzd-oO-8nc" firstAttribute="top" secondItem="Qex-Wc-906" secondAttribute="top" id="Add-bO-vMK"/>
+                            <constraint firstItem="Kzd-oO-8nc" firstAttribute="leading" secondItem="Qex-Wc-906" secondAttribute="leading" id="dsm-Z3-ZsF"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="UZ8-hQ-jau"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="R1Q-cf-9gb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="3kh-GF-1jX" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1313.0434782608697" y="525.66964285714289"/>
+        </scene>
+        <!--Notifications-->
+        <scene sceneID="Dfh-wg-Icv">
+            <objects>
+                <viewController id="mYK-pP-MM9" customClass="NotificationsVC" customModule="Running_Journal" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ysX-Wx-Jde">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="bSG-Zc-VK7"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Notifications" id="lPp-KJ-yeY">
+                        <imageReference key="image" image="bell.fill" catalog="system" symbolScale="large"/>
+                    </tabBarItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uYX-2b-3eU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="420" y="-256"/>
+        </scene>
+        <!--tabViewController-->
+        <scene sceneID="MYe-aR-qSq">
+            <objects>
+                <tabBarController title="tabViewController" id="yhQ-bH-pVq" customClass="TabBarController" customModule="Running_Journal" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="q7e-S5-B93">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="mYK-pP-MM9" kind="relationship" relationship="viewControllers" id="n0h-mg-WAL"/>
+                        <segue destination="jU1-AF-LpR" kind="relationship" relationship="viewControllers" id="mgi-MY-y01"/>
+                        <segue destination="jas-Z5-OJB" kind="relationship" relationship="viewControllers" id="Szo-eg-QUb"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="v8l-6e-k7e" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-468" y="527"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="bell.fill" catalog="system" width="128" height="124"/>
+        <image name="figure.walk" catalog="system" width="95" height="128"/>
+        <image name="gear" catalog="system" width="128" height="119"/>
+        <image name="person.2.fill" catalog="system" width="128" height="80"/>
+        <image name="plus" catalog="system" width="128" height="113"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
