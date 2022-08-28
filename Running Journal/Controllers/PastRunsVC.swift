@@ -42,6 +42,7 @@ class PastRunsVC: UIViewController {
                                   UICommand(title: "Fartlek", action: #selector(tagFartlekSort)),
                                   
         ]
+        
         let tagsSubMenu = UIMenu(title: "Run Type", children: tagsSubMenuOptions)
         
         

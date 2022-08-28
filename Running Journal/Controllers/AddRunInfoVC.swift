@@ -23,6 +23,7 @@ class AddRunInfoVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var locationTextField: UITextField!
     @IBOutlet weak var temperatureTextField: UITextField!
     @IBOutlet weak var tempSelector: UISegmentedControl!
+    @IBOutlet weak var weatherTextView: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,25 +33,22 @@ class AddRunInfoVC: UIViewController, UITextFieldDelegate {
         self.runTimePicker.delegate = self
         self.hideKeyboardWhenTappedAround()
         
+        datePicker.maximumDate = Date()
+        
+        
         distanceTextField.addTarget(self, action: #selector(AddRunInfoVC.distanceTextFieldDidChange(_:)), for: .editingChanged)
         unitSelector.addTarget(self, action: #selector(AddRunInfoVC.unitsChanged(_:)), for:.allEvents)
         
         temperatureTextField.addNumericAccessory(addPlusMinus: true)
+        
+        //for text view border
+        weatherTextView.layer.borderColor = UIColor.lightGray.cgColor
+        weatherTextView.layer.borderWidth = 1
+        
     }
     //Back button clicked
     @IBAction func backButtonClicked(_ sender: UIButton) {
-        let refreshAlert = UIAlertController(title: "Are You Sure?", message: "All data will be lost.", preferredStyle: UIAlertController.Style.alert)
-
-        refreshAlert.addAction(UIAlertAction(title: "Go Back", style: .default, handler: { (action: UIAlertAction!) in
-           //   print("Handle Ok logic here")
-            self.dismiss(animated: true, completion: nil)
-        }))
-
-        refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
-           //   print("Handle Cancel Logic here")
-        }))
-
-        present(refreshAlert, animated: true, completion: nil)
+        addRunHelp.backButton(self: self, back: false)
     }
     
 //Textfield delegates
@@ -116,7 +114,7 @@ class AddRunInfoVC: UIViewController, UITextFieldDelegate {
             
             
         let paceText = ("\(paceMinutes):\(paceSeconds)")
-        print(paceText)
+        
             paceLabel.text = "Pace: \(paceText)/\(unitSelector.titleForSegment(at: unitSelector.selectedSegmentIndex) ?? "km")"
             
         
@@ -126,7 +124,26 @@ class AddRunInfoVC: UIViewController, UITextFieldDelegate {
     }
     
 
-
+    @IBAction func nextButtonClicked(_ sender: UIButton) {
+        //check if distance field has been entered
+        var distanceRan = Double(distanceTextField.text ?? "0")
+        var distance = distanceRan ?? 0.0
+        print(distance)
+        if distance != 0 //perform segue
+        {
+            performSegue(withIdentifier: "addRunPage1-2", sender: sender)
+        }
+        else //remind user to input distance through pop up
+        {
+            let refreshAlert = UIAlertController(title: "Error", message: "Enter distance before proceeding", preferredStyle: UIAlertController.Style.alert)
+            refreshAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action: UIAlertAction!) in
+               //   print("Handle Cancel Logic here")
+            }))
+            present(refreshAlert, animated: true, completion: nil)
+            
+        }
+    }
+    
     
     /*
     // MARK: - Navigation
@@ -175,7 +192,7 @@ extension AddRunInfoVC: UIPickerViewDelegate, UIPickerViewDataSource {
              }
          }
          func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-             print("hey")
+            
              
              switch component {
                  case 0:

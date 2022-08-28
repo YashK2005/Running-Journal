@@ -20,9 +20,10 @@
 		D392D83728AE0454005C830B /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D392D83628AE0454005C830B /* TabBarController.swift */; };
 		D392D83A28AE0745005C830B /* PastRunsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D392D83928AE0745005C830B /* PastRunsVC.swift */; };
 		D392D83C28AE0757005C830B /* SharingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D392D83B28AE0757005C830B /* SharingVC.swift */; };
-		D392D83F28B25480005C830B /* SortHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D392D83E28B25480005C830B /* SortHelpers.swift */; };
+		D392D83F28B25480005C830B /* AddRunHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D392D83E28B25480005C830B /* AddRunHelpers.swift */; };
 		D39EBDEB28B3A5DC00279F40 /* AddRunInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D39EBDEA28B3A5DC00279F40 /* AddRunInfoVC.swift */; };
 		D39EBDEF28B4F9A800279F40 /* AutoKeyboardScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D39EBDEE28B4F9A700279F40 /* AutoKeyboardScrollView.swift */; };
+		D3A95B9128B87A6C00037060 /* Pt2AddRunInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A95B9028B87A6C00037060 /* Pt2AddRunInfoVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,9 +61,10 @@
 		D392D83628AE0454005C830B /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		D392D83928AE0745005C830B /* PastRunsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastRunsVC.swift; sourceTree = "<group>"; };
 		D392D83B28AE0757005C830B /* SharingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingVC.swift; sourceTree = "<group>"; };
-		D392D83E28B25480005C830B /* SortHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortHelpers.swift; sourceTree = "<group>"; };
+		D392D83E28B25480005C830B /* AddRunHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRunHelpers.swift; sourceTree = "<group>"; };
 		D39EBDEA28B3A5DC00279F40 /* AddRunInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRunInfoVC.swift; sourceTree = "<group>"; };
 		D39EBDEE28B4F9A700279F40 /* AutoKeyboardScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoKeyboardScrollView.swift; sourceTree = "<group>"; };
+		D3A95B9028B87A6C00037060 /* Pt2AddRunInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pt2AddRunInfoVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,6 +154,7 @@
 				D392D83928AE0745005C830B /* PastRunsVC.swift */,
 				D392D83B28AE0757005C830B /* SharingVC.swift */,
 				D39EBDEA28B3A5DC00279F40 /* AddRunInfoVC.swift */,
+				D3A95B9028B87A6C00037060 /* Pt2AddRunInfoVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -159,7 +162,7 @@
 		D392D83D28B2546C005C830B /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D392D83E28B25480005C830B /* SortHelpers.swift */,
+				D392D83E28B25480005C830B /* AddRunHelpers.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -304,7 +307,8 @@
 				D392D83C28AE0757005C830B /* SharingVC.swift in Sources */,
 				D392D83A28AE0745005C830B /* PastRunsVC.swift in Sources */,
 				D30A1D5628ADF75700DA2692 /* Running_Journal.xcdatamodeld in Sources */,
-				D392D83F28B25480005C830B /* SortHelpers.swift in Sources */,
+				D392D83F28B25480005C830B /* AddRunHelpers.swift in Sources */,
+				D3A95B9128B87A6C00037060 /* Pt2AddRunInfoVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
