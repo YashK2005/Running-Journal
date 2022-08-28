@@ -126,8 +126,8 @@ class AddRunInfoVC: UIViewController, UITextFieldDelegate {
 
     @IBAction func nextButtonClicked(_ sender: UIButton) {
         //check if distance field has been entered
-        var distanceRan = Double(distanceTextField.text ?? "0")
-        var distance = distanceRan ?? 0.0
+        let distanceRan = Double(distanceTextField.text ?? "0")
+        let distance = distanceRan ?? 0.0
         print(distance)
         if distance != 0 //perform segue
         {

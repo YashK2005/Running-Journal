@@ -23,28 +23,35 @@ class Pt2AddRunInfoVC: UIViewController {
                                    "Hoka"  : 12]
     let units = "km" //get from database
     
+    @IBOutlet weak var dietTextView: UITextView!
+    @IBOutlet weak var dietTimePicker: UIDatePicker!
     
+    @IBOutlet weak var sorenessBeforeTextView: UITextView!
+    @IBOutlet weak var sorenessDuringTextView: UITextView!
+    @IBOutlet weak var sorenessAfterTextView: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround()
         
+        //creating menus
         runTypeMenuSetup()
         shoeMenuSetup()
         
-
-        // Do any additional setup after loading the view.
+        //for text view border
+        for textview in [dietTextView, sorenessBeforeTextView, sorenessDuringTextView, sorenessAfterTextView] {
+            textview?.layer.borderColor = UIColor.lightGray.cgColor
+            textview?.layer.borderWidth = 1
+        }
         
-      //  runTypeButton.contextMenuInteraction =
-        
-        
-       
-      //  runTypeButton.isContextMenuInteractionEnabled = true
-        
-       // runTypeButton.menu = runTypeMenu
     }
     
     @IBAction func backButtonClicked(_ sender: UIButton) {
         addRunHelp.backButton(self: self, back: true)
+    }
+    
+    @IBAction func nextButtonClicked(_ sender: UIButton) { //TODO: segue to next page
+        
     }
     
     //MARK: - Run Type Menu Setup
@@ -150,4 +157,17 @@ class Pt2AddRunInfoVC: UIViewController {
     }
     */
 
+}
+
+
+extension Pt2AddRunInfoVC {
+    func hideKeyboardWhenTappedAround() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(AddRunInfoVC.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }
