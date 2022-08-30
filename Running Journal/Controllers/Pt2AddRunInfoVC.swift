@@ -32,6 +32,9 @@ class Pt2AddRunInfoVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        
         self.hideKeyboardWhenTappedAround()
         
         //creating menus
@@ -45,6 +48,7 @@ class Pt2AddRunInfoVC: UIViewController {
         }
         
     }
+    
     
     @IBAction func backButtonClicked(_ sender: UIButton) {
         addRunHelp.backButton(self: self, back: true)
@@ -137,6 +141,7 @@ class Pt2AddRunInfoVC: UIViewController {
             menuOptions.append(UIAction(title: "\(key) - \(value)\(units)") { [self] (action) in self.shoeUsedButton.setTitle("\(key) - \(value)\(units)", for: .normal)
             })}
         
+        //TODO: add another option for adding a new shoe
         let shoeMenu = UIMenu(children: menuOptions)
         print(shoeMenu.children)
         shoeUsedButton.menu = shoeMenu
