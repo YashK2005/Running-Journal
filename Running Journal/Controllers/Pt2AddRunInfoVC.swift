@@ -18,7 +18,8 @@ class Pt2AddRunInfoVC: UIViewController {
     
     
     @IBOutlet weak var shoeUsedButton: UIButton!
-    let shoeDict: [String: Double] = ["Asics" : 200, //get from database
+    let shoeDict: [String: Double] = ["Asics" : 200, //TODO: get from database
+                                      
                                    "Nike"  : 150,
                                    "Hoka"  : 12]
     let units = "km" //get from database
@@ -30,9 +31,12 @@ class Pt2AddRunInfoVC: UIViewController {
     @IBOutlet weak var sorenessDuringTextView: UITextView!
     @IBOutlet weak var sorenessAfterTextView: UITextView!
     
+    var run : [String: Any] = [:]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print(run)
         
         
         self.hideKeyboardWhenTappedAround()
@@ -41,6 +45,7 @@ class Pt2AddRunInfoVC: UIViewController {
         runTypeMenuSetup()
         shoeMenuSetup()
         
+        dietTimePicker.maximumDate = Date()
         //for text view border
         for textview in [dietTextView, sorenessBeforeTextView, sorenessDuringTextView, sorenessAfterTextView] {
             textview?.layer.borderColor = UIColor.lightGray.cgColor
@@ -49,12 +54,19 @@ class Pt2AddRunInfoVC: UIViewController {
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        run.removeAll() //in case user goes back an then clear a field
+    }
+    
     
     @IBAction func backButtonClicked(_ sender: UIButton) {
         addRunHelp.backButton(self: self, back: true)
+        
     }
     
     @IBAction func nextButtonClicked(_ sender: UIButton) { //TODO: segue to next page
+        performSegue(withIdentifier: "addRunPage2-3", sender: sender)
         
     }
     
@@ -80,7 +92,7 @@ class Pt2AddRunInfoVC: UIViewController {
         
         
         let runOptionsMenu = UIMenu(children: menuOptions)
-        print(runOptionsMenu.children)
+        
         runTypeButton.menu = runOptionsMenu
     }
     
@@ -129,7 +141,7 @@ class Pt2AddRunInfoVC: UIViewController {
     
     
     func tagSorter(_ tagName: String) {
-        print(tagName)
+        
         runTypeButton.setTitle("\(tagName)", for: .normal)
         selectedRunType = tagName
     }
@@ -143,7 +155,7 @@ class Pt2AddRunInfoVC: UIViewController {
         
         //TODO: add another option for adding a new shoe
         let shoeMenu = UIMenu(children: menuOptions)
-        print(shoeMenu.children)
+        
         shoeUsedButton.menu = shoeMenu
         
     }
