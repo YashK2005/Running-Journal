@@ -56,7 +56,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="waG-bI-f3r">
-                                <rect key="frame" x="19" y="39" width="301" height="30"/>
+                                <rect key="frame" x="19" y="39" width="91" height="30"/>
                                 <state key="normal" title="Sort By: Date"/>
                             </button>
                         </subviews>
@@ -65,7 +65,6 @@
                         <constraints>
                             <constraint firstItem="Bur-yq-dWB" firstAttribute="top" secondItem="LX6-Jm-w1P" secondAttribute="top" id="6zv-uh-MsJ"/>
                             <constraint firstItem="N0h-5P-aHQ" firstAttribute="trailing" secondItem="LX6-Jm-w1P" secondAttribute="trailing" id="KOr-2z-L4t"/>
-                            <constraint firstItem="LX6-Jm-w1P" firstAttribute="trailing" secondItem="waG-bI-f3r" secondAttribute="trailing" id="Ybs-Kg-WOm"/>
                             <constraint firstItem="N0h-5P-aHQ" firstAttribute="top" secondItem="LX6-Jm-w1P" secondAttribute="top" id="daF-Kf-xRt"/>
                             <constraint firstItem="pJT-Ze-zWk" firstAttribute="leading" secondItem="LX6-Jm-w1P" secondAttribute="leading" id="hON-V0-0jm"/>
                             <constraint firstItem="pJT-Ze-zWk" firstAttribute="top" secondItem="LX6-Jm-w1P" secondAttribute="top" id="iME-uC-HUd"/>

@@ -19,9 +19,10 @@ class Pt2AddRunInfoVC: UIViewController {
     
     @IBOutlet weak var shoeUsedButton: UIButton!
     let shoeDict: [String: Double] = ["Asics" : 200, //TODO: get from database
-                                      
                                    "Nike"  : 150,
                                    "Hoka"  : 12]
+    var shoeName = ""
+    
     let units = "km" //get from database
     
     @IBOutlet weak var dietTextView: UITextView!
@@ -35,10 +36,8 @@ class Pt2AddRunInfoVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         print(run)
-        
-        
         self.hideKeyboardWhenTappedAround()
         
         //creating menus
@@ -56,7 +55,9 @@ class Pt2AddRunInfoVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        run.removeAll() //in case user goes back an then clear a field
+        //TODO: clear fields in run that are related to the info on this screen only (not page 1, only this page)
+        //run.removeAll() //in case user goes back an then clear a fields
+       // run.removeValue(forKey: <#T##String#>)
     }
     
     
@@ -70,6 +71,32 @@ class Pt2AddRunInfoVC: UIViewController {
         
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "addRunPage2-3"
+        {
+            let runType = runTypeButton.currentTitle ?? "Select"
+            if runType != "Select"
+            {
+                run["type"] = runType
+            }
+            if shoeName != ""
+            {
+                run["shoe"] = shoeName
+            }
+            if (dietTextView.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines) != ""
+            {
+                run["diet"] = dietTextView.text
+            }
+            
+            //Calculate time before meal
+            
+         //   print(runTime.timeIntervalSince1970 - mealTime)
+            
+            
+            
+            print(run)
+        }
+    }
     //MARK: - Run Type Menu Setup
     func runTypeMenuSetup() {
         let menuOptions:[UICommand] = [
@@ -151,13 +178,13 @@ class Pt2AddRunInfoVC: UIViewController {
         var menuOptions:[UIAction] = []
         for (key, value) in shoeDict {
             menuOptions.append(UIAction(title: "\(key) - \(value)\(units)") { [self] (action) in self.shoeUsedButton.setTitle("\(key) - \(value)\(units)", for: .normal)
+                shoeName = key
             })}
         
         //TODO: add another option for adding a new shoe
         let shoeMenu = UIMenu(children: menuOptions)
         
         shoeUsedButton.menu = shoeMenu
-        
     }
     
    
