@@ -94,15 +94,15 @@ class Pt2AddRunInfoVC: UIViewController {
             
             if (sorenessBeforeTextView.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines) != ""
             {
-                run["sorenessBefore"] = dietTextView.text
+                run["sorenessBefore"] = sorenessBeforeTextView.text
             }
             if (sorenessDuringTextView.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines) != ""
             {
-                run["sorenessDuring"] = dietTextView.text
+                run["sorenessDuring"] = sorenessDuringTextView.text
             }
             if (sorenessAfterTextView.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines) != ""
             {
-                run["sorenessAfter"] = dietTextView.text
+                run["sorenessAfter"] = sorenessAfterTextView.text
             }
             //Calculate time before meal
             

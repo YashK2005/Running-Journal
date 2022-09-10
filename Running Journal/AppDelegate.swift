@@ -18,6 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         IQKeyboardManager.shared.enable = true
+        
+        let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+             print(urls[urls.count-1] as URL)
         return true
     }
 
