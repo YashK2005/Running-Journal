@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21D62" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+    <entity name="Shoe" representedClassName="Shoe" syncable="YES" codeGenerationType="class">
+        <attribute name="shoeDistance" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="shoeName" optional="YES" attributeType="String"/>
+        <relationship name="shoeRelationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserRun" inverseName="shoeRelationship" inverseEntity="UserRun"/>
+    </entity>
     <entity name="UserRun" representedClassName="UserRun" syncable="YES" codeGenerationType="class">
         <attribute name="distance" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="lastMeal" optional="YES" attributeType="String"/>
-        <attribute name="lastMealMinutes" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="location" optional="YES" attributeType="String"/>
         <attribute name="privateNotes" optional="YES" attributeType="String"/>
         <attribute name="publicNotes" optional="YES" attributeType="String"/>
         <attribute name="runDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="runIntensity" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="runLengthSeconds" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="runTimeSeconds" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="runType" optional="YES" attributeType="String"/>
         <attribute name="shoe" optional="YES" attributeType="String"/>
         <attribute name="sorenessAfter" optional="YES" attributeType="String"/>
@@ -17,8 +21,10 @@
         <attribute name="sorenessDuring" optional="YES" attributeType="String"/>
         <attribute name="temperature" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="weather" optional="YES" attributeType="String"/>
+        <relationship name="shoeRelationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Shoe" inverseName="shoeRelationship" inverseEntity="Shoe"/>
     </entity>
     <elements>
-        <element name="UserRun" positionX="-63" positionY="-18" width="128" height="14"/>
+        <element name="Shoe" positionX="-45" positionY="117" width="128" height="88"/>
+        <element name="UserRun" positionX="-337.2666015625" positionY="-44.52383422851562" width="128" height="283"/>
     </elements>
 </model>

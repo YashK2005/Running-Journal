@@ -13,9 +13,11 @@ class Pt3AddRunInfoVC: UIViewController {
     @IBOutlet weak var publicTextField: UITextView!
     @IBOutlet weak var privateTextField: UITextView!
     
+    var run : [String: Any] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(run)
         
         self.hideKeyboardWhenTappedAround()
         
@@ -52,11 +54,37 @@ class Pt3AddRunInfoVC: UIViewController {
         
         refreshAlert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { (action: UIAlertAction!) in
            //   TODO: add run to database
+            self.addRunDict()
+            self.addRunDatabase()
             self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
         }))
 
         self.present(refreshAlert, animated: true, completion: nil)
     }
+    
+    //adding to run dictionary
+    func addRunDict()
+    {
+        run["intensity"] = Int(intensitySlider.value)
+        
+        if (publicTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines) != ""
+        {
+            run["public"] = publicTextField.text
+        }
+        if (privateTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines) != ""
+        {
+            run["private"] = privateTextField.text
+        }
+        
+        print(run)
+    }
+    
+    func addRunDatabase()
+    {
+        
+    }
+    
+    
     
     
     

@@ -26,7 +26,7 @@ class Pt2AddRunInfoVC: UIViewController {
     let units = "km" //get from database
     
     @IBOutlet weak var dietTextView: UITextView!
-    @IBOutlet weak var dietTimePicker: UIDatePicker!
+   
     
     @IBOutlet weak var sorenessBeforeTextView: UITextView!
     @IBOutlet weak var sorenessDuringTextView: UITextView!
@@ -44,7 +44,7 @@ class Pt2AddRunInfoVC: UIViewController {
         runTypeMenuSetup()
         shoeMenuSetup()
         
-        dietTimePicker.maximumDate = Date()
+        
         //for text view border
         for textview in [dietTextView, sorenessBeforeTextView, sorenessDuringTextView, sorenessAfterTextView] {
             textview?.layer.borderColor = UIColor.lightGray.cgColor
@@ -57,7 +57,11 @@ class Pt2AddRunInfoVC: UIViewController {
         super.viewDidAppear(animated)
         //TODO: clear fields in run that are related to the info on this screen only (not page 1, only this page)
         //run.removeAll() //in case user goes back an then clear a fields
-       // run.removeValue(forKey: <#T##String#>)
+        for dictKey in ["type", "shoe", "diet", "sorenessBefore", "sorenessDuring", "sorenessAfter"]
+        {
+            run.removeValue(forKey: dictKey)
+        }
+       
     }
     
     
@@ -88,6 +92,18 @@ class Pt2AddRunInfoVC: UIViewController {
                 run["diet"] = dietTextView.text
             }
             
+            if (sorenessBeforeTextView.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines) != ""
+            {
+                run["sorenessBefore"] = dietTextView.text
+            }
+            if (sorenessDuringTextView.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines) != ""
+            {
+                run["sorenessDuring"] = dietTextView.text
+            }
+            if (sorenessAfterTextView.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines) != ""
+            {
+                run["sorenessAfter"] = dietTextView.text
+            }
             //Calculate time before meal
             
          //   print(runTime.timeIntervalSince1970 - mealTime)
@@ -95,6 +111,8 @@ class Pt2AddRunInfoVC: UIViewController {
             
             
             print(run)
+            let destinationVC = segue.destination as! Pt3AddRunInfoVC
+            destinationVC.run = run
         }
     }
     //MARK: - Run Type Menu Setup
