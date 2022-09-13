@@ -6,11 +6,15 @@
 //
 
 import UIKit
+import CoreData
 
 class PastRunsVC: UIViewController {
 
+    var runs: [NSManagedObject] = []
+    
     @IBOutlet weak var sortButton: UIButton!
-    @IBOutlet weak var sortOptionsMenu: UIMenu!
+    @IBOutlet weak var runsTableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -19,8 +23,42 @@ class PastRunsVC: UIViewController {
         menuSetup()
         print("past runs")
         
+        runsTableView.delegate = self
+        runsTableView.dataSource = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        sortButton.setTitle("Sort By: Date", for: .normal)
+        getCoreDataRuns(descriptors: [NSSortDescriptor(key: "runDate", ascending: false)])
         
         
+    }
+    
+    func getCoreDataRuns(descriptors: [NSSortDescriptor], predicate: NSPredicate = NSPredicate(value: true))
+    {
+        guard let appDelegate =
+           UIApplication.shared.delegate as? AppDelegate else {
+             return
+         }
+         
+         let managedContext =
+           appDelegate.persistentContainer.viewContext
+         
+         //2
+         let fetchRequest =
+           NSFetchRequest<NSManagedObject>(entityName: "UserRun")
+        
+        fetchRequest.predicate = predicate
+        fetchRequest.sortDescriptors = descriptors
+         
+         //3
+         do {
+           runs = try managedContext.fetch(fetchRequest)
+         } catch let error as NSError {
+           print("Could not fetch. \(error), \(error.userInfo)")
+         }
+        runsTableView.reloadData()
     }
     
     //MARK: - Sort Menu
@@ -67,13 +105,16 @@ class PastRunsVC: UIViewController {
     @objc func dateSort() {
         print("date")
         sortButton.setTitle("Sort By: Date", for: .normal)
+        getCoreDataRuns(descriptors: [NSSortDescriptor(key: "runDate", ascending: false)])
     }
     @objc func distanceSort() {
         print("distance")
         sortButton.setTitle("Sort By: Distance", for: .normal)
+        getCoreDataRuns(descriptors: [NSSortDescriptor(key: "distance", ascending: false), NSSortDescriptor(key: "runDate", ascending: false)])
     }
     @objc func paceSort() {
         sortButton.setTitle("Sort By: Pace", for: .normal)
+        getCoreDataRuns(descriptors: [NSSortDescriptor(key: "secondsPerKm", ascending: true), NSSortDescriptor(key: "runDate", ascending: false)], predicate: NSPredicate(format: "secondsPerKm != nil")) //TODO: add zero values at the very end instead of front
     }
     
     
@@ -123,6 +164,7 @@ class PastRunsVC: UIViewController {
     func tagSorter(_ tagName: String) {
         print(tagName)
         sortButton.setTitle("Sort By: Run Type (\(tagName))", for: .normal)
+        getCoreDataRuns(descriptors: [NSSortDescriptor(key: "runDate", ascending: false)], predicate: NSPredicate(format: "runType = %@", tagName))
     }
 
     
@@ -143,5 +185,70 @@ class PastRunsVC: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "pastRunsToViewRun" //going to ViewRunInfoVC
+        {
+            let segueRun = runs[runsTableView.indexPathForSelectedRow!.row]
+            let destinationVC = segue.destination as? ViewRunInfoVC
+            destinationVC?.run = segueRun
+            
+        }
+    }
 
+}
+
+
+extension PastRunsVC: UITableViewDelegate
+{
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("you tapped me!")
+        performSegue(withIdentifier: "pastRunsToViewRun", sender: self)
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 69
+    }
+}
+
+extension PastRunsVC: UITableViewDataSource
+{
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return runs.count //TODO: get run count instead
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let run = runs[indexPath.row]
+        let cell = runsTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! runCell
+        
+        //getting coredata values to display on run cell
+        let distance: Double = (run.value(forKeyPath: "distance"))! as! Double
+        let date: Date = run.value(forKeyPath: "runDate") as! Date
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d, y"
+        let pace: Int = ((run.value(forKeyPath: "secondsPerKm") ?? 0) as! Int)
+        let runType: String = ((run.value(forKeyPath: "runType") ?? "") as! String)
+        
+        
+        print(date)
+        
+        print(distance)
+       // cell.textLabel?.text = "\(distance)"// runs[indexPath.row]
+        cell.distanceLabel.text = "\(distance)km" //TODO: get units
+        if runType != ""
+        {
+            cell.dateLabel.text = "\(formatter.string(from: date)): \(runType)"
+        } else {
+            cell.dateLabel.text = "\(formatter.string(from: date))"
+        }
+       
+        if pace != 0
+        {
+            var paceMinutes = pace / 60
+            var paceSeconds = pace % 60
+            cell.paceLabel.text = "\(paceMinutes):\(String(format:"%02d", paceSeconds))/km"
+        } else {
+            cell.paceLabel.text = ""
+        }
+        return cell
+    }
 }

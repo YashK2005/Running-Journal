@@ -114,6 +114,7 @@ class Pt3AddRunInfoVC: UIViewController {
         userRun.setValue(run["sorenessDuring"], forKey: "sorenessDuring")
         userRun.setValue(run["temperature"], forKey: "temperature")
         userRun.setValue(run["weather"], forKey: "weather")
+        userRun.setValue(run["pace"], forKey: "secondsPerKm")
         
         //saving to database
         do {

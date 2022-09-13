@@ -15,6 +15,7 @@
         <attribute name="runIntensity" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="runTimeSeconds" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="runType" optional="YES" attributeType="String"/>
+        <attribute name="secondsPerKm" optional="YES" attributeType="Integer 16" defaultValueString="10000" usesScalarValueType="YES"/>
         <attribute name="shoe" optional="YES" attributeType="String"/>
         <attribute name="sorenessAfter" optional="YES" attributeType="String"/>
         <attribute name="sorenessBefore" optional="YES" attributeType="String"/>
@@ -25,6 +26,6 @@
     </entity>
     <elements>
         <element name="Shoe" positionX="-45" positionY="117" width="128" height="88"/>
-        <element name="UserRun" positionX="-337.2666015625" positionY="-44.52383422851562" width="128" height="283"/>
+        <element name="UserRun" positionX="-337.2666015625" positionY="-44.52383422851562" width="128" height="298"/>
     </elements>
 </model>

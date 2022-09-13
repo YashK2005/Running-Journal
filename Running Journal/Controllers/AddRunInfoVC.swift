@@ -48,10 +48,13 @@ class AddRunInfoVC: UIViewController, UITextFieldDelegate {
         temperatureTextField.addNumericAccessory(addPlusMinus: true)
         
         //for text view border
-        weatherTextView.layer.borderColor = UIColor.lightGray.cgColor
-        weatherTextView.layer.borderWidth = 1
-        locationTextField.layer.borderColor = UIColor.lightGray.cgColor
-        locationTextField.layer.borderWidth = 1
+        for textView in [weatherTextView, locationTextField, temperatureTextField]
+        {
+            textView?.layer.borderColor = UIColor.lightGray.cgColor
+            textView?.layer.borderWidth = 1
+        }
+        
+        
         
     }
     
@@ -173,6 +176,9 @@ class AddRunInfoVC: UIViewController, UITextFieldDelegate {
             if runTimeSeconds != 0
             {
                 run["runTimeSeconds"] = runTimeSeconds
+                let pace = (Double(runTimeSeconds) / (run["distance"] as! Double))
+                print(pace)
+                run["pace"] = Int(pace)
                 //run["pace"] = paceLabel.text
             }
             
