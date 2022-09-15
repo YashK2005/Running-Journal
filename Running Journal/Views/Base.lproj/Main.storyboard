@@ -181,31 +181,34 @@
                                 <rect key="frame" x="0.0" y="68" width="320" height="500"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="runInfoCell" id="sv4-Rb-NGq" customClass="runInfoCell" customModule="Running_Journal" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="44.5" width="320" height="43.5"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="runInfoCell" rowHeight="51" id="sv4-Rb-NGq" customClass="runInfoCell" customModule="Running_Journal" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="44.5" width="320" height="51"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sv4-Rb-NGq" id="HsB-7P-CVZ">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="51"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Soreness Before:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="evC-Ij-Q3N">
-                                                    <rect key="frame" x="4" y="0.0" width="130" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Soreness Before:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="evC-Ij-Q3N">
+                                                    <rect key="frame" x="4" y="0.0" width="308" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
+                                                    <color key="textColor" systemColor="systemPurpleColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Blah blah blah" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eBD-zf-Ruw">
-                                                    <rect key="frame" x="4" y="25" width="107" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Blah blah blah" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eBD-zf-Ruw">
+                                                    <rect key="frame" x="4" y="24.5" width="308" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="evC-Ij-Q3N" secondAttribute="trailing" constant="8" id="4By-Og-qWk"/>
                                                 <constraint firstItem="eBD-zf-Ruw" firstAttribute="top" secondItem="evC-Ij-Q3N" secondAttribute="bottom" constant="4" id="FBf-Gf-E9L"/>
                                                 <constraint firstItem="evC-Ij-Q3N" firstAttribute="leading" secondItem="HsB-7P-CVZ" secondAttribute="leading" constant="4" id="UDL-sC-I3h"/>
                                                 <constraint firstItem="evC-Ij-Q3N" firstAttribute="top" secondItem="HsB-7P-CVZ" secondAttribute="top" id="WD8-rz-ZZS"/>
                                                 <constraint firstItem="eBD-zf-Ruw" firstAttribute="leading" secondItem="HsB-7P-CVZ" secondAttribute="leading" constant="4" id="huB-4F-nJ2"/>
+                                                <constraint firstAttribute="bottom" secondItem="eBD-zf-Ruw" secondAttribute="bottom" constant="6" id="qUO-bm-sEa"/>
+                                                <constraint firstAttribute="trailing" secondItem="eBD-zf-Ruw" secondAttribute="trailing" constant="8" id="ubZ-3j-7dP"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -240,7 +243,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CeU-63-gbr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="418" y="-215"/>
+            <point key="canvasLocation" x="416.25" y="-215.49295774647888"/>
         </scene>
         <!--Add Run InfoVC-->
         <scene sceneID="4Hh-hX-Dgw">
