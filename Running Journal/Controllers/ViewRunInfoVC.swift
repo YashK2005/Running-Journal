@@ -22,6 +22,7 @@ class ViewRunInfoVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         runInfoTableView.delegate = self
         runInfoTableView.dataSource = self
         
@@ -42,11 +43,58 @@ class ViewRunInfoVC: UIViewController {
     }
     
     @IBAction func editButtonClicked(_ sender: Any) {
-        
+        performSegue(withIdentifier: "viewRunInfoToAddRun", sender: sender)
     }
     
     @IBAction func deleteButtonClicked(_ sender: Any) {
         
+        let refreshAlert = UIAlertController(title: "Are You Sure?", message: "All data will be lost.", preferredStyle: UIAlertController.Style.alert)
+
+        refreshAlert.addAction(UIAlertAction(title: "Delete Run", style: .destructive, handler: { (action: UIAlertAction!) in
+            guard let appDelegate =
+               UIApplication.shared.delegate as? AppDelegate else {
+                 return
+             }
+             let managedContext =
+               appDelegate.persistentContainer.viewContext
+           // print(run.isDeleted)
+            managedContext.delete(self.run)
+            
+           // print(run.isDeleted)
+            do {
+                try managedContext.save()
+            } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
+            }
+            self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+             
+            
+        }))
+        
+        refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+           //   print("Handle Cancel Logic here")
+        }))
+
+        self.present(refreshAlert, animated: true, completion: nil)
+        
+        
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "viewRunInfoToAddRun" //after editing button clicked
+        {
+            let destinationVC = segue.destination as! AddRunInfoVC
+            destinationVC.edit = true
+            
+            
+            var passedDictKeys = dictKeys
+            passedDictKeys.append("runDate")
+            destinationVC.dict = run.dictionaryWithValues(forKeys: passedDictKeys)
+            destinationVC.coreDataRun = run
+            print(destinationVC.dict)
+            
+        }
     }
     
     func setupTableViewArrays()
@@ -59,7 +107,7 @@ class ViewRunInfoVC: UIViewController {
             { //var dictKeys = ["distance", "runTimeSeconds", "secondsPerKm", "runType", "runIntensity", "location", "temperature", "weather", "shoe", "lastMeal", "sorenessBefore", "sorenessDuring", "sorenessAfter", "publicNotes", "privateNotes"]
                 //validKeys.append(dictKey)
              //   validValues.append(dict[dictKey]!)
-                print(dict[dictKey]!)
+                
                 let result = getArrayText(key: dictKey, value: "\(dict[dictKey]!)")
                 validKeys.append(result[0])
                 validValues.append(result[1])
@@ -68,8 +116,8 @@ class ViewRunInfoVC: UIViewController {
                 //print("\(dictKey) \(dict[dictKey]!)")
             }
         }
-        print(validKeys)
-        print(validValues)
+     //   print(validKeys)
+       // print(validValues)
     }
     
     func getArrayText(key: String, value: String) -> [String]

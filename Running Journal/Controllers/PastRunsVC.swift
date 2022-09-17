@@ -21,7 +21,7 @@ class PastRunsVC: UIViewController {
         // Do any additional setup after loading the view.
         
         menuSetup()
-        print("past runs")
+       // print("past runs")
         
         runsTableView.delegate = self
         runsTableView.dataSource = self
@@ -103,12 +103,12 @@ class PastRunsVC: UIViewController {
     }
     
     @objc func dateSort() {
-        print("date")
+       // print("date")
         sortButton.setTitle("Sort By: Date", for: .normal)
         getCoreDataRuns(descriptors: [NSSortDescriptor(key: "runDate", ascending: false)])
     }
     @objc func distanceSort() {
-        print("distance")
+       // print("distance")
         sortButton.setTitle("Sort By: Distance", for: .normal)
         getCoreDataRuns(descriptors: [NSSortDescriptor(key: "distance", ascending: false), NSSortDescriptor(key: "runDate", ascending: false)])
     }
@@ -162,7 +162,7 @@ class PastRunsVC: UIViewController {
     
     
     func tagSorter(_ tagName: String) {
-        print(tagName)
+       // print(tagName)
         sortButton.setTitle("Sort By: Run Type (\(tagName))", for: .normal)
         getCoreDataRuns(descriptors: [NSSortDescriptor(key: "runDate", ascending: false)], predicate: NSPredicate(format: "runType = %@", tagName))
     }
@@ -191,6 +191,7 @@ class PastRunsVC: UIViewController {
             let segueRun = runs[runsTableView.indexPathForSelectedRow!.row]
             let destinationVC = segue.destination as? ViewRunInfoVC
             destinationVC?.run = segueRun
+            
             
         }
     }
@@ -229,9 +230,9 @@ extension PastRunsVC: UITableViewDataSource
         let runType: String = ((run.value(forKeyPath: "runType") ?? "") as! String)
         
         
-        print(date)
+      //  print(date)
         
-        print(distance)
+      //  print(distance)
        // cell.textLabel?.text = "\(distance)"// runs[indexPath.row]
         cell.distanceLabel.text = "\(distance)km" //TODO: get units
         if runType != ""

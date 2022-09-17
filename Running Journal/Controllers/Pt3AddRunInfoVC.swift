@@ -10,6 +10,15 @@ import CoreData
 
 class Pt3AddRunInfoVC: UIViewController {
 
+    var edit : Bool = false //false if run is being added, true if run is being edited
+//    var keys : [String] = [] //already entered fields
+//    var values : [Any] = [] //already entered values
+    var dict = [String : Any]()
+    var dictKeys = ["distance", "runTimeSeconds", "secondsPerKm", "runType", "runIntensity", "location", "temperature", "weather", "shoe", "lastMeal", "sorenessBefore", "sorenessDuring", "sorenessAfter", "publicNotes", "privateNotes", "runDate"]
+    var coreDataRun: NSManagedObject = NSManagedObject()
+    
+    
+    @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var intensitySlider: UISlider!
     @IBOutlet weak var publicTextField: UITextView!
     @IBOutlet weak var privateTextField: UITextView!
@@ -30,7 +39,11 @@ class Pt3AddRunInfoVC: UIViewController {
             textview?.layer.borderWidth = 1
         }
         
-       
+        if edit == true {
+            editingSetup()
+            shareButton.titleLabel?.text = "Save"
+            
+        }
         
         
         
@@ -38,8 +51,10 @@ class Pt3AddRunInfoVC: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    
     @IBAction func backButtonClicked(_ sender: UIButton) {
-        addRunHelp.backButton(self: self, back: true)
+        if edit == false {addRunHelp.backButton(self: self, back: true)}
+        else {addRunHelp.editingBackButton(self: self, back: true)}
     }
     
     @IBAction func sliderChanged(_ sender: UISlider) {
@@ -48,19 +63,40 @@ class Pt3AddRunInfoVC: UIViewController {
     }
    
     @IBAction func shareButtonClicked(_ sender: UIButton) {
-        let refreshAlert = UIAlertController(title: "Adding Run", message: "Run will be added to log and shared with friends", preferredStyle: UIAlertController.Style.alert)
+        if edit == false //run being added
+        {
+            let refreshAlert = UIAlertController(title: "Adding Run", message: "Run will be added to log and shared with friends", preferredStyle: UIAlertController.Style.alert)
 
-        refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
-        }))
+            refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+            }))
+            
+            refreshAlert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { (action: UIAlertAction!) in
+               //   TODO: add run to database
+                self.addRunDict()
+                self.addRunDatabase()
+                self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+            }))
+
+            self.present(refreshAlert, animated: true, completion: nil)
+        }
+        else //run being edited
+        {
+            let refreshAlert = UIAlertController(title: "Update Run", message: "Run changes will be made and shared with friends", preferredStyle: UIAlertController.Style.alert)
+
+            refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+            }))
+            
+            refreshAlert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { (action: UIAlertAction!) in
+               //   TODO: add run to database
+                self.addRunDict()
+                self.editRunDatabase()
+                self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+            }))
+
+            self.present(refreshAlert, animated: true, completion: nil)
+            shareButton.titleLabel?.text = "Save"
+        }
         
-        refreshAlert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { (action: UIAlertAction!) in
-           //   TODO: add run to database
-            self.addRunDict()
-            self.addRunDatabase()
-            self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
-        }))
-
-        self.present(refreshAlert, animated: true, completion: nil)
     }
     
     //adding to run dictionary
@@ -82,6 +118,7 @@ class Pt3AddRunInfoVC: UIViewController {
     
     func addRunDatabase()
     {
+        
         //setting up for database additions
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
@@ -97,6 +134,7 @@ class Pt3AddRunInfoVC: UIViewController {
                                        in: managedContext)!
         let userRun = NSManagedObject(entity: entity,
                                       insertInto: managedContext)
+        
         
         //adding info
         userRun.setValue(round(run["distance"] as! Double * 100) / 100.0, forKey: "distance")
@@ -117,6 +155,8 @@ class Pt3AddRunInfoVC: UIViewController {
         userRun.setValue(run["pace"], forKey: "secondsPerKm")
         
         //saving to database
+        
+            
         do {
             try managedContext.save()
         } catch let error as NSError {
@@ -135,6 +175,99 @@ class Pt3AddRunInfoVC: UIViewController {
 //        }
         
         
+    }
+    
+    func editRunDatabase()
+    {
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+            return
+          }
+        
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        coreDataRun.setValue(round(run["distance"] as! Double * 100) / 100.0, forKey: "distance")
+        coreDataRun.setValue(run["diet"], forKey: "lastMeal")
+        coreDataRun.setValue(run["location"], forKey: "location")
+        coreDataRun.setValue(run["private"], forKey: "privateNotes")
+        coreDataRun.setValue(run["public"], forKey: "publicNotes")
+        coreDataRun.setValue(run["date"], forKey: "runDate")
+        coreDataRun.setValue(run["intensity"], forKey: "runIntensity")
+        coreDataRun.setValue(run["runTimeSeconds"], forKey: "runTimeSeconds")
+        coreDataRun.setValue(run["type"], forKey: "runType")
+        coreDataRun.setValue(run["shoe"], forKey: "shoe")
+        coreDataRun.setValue(run["sorenessAfter"], forKey: "sorenessAfter")
+        coreDataRun.setValue(run["sorenessBefore"], forKey: "sorenessBefore")
+        coreDataRun.setValue(run["sorenessDuring"], forKey: "sorenessDuring")
+        coreDataRun.setValue(run["temperature"], forKey: "temperature")
+        coreDataRun.setValue(run["weather"], forKey: "weather")
+        coreDataRun.setValue(run["pace"], forKey: "secondsPerKm")
+        
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+        
+    }
+    func editingSetup()
+    {
+        for dictKey in dictKeys
+        {
+            if type(of: dict[dictKey]!) != type(of: NSNull())
+            {
+                let dictValue = (dict[dictKey]!)
+                switch dictKey {
+               //     case "runDate":
+                    
+                 //   case "distance": //TODO: unit conversion
+                    
+                   // case "runTimeSeconds":
+                    
+                //    case "secondsPerKm":
+                        
+                 //   case "runType":
+                    
+                        
+                    case "runIntensity":
+                    intensitySlider.setValue(Float("\(dictValue)") ?? 5.0, animated: false)
+                    sliderChanged(intensitySlider)
+                        
+                  //  case "location":
+                    
+                  //  case "temperature": //TODO: unit conversion
+                    
+                        
+                  //  case "weather":
+                    
+                        
+                    //case "shoe":
+                    
+                        
+                    //case "lastMeal":
+                    
+                        
+                    //case "sorenessBefore":
+                    
+                        
+                    //case "sorenessDuring":
+                    
+                        
+                    //case "sorenessAfter":
+                    
+                        
+                    case "publicNotes":
+                    publicTextField.text = "\(dictValue)"
+                        
+                    case "privateNotes":
+                    privateTextField.text = "\(dictValue)"
+                        
+                    default:
+                        let useless = 0
+                }
+            }
+        }
     }
     
     

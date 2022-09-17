@@ -6,10 +6,20 @@
 //
 
 import UIKit
+import CoreData
+
 
 class AddRunInfoVC: UIViewController, UITextFieldDelegate {
     
     var run = [String: Any]()
+    
+    
+    var edit : Bool = false //false if run is being added, true if run is being edited
+//    var keys : [String] = [] //already entered fields
+//    var values : [Any] = [] //already entered values
+    var dict = [String : Any]()
+    var dictKeys = ["distance", "runTimeSeconds", "secondsPerKm", "runType", "runIntensity", "location", "temperature", "weather", "shoe", "lastMeal", "sorenessBefore", "sorenessDuring", "sorenessAfter", "publicNotes", "privateNotes", "runDate"]
+    var coreDataRun: NSManagedObject = NSManagedObject()
     
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var datePicker: UIDatePicker!
@@ -30,8 +40,7 @@ class AddRunInfoVC: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.distanceTextField.becomeFirstResponder()
+        if edit == false {self.distanceTextField.becomeFirstResponder()}
         
         
         // Do any additional setup after loading the view.
@@ -54,6 +63,10 @@ class AddRunInfoVC: UIViewController, UITextFieldDelegate {
             textView?.layer.borderWidth = 1
         }
         
+        if edit == true {
+            editingSetup()
+        }
+        
         
         
     }
@@ -65,7 +78,9 @@ class AddRunInfoVC: UIViewController, UITextFieldDelegate {
     }
     //Back button clicked
     @IBAction func backButtonClicked(_ sender: UIButton) {
-        addRunHelp.backButton(self: self, back: false)
+        if edit == false {addRunHelp.backButton(self: self, back: false)}
+        else {addRunHelp.editingBackButton(self: self, back: false)}
+        
     }
     
     //Textfield delegates
@@ -208,7 +223,80 @@ class AddRunInfoVC: UIViewController, UITextFieldDelegate {
             
             let destinationVC = segue.destination as! Pt2AddRunInfoVC
             destinationVC.run = run
+            
+            if edit == true
+            {
+                destinationVC.edit = true
+                destinationVC.coreDataRun = coreDataRun
+                destinationVC.dict = dict
+            }
         }
+    }
+    
+    func editingSetup() {
+        print("edit")
+        
+        for dictKey in dictKeys
+        {
+            if type(of: dict[dictKey]!) != type(of: NSNull())
+            {
+                let dictValue = (dict[dictKey]!)
+                switch dictKey {
+                    case "runDate":
+                    print(dictValue)
+                    datePicker.date = dictValue as! Date
+                    
+                    case "distance": //TODO: unit conversion
+                    distanceTextField.text = "\(dictValue)"
+                    print(dictValue)
+                    case "runTimeSeconds":
+                    let totalSeconds = Int("\(dictValue)") ?? 0
+                    hour = totalSeconds / 3600
+                    minutes = (totalSeconds % 3600) / 60
+                    seconds = (totalSeconds % 3600) % 60
+                    runTimePicker.selectRow(hour, inComponent: 0, animated: false)
+                    runTimePicker.selectRow(minutes, inComponent: 1, animated: false)
+                    runTimePicker.selectRow(seconds, inComponent: 2, animated: false)
+                    updatePace()
+                    
+                //    case "secondsPerKm":
+                        
+                  //  case "runType":
+                        
+                  //  case "runIntensity":
+                        
+                    case "location":
+                    locationTextField.text = "\(dictValue)"
+                        
+                    case "temperature": //TODO: unit conversion
+                    temperatureTextField.text = "\(dictValue)"
+                        
+                    case "weather":
+                    weatherTextView.text = "\(dictValue)"
+                        
+                  //  case "shoe":
+                        
+                 //   case "lastMeal":
+                        
+                  //  case "sorenessBefore":
+                        
+                  //  case "sorenessDuring":
+                        
+                  //  case "sorenessAfter":
+                        
+                  //  case "publicNotes":
+                        
+                  //  case "privateNotes":
+                        
+                    default:
+                        let useless = 0
+                }
+            }
+        
+                
+        
+        }
+        
     }
     
     /*
@@ -337,3 +425,5 @@ extension UITextField {
     }
     
 }
+
+

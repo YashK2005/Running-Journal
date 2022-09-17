@@ -6,11 +6,18 @@
 //
 
 import UIKit
+import CoreData
 
 
 class Pt2AddRunInfoVC: UIViewController {
     
-
+    //variables if editing a previous run
+    var edit : Bool = false //false if run is being added, true if run is being edited
+//    var keys : [String] = [] //already entered fields
+//    var values : [Any] = [] //already entered values
+    var dict = [String : Any]()
+    var dictKeys = ["distance", "runTimeSeconds", "secondsPerKm", "runType", "runIntensity", "location", "temperature", "weather", "shoe", "lastMeal", "sorenessBefore", "sorenessDuring", "sorenessAfter", "publicNotes", "privateNotes", "runDate"]
+    var coreDataRun: NSManagedObject = NSManagedObject()
     
     @IBOutlet weak var runTypeButton: UIButton!
     
@@ -51,6 +58,10 @@ class Pt2AddRunInfoVC: UIViewController {
             textview?.layer.borderWidth = 1
         }
         
+        if edit == true {
+            editingSetup()
+        }
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -66,7 +77,8 @@ class Pt2AddRunInfoVC: UIViewController {
     
     
     @IBAction func backButtonClicked(_ sender: UIButton) {
-        addRunHelp.backButton(self: self, back: true)
+        if edit == false {addRunHelp.backButton(self: self, back: true)}
+        else {addRunHelp.editingBackButton(self: self, back: true)}
         
     }
     
@@ -74,6 +86,8 @@ class Pt2AddRunInfoVC: UIViewController {
         performSegue(withIdentifier: "addRunPage2-3", sender: sender)
         
     }
+    
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "addRunPage2-3"
@@ -113,6 +127,75 @@ class Pt2AddRunInfoVC: UIViewController {
             print(run)
             let destinationVC = segue.destination as! Pt3AddRunInfoVC
             destinationVC.run = run
+            
+            if edit == true
+            {
+                destinationVC.edit = true
+                destinationVC.coreDataRun = coreDataRun
+                destinationVC.dict = dict
+            }
+        }
+        
+        
+    }
+    
+    func editingSetup()
+    {
+        for dictKey in dictKeys
+        {
+            if type(of: dict[dictKey]!) != type(of: NSNull())
+            {
+                let dictValue = (dict[dictKey]!)
+                switch dictKey {
+               //     case "runDate":
+                    
+                 //   case "distance": //TODO: unit conversion
+                    
+                   // case "runTimeSeconds":
+                    
+                //    case "secondsPerKm":
+                        
+                    case "runType":
+                    tagSorter("\(dictValue)")
+                        
+                  //  case "runIntensity":
+                        
+                  //  case "location":
+                    
+                  //  case "temperature": //TODO: unit conversion
+                    
+                        
+                  //  case "weather":
+                    
+                        
+                    case "shoe":
+                    if shoeDict.keys.contains("\(dictValue)")
+                    {
+                        shoeName = "\(dictValue)"
+                        shoeUsedButton.setTitle("\(dictValue) - \(shoeDict["\(dictValue)"]!)\(units)", for: .normal)
+                        
+                    }
+                        
+                    case "lastMeal":
+                    dietTextView.text = "\(dictValue)"
+                        
+                    case "sorenessBefore":
+                    sorenessBeforeTextView.text = "\(dictValue)"
+                        
+                    case "sorenessDuring":
+                    sorenessDuringTextView.text = "\(dictValue)"
+                        
+                    case "sorenessAfter":
+                    sorenessAfterTextView.text = "\(dictValue)"
+                        
+                  //  case "publicNotes":
+                        
+                  //  case "privateNotes":
+                        
+                    default:
+                        let useless = 0
+                }
+            }
         }
     }
     //MARK: - Run Type Menu Setup
