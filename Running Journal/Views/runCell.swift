@@ -33,7 +33,26 @@ class runInfoCell: UITableViewCell { //viewruninfoscreen
     @IBOutlet weak var dataLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
+        selectionStyle = .none
         
+        // Initialization code
+    }
+
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+
+        // Configure the view for the selected state
+    }
+}
+
+class settingsUnitsCell: UITableViewCell { //settingsVC --> cell for segmented controls for units
+    
+    @IBOutlet weak var settingNameLabel: UILabel!
+    @IBOutlet weak var segmentControl: UISegmentedControl!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        selectionStyle = .none
         // Initialization code
     }
 

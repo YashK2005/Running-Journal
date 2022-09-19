@@ -49,6 +49,9 @@
                                 <rect key="frame" x="0.0" y="0.0" width="52" height="34"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="gear" catalog="system"/>
+                                <connections>
+                                    <segue destination="5UM-Pa-X5k" kind="presentation" modalPresentationStyle="fullScreen" id="Ca0-MN-bZI"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Past Runs" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bur-yq-dWB">
                                 <rect key="frame" x="122" y="0.0" width="76" height="21"/>
@@ -137,6 +140,89 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LCg-FP-dBO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="418.125" y="525"/>
+        </scene>
+        <!--SettingsVC-->
+        <scene sceneID="PSh-mh-pxE">
+            <objects>
+                <viewController id="5UM-Pa-X5k" customClass="SettingsVC" customModule="Running_Journal" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="uEK-dP-xRv">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ivg-5x-sF1">
+                                <rect key="frame" x="0.0" y="0.0" width="62" height="34.5"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Back"/>
+                                <connections>
+                                    <action selector="backButtonClicked:" destination="Z9y-VP-Ank" eventType="touchUpInside" id="VvN-V4-ld9"/>
+                                    <action selector="backButtonClicked:" destination="5UM-Pa-X5k" eventType="touchUpInside" id="xkM-P0-Zup"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Settings" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QiP-FW-PXy">
+                                <rect key="frame" x="110" y="0.0" width="100" height="34"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="JFn-lP-Cw5">
+                                <rect key="frame" x="0.0" y="42.5" width="320" height="525.5"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="5lE-2U-0Ra" customClass="settingsUnitsCell" customModule="Running_Journal" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="320" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5lE-2U-0Ra" id="Chk-Vn-mZB">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SettingName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RC4-Q6-fkX">
+                                                    <rect key="frame" x="16" y="11" width="100" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="6ds-Jk-wQ3">
+                                                    <rect key="frame" x="189" y="6" width="131" height="32"/>
+                                                    <segments>
+                                                        <segment title="First"/>
+                                                        <segment title="Second"/>
+                                                    </segments>
+                                                </segmentedControl>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="RC4-Q6-fkX" firstAttribute="top" secondItem="Chk-Vn-mZB" secondAttribute="topMargin" id="MJF-mx-kSC"/>
+                                                <constraint firstItem="6ds-Jk-wQ3" firstAttribute="centerY" secondItem="RC4-Q6-fkX" secondAttribute="centerY" id="Nd1-iK-zoU"/>
+                                                <constraint firstAttribute="trailing" secondItem="6ds-Jk-wQ3" secondAttribute="trailing" id="PFJ-Sl-eOn"/>
+                                                <constraint firstItem="RC4-Q6-fkX" firstAttribute="leading" secondItem="Chk-Vn-mZB" secondAttribute="leadingMargin" id="dIo-58-9rn"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="segmentControl" destination="6ds-Jk-wQ3" id="WFi-i3-y8m"/>
+                                            <outlet property="settingNameLabel" destination="RC4-Q6-fkX" id="KTv-C3-PH0"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Wfd-NJ-xzY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="JFn-lP-Cw5" firstAttribute="top" secondItem="Ivg-5x-sF1" secondAttribute="bottom" constant="8" id="4oG-ze-C6J"/>
+                            <constraint firstItem="Ivg-5x-sF1" firstAttribute="top" secondItem="Wfd-NJ-xzY" secondAttribute="top" id="G92-Pe-cXJ"/>
+                            <constraint firstItem="JFn-lP-Cw5" firstAttribute="leading" secondItem="Wfd-NJ-xzY" secondAttribute="leading" id="T73-Zg-bV6"/>
+                            <constraint firstItem="Wfd-NJ-xzY" firstAttribute="trailing" secondItem="JFn-lP-Cw5" secondAttribute="trailing" id="URZ-0J-Ytp"/>
+                            <constraint firstItem="Wfd-NJ-xzY" firstAttribute="bottom" secondItem="JFn-lP-Cw5" secondAttribute="bottom" id="dip-FW-WUJ"/>
+                            <constraint firstItem="Ivg-5x-sF1" firstAttribute="leading" secondItem="Wfd-NJ-xzY" secondAttribute="leading" id="l7H-Vx-hZI"/>
+                            <constraint firstItem="QiP-FW-PXy" firstAttribute="centerX" secondItem="uEK-dP-xRv" secondAttribute="centerX" id="lT7-mR-RDj"/>
+                            <constraint firstItem="QiP-FW-PXy" firstAttribute="top" secondItem="Wfd-NJ-xzY" secondAttribute="top" id="ulb-Ht-kXJ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="settingsTableView" destination="JFn-lP-Cw5" id="5K4-om-2rj"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Lux-Jk-WmJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2336" y="-286"/>
         </scene>
         <!--View Run InfoVC-->
         <scene sceneID="yK3-G2-x3b">
