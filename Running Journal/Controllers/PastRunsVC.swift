@@ -10,6 +10,9 @@ import CoreData
 
 class PastRunsVC: UIViewController {
 
+    let userDefaults = UserDefaults.standard
+    var distanceUnits = "km"
+    var temperatureUnits = "°C"
     var runs: [NSManagedObject] = []
     
     @IBOutlet weak var sortButton: UIButton!
@@ -25,14 +28,42 @@ class PastRunsVC: UIViewController {
         
         runsTableView.delegate = self
         runsTableView.dataSource = self
+        
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         sortButton.setTitle("Sort By: Date", for: .normal)
+        
+        //getting user's preferred units for distance and temperature
+        let unitPreferences = getUserUnits()
+        print(unitPreferences)
+        distanceUnits = unitPreferences[0]
+        temperatureUnits = unitPreferences[1]
+        
         getCoreDataRuns(descriptors: [NSSortDescriptor(key: "runDate", ascending: false)])
+    }
+    
+    func getUserUnits() -> [String]
+    {
+        let distanceKey = K.userDefaults.distance
+        let temperatureKey = K.userDefaults.temperature
         
+        let distanceUnits = userDefaults.string(forKey: distanceKey)
+        if distanceUnits == nil
+        {
+            userDefaults.set("km", forKey: distanceKey)
+        }
         
+        let temperatureUnits = userDefaults.string(forKey: temperatureKey)
+        if temperatureUnits == nil
+        {
+            userDefaults.set("°C", forKey: temperatureKey)
+        }
+        
+        return [userDefaults.string(forKey: distanceKey) ?? "km", userDefaults.string(forKey: temperatureKey) ?? "°C"]
     }
     
     func getCoreDataRuns(descriptors: [NSSortDescriptor], predicate: NSPredicate = NSPredicate(value: true))
@@ -226,7 +257,7 @@ extension PastRunsVC: UITableViewDataSource
         let date: Date = run.value(forKeyPath: "runDate") as! Date
         let formatter = DateFormatter()
         formatter.dateFormat = "MMM d, y"
-        let pace: Int = ((run.value(forKeyPath: "secondsPerKm") ?? 0) as! Int)
+        var pace: Int = ((run.value(forKeyPath: "secondsPerKm") ?? 0) as! Int)
         let runType: String = ((run.value(forKeyPath: "runType") ?? "") as! String)
         
         
@@ -234,7 +265,15 @@ extension PastRunsVC: UITableViewDataSource
         
       //  print(distance)
        // cell.textLabel?.text = "\(distance)"// runs[indexPath.row]
-        cell.distanceLabel.text = "\(distance)km" //TODO: get units
+        if distanceUnits == "km"
+        {
+            cell.distanceLabel.text = "\(distance)km"
+        }
+        else
+        {
+            cell.distanceLabel.text = "\(round(unitConversions.kmToMiles(km: distance)*100)/100.0)mi"
+        }
+        
         if runType != ""
         {
             cell.dateLabel.text = "\(formatter.string(from: date)): \(runType)"
@@ -244,9 +283,13 @@ extension PastRunsVC: UITableViewDataSource
        
         if pace != 0
         {
+            if distanceUnits == "mi"
+            {
+                pace = Int(unitConversions.milesTokm(miles: Double(pace)))
+            }
             var paceMinutes = pace / 60
             var paceSeconds = pace % 60
-            cell.paceLabel.text = "\(paceMinutes):\(String(format:"%02d", paceSeconds))/km"
+            cell.paceLabel.text = "\(paceMinutes):\(String(format:"%02d", paceSeconds))/\(distanceUnits)" //TODO: units
         } else {
             cell.paceLabel.text = ""
         }

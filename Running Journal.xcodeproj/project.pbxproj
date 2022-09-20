@@ -21,6 +21,7 @@
 		D30A1D8328AE01A200DA2692 /* NotificationsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A1D8228AE01A200DA2692 /* NotificationsVC.swift */; };
 		D329767928D0126800BBEDA1 /* ViewRunInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D329767828D0126800BBEDA1 /* ViewRunInfoVC.swift */; };
 		D38F2A4C28D801FF00CA53B5 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38F2A4B28D801FF00CA53B5 /* SettingsVC.swift */; };
+		D38F2A4E28D94B3600CA53B5 /* K.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38F2A4D28D94B3500CA53B5 /* K.swift */; };
 		D392D83728AE0454005C830B /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D392D83628AE0454005C830B /* TabBarController.swift */; };
 		D392D83A28AE0745005C830B /* PastRunsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D392D83928AE0745005C830B /* PastRunsVC.swift */; };
 		D392D83C28AE0757005C830B /* SharingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D392D83B28AE0757005C830B /* SharingVC.swift */; };
@@ -75,6 +76,7 @@
 		D30A1D8228AE01A200DA2692 /* NotificationsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsVC.swift; sourceTree = "<group>"; };
 		D329767828D0126800BBEDA1 /* ViewRunInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRunInfoVC.swift; sourceTree = "<group>"; };
 		D38F2A4B28D801FF00CA53B5 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		D38F2A4D28D94B3500CA53B5 /* K.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K.swift; sourceTree = "<group>"; };
 		D392D83628AE0454005C830B /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		D392D83928AE0745005C830B /* PastRunsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastRunsVC.swift; sourceTree = "<group>"; };
 		D392D83B28AE0757005C830B /* SharingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingVC.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 				D30A1D5928ADF75F00DA2692 /* LaunchScreen.storyboard */,
 				D30A1D5C28ADF75F00DA2692 /* Info.plist */,
 				D30A1D5428ADF75700DA2692 /* Running_Journal.xcdatamodeld */,
+				D38F2A4D28D94B3500CA53B5 /* K.swift */,
 			);
 			path = "Running Journal";
 			sourceTree = "<group>";
@@ -472,6 +475,7 @@
 				D329767928D0126800BBEDA1 /* ViewRunInfoVC.swift in Sources */,
 				D30A1D8328AE01A200DA2692 /* NotificationsVC.swift in Sources */,
 				D30A1D4C28ADF75700DA2692 /* AppDelegate.swift in Sources */,
+				D38F2A4E28D94B3600CA53B5 /* K.swift in Sources */,
 				D392D83728AE0454005C830B /* TabBarController.swift in Sources */,
 				D39EBDEF28B4F9A800279F40 /* AutoKeyboardScrollView.swift in Sources */,
 				D38F2A4C28D801FF00CA53B5 /* SettingsVC.swift in Sources */,

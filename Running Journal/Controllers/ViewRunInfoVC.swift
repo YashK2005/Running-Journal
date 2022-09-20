@@ -10,6 +10,10 @@ import CoreData
 
 class ViewRunInfoVC: UIViewController {
     
+    let userDefaults = UserDefaults.standard
+    var distanceUnits = "km"
+    var temperatureUnits = "°C"
+    
     var run: NSManagedObject = NSManagedObject()
  //   var dictKeys = ["distance", "lastMeal", "location", "privateNotes", "publicNotes", "runIntensity", "runTimeSeconds", "runType", "secondsPerKm", "shoe", "sorenessAfter", "sorenessBefore", "sorenessDuring", "temperature", "weather"] //TODO: reorder
     var dictKeys = ["distance", "runTimeSeconds", "secondsPerKm", "runType", "runIntensity", "location", "temperature", "weather", "shoe", "lastMeal", "sorenessBefore", "sorenessDuring", "sorenessAfter", "publicNotes", "privateNotes"]
@@ -22,6 +26,8 @@ class ViewRunInfoVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        distanceUnits = userDefaults.string(forKey: K.userDefaults.distance) ?? "km"
+        temperatureUnits = userDefaults.string(forKey: K.userDefaults.temperature) ?? "°C"
         
         runInfoTableView.delegate = self
         runInfoTableView.dataSource = self
@@ -139,7 +145,8 @@ class ViewRunInfoVC: UIViewController {
                 let totalSeconds = Int(value) ?? 0
                 let minutes = totalSeconds / 60
                 let seconds = totalSeconds % 60
-                return["Pace", "\(minutes):\(seconds)/km"]
+                let paceString = "\(minutes):\(String(format:"%02d", seconds))"
+                return["Pace", "\(paceString)/km"]
             case "runType":
                 return ["Run Type", value]
             case "runIntensity":

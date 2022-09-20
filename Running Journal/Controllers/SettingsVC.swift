@@ -9,6 +9,10 @@ import UIKit
 
 class SettingsVC: UIViewController {
 
+    let userDefaults = UserDefaults.standard
+    let distanceUnits = "km"
+    let tempUnits = "°C"
+    
     @IBOutlet weak var settingsTableView: UITableView!
     
     override func viewDidLoad() {
@@ -20,6 +24,15 @@ class SettingsVC: UIViewController {
     }
     
     @IBAction func backButtonClicked(_ sender: UIButton) {
+        //save user settings in userDefaults
+        let distanceIndexPath = IndexPath(row: 0, section: 0)
+        let distanceCell = settingsTableView.cellForRow(at: distanceIndexPath) as! settingsUnitsCell
+        userDefaults.set(distanceCell.segmentControl.titleForSegment(at: distanceCell.segmentControl.selectedSegmentIndex), forKey: K.userDefaults.distance)
+        
+        let temperatureIndexPath = IndexPath(row: 1, section: 0)
+        let temperatureCell = settingsTableView.cellForRow(at: temperatureIndexPath) as! settingsUnitsCell
+        userDefaults.set(temperatureCell.segmentControl.titleForSegment(at: temperatureCell.segmentControl.selectedSegmentIndex), forKey: K.userDefaults.temperature)
+        
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -27,6 +40,8 @@ class SettingsVC: UIViewController {
     {
         settingsTableView.delegate = self
         settingsTableView.dataSource = self
+        
+        
     }
     /*
     // MARK: - Navigation
@@ -60,13 +75,63 @@ extension SettingsVC: UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = settingsTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! settingsUnitsCell
-        cell.settingNameLabel.text = "Distance Units"
         
-        cell.segmentControl.setTitle("km", forSegmentAt: 0)
-        cell.segmentControl.setTitle("mi", forSegmentAt: 1)
+        if indexPath.row == 0
+        {
+            let distanceKey = K.userDefaults.distance
+            
+            let cell = settingsTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! settingsUnitsCell
+            cell.settingNameLabel.text = "Distance Units"
+            
+            cell.segmentControl.setTitle("km", forSegmentAt: 0)
+            cell.segmentControl.setTitle("mi", forSegmentAt: 1)
+            
+            
+            
+            if userDefaults.string(forKey: distanceKey) == "km"
+            {
+                cell.segmentControl.selectedSegmentIndex = 0
+            }
+            else
+            {
+                cell.segmentControl.selectedSegmentIndex = 1
+            }
+            return cell
+            
+        }
+        else if indexPath.row == 1
+        {
+            let temperatureKey = K.userDefaults.temperature
+            
+            let cell = settingsTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! settingsUnitsCell
+            cell.settingNameLabel.text = "Temperature Units"
+            
+            cell.segmentControl.setTitle("°C", forSegmentAt: 0)
+            cell.segmentControl.setTitle("°F", forSegmentAt: 1)
+            
+            if userDefaults.string(forKey: temperatureKey) == "°C"
+            {
+                cell.segmentControl.selectedSegmentIndex = 0
+            }
+            else
+            {
+                cell.segmentControl.selectedSegmentIndex = 1
+            }
+            
+            
+            return cell
+        }
         
-        return cell
+        else
+        {
+            let cell = settingsTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! settingsUnitsCell
+            cell.settingNameLabel.text = "Default"
+            
+            cell.segmentControl.setTitle("1", forSegmentAt: 0)
+            cell.segmentControl.setTitle("2", forSegmentAt: 1)
+            return cell
+        }
+        
         
         
     }
