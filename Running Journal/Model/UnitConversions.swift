@@ -12,12 +12,12 @@ class unitConversions
 {
     static func kmToMiles(km: Double) -> Double
     {
-        return km * 0.621371
+        return round(km * 0.621371 * 100) / 100
     }
     
     static func milesTokm(miles: Double) -> Double
     {
-        return miles * 1.60934
+        return round(miles * 1.60934 * 100) / 100
     }
     
     static func celToFahr(celcius: Int) -> Int

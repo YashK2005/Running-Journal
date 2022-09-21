@@ -131,8 +131,12 @@ class ViewRunInfoVC: UIViewController {
         switch key {
             case "distance": //TODO: unit conversion
                 var distance = Double(value) ?? 0
+                if distanceUnits == "mi"
+                {
+                    distance = unitConversions.kmToMiles(km: distance)
+                }
                 distance = round(distance * 100) / 100
-                return ["Distance", "\(distance)km"]
+                return ["Distance", "\(distance)\(distanceUnits)"]
             case "runTimeSeconds":
                 let totalSeconds = Int(value) ?? 0
                 let hours = totalSeconds / 3600
@@ -142,11 +146,15 @@ class ViewRunInfoVC: UIViewController {
                 else {return ["Run Time", "\(minutes):\(seconds)"]}
             
             case "secondsPerKm":
-                let totalSeconds = Int(value) ?? 0
+                var totalSeconds = Int(value) ?? 0
+                if distanceUnits == "mi"
+                {
+                    totalSeconds = Int(unitConversions.milesTokm(miles: Double(totalSeconds)))
+                }
                 let minutes = totalSeconds / 60
                 let seconds = totalSeconds % 60
                 let paceString = "\(minutes):\(String(format:"%02d", seconds))"
-                return["Pace", "\(paceString)/km"]
+                return["Pace", "\(paceString)/\(distanceUnits)"]
             case "runType":
                 return ["Run Type", value]
             case "runIntensity":
@@ -154,7 +162,15 @@ class ViewRunInfoVC: UIViewController {
             case "location":
                 return ["Location", value]
             case "temperature": //TODO: unit conversion
-                return ["Temperature", "\(value)°C"]
+                if temperatureUnits == "°C"
+                {
+                    return ["Temperature", "\(value)°C"]
+                }
+                else
+                {
+                    return ["Temperature", "\(unitConversions.celToFahr(celcius: Int(value) ?? 0))°F"]
+                }
+                
             case "weather":
                 return ["Weather", value]
             case "shoe":

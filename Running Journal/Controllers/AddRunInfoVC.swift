@@ -11,6 +11,10 @@ import CoreData
 
 class AddRunInfoVC: UIViewController, UITextFieldDelegate {
     
+    let userDefaults = UserDefaults.standard
+    var distanceUnits = "km"
+    var temperatureUnits = "°C"
+    
     var run = [String: Any]()
     
     
@@ -40,6 +44,26 @@ class AddRunInfoVC: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        distanceUnits = userDefaults.string(forKey: K.userDefaults.distance) ?? "km"
+        temperatureUnits = userDefaults.string(forKey: K.userDefaults.temperature) ?? "°C"
+        if distanceUnits == "km"
+        {
+            unitSelector.selectedSegmentIndex = 0
+        }
+        else
+        {
+            unitSelector.selectedSegmentIndex = 1
+        }
+        if temperatureUnits == "°C"
+        {
+            tempSelector.selectedSegmentIndex = 0
+        }
+        else
+        {
+            tempSelector.selectedSegmentIndex = 1
+        }
+        
         if edit == false {self.distanceTextField.becomeFirstResponder()}
         
         
@@ -192,8 +216,10 @@ class AddRunInfoVC: UIViewController, UITextFieldDelegate {
             {
                 run["runTimeSeconds"] = runTimeSeconds
                 let pace = (Double(runTimeSeconds) / (run["distance"] as! Double))
+                
                 print(pace)
-                run["pace"] = Int(pace)
+                run["pace"] = Int(round(pace))
+                print(run["pace"])
                 //run["pace"] = paceLabel.text
             }
             
@@ -247,8 +273,17 @@ class AddRunInfoVC: UIViewController, UITextFieldDelegate {
                     datePicker.date = dictValue as! Date
                     
                     case "distance": //TODO: unit conversion
-                    distanceTextField.text = "\(dictValue)"
-                    print(dictValue)
+                        let distance = (dictValue) as! Double
+                        if distanceUnits == "km"
+                        {
+                            distanceTextField.text = "\(distance)"
+                        }
+                        else
+                        {
+                            distanceTextField.text = "\(unitConversions.kmToMiles(km: distance))"
+                        }
+                        
+                        print(dictValue)
                     case "runTimeSeconds":
                     let totalSeconds = Int("\(dictValue)") ?? 0
                     hour = totalSeconds / 3600
@@ -269,7 +304,15 @@ class AddRunInfoVC: UIViewController, UITextFieldDelegate {
                     locationTextField.text = "\(dictValue)"
                         
                     case "temperature": //TODO: unit conversion
-                    temperatureTextField.text = "\(dictValue)"
+                    if temperatureUnits == "°C"
+                    {
+                        temperatureTextField.text = "\(dictValue)"
+                    }
+                    else
+                    {
+                        temperatureTextField.text = "\(unitConversions.celToFahr(celcius: dictValue as! Int))"
+                    }
+                    
                         
                     case "weather":
                     weatherTextView.text = "\(dictValue)"

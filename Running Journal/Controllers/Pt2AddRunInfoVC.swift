@@ -11,6 +11,9 @@ import CoreData
 
 class Pt2AddRunInfoVC: UIViewController {
     
+    let userDefaults = UserDefaults.standard
+    var distanceUnits = "km"
+    
     //variables if editing a previous run
     var edit : Bool = false //false if run is being added, true if run is being edited
 //    var keys : [String] = [] //already entered fields
@@ -25,12 +28,12 @@ class Pt2AddRunInfoVC: UIViewController {
     
     
     @IBOutlet weak var shoeUsedButton: UIButton!
-    let shoeDict: [String: Double] = ["Asics" : 200, //TODO: get from database
+    var shoeDict: [String: Double] = ["Asics" : 200, //TODO: get from database
                                    "Nike"  : 150,
                                    "Hoka"  : 12]
     var shoeName = ""
     
-    let units = "km" //get from database
+    
     
     @IBOutlet weak var dietTextView: UITextView!
    
@@ -43,6 +46,15 @@ class Pt2AddRunInfoVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        distanceUnits = userDefaults.string(forKey: K.userDefaults.distance) ?? "km"
+        if distanceUnits == "mi"
+        {
+            for (key, value) in shoeDict
+            {
+                shoeDict.updateValue(unitConversions.kmToMiles(km: value), forKey: key)
+            }
+        }
+        
 
         print(run)
         self.hideKeyboardWhenTappedAround()
@@ -172,7 +184,7 @@ class Pt2AddRunInfoVC: UIViewController {
                     if shoeDict.keys.contains("\(dictValue)")
                     {
                         shoeName = "\(dictValue)"
-                        shoeUsedButton.setTitle("\(dictValue) - \(shoeDict["\(dictValue)"]!)\(units)", for: .normal)
+                        shoeUsedButton.setTitle("\(dictValue) - \(shoeDict["\(dictValue)"]!)\(distanceUnits)", for: .normal)
                         
                     }
                         
@@ -278,7 +290,7 @@ class Pt2AddRunInfoVC: UIViewController {
     func shoeMenuSetup() { //add functionality for adding a new shoe
         var menuOptions:[UIAction] = []
         for (key, value) in shoeDict {
-            menuOptions.append(UIAction(title: "\(key) - \(value)\(units)") { [self] (action) in self.shoeUsedButton.setTitle("\(key) - \(value)\(units)", for: .normal)
+            menuOptions.append(UIAction(title: "\(key) - \(value)\(distanceUnits)") { [self] (action) in self.shoeUsedButton.setTitle("\(key) - \(value)\(distanceUnits)", for: .normal)
                 shoeName = key
             })}
         
