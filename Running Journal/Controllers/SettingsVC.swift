@@ -60,6 +60,10 @@ extension SettingsVC: UITableViewDelegate
 {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("you tapped me!")
+        if indexPath.row == 2
+        {
+            performSegue(withIdentifier: "settingsToShoes", sender: self)
+        }
     }
     
     
@@ -70,13 +74,13 @@ extension SettingsVC: UITableViewDataSource
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return 3
         
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.row == 0
+        if indexPath.row == 0 //km or mi
         {
             let distanceKey = K.userDefaults.distance
             
@@ -99,7 +103,7 @@ extension SettingsVC: UITableViewDataSource
             return cell
             
         }
-        else if indexPath.row == 1
+        else if indexPath.row == 1 //celc or fahr
         {
             let temperatureKey = K.userDefaults.temperature
             
@@ -120,6 +124,15 @@ extension SettingsVC: UITableViewDataSource
             
             
             return cell
+        }
+        else if indexPath.row == 2
+        {
+            let cell = settingsTableView.dequeueReusableCell(withIdentifier: "newScreenCell", for: indexPath) as! settingsNewScreenCell
+            cell.settingLabel.text = "Shoes"
+            return cell
+           
+            
+            
         }
         
         else

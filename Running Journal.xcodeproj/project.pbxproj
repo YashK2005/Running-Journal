@@ -30,6 +30,7 @@
 		D39EBDEF28B4F9A800279F40 /* AutoKeyboardScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D39EBDEE28B4F9A700279F40 /* AutoKeyboardScrollView.swift */; };
 		D3A95B9128B87A6C00037060 /* Pt2AddRunInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A95B9028B87A6C00037060 /* Pt2AddRunInfoVC.swift */; };
 		D3C109EA28BE57F900A48C05 /* Pt3AddRunInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C109E928BE57F900A48C05 /* Pt3AddRunInfoVC.swift */; };
+		D3CA2EFB28DBF53000ED207F /* ShoesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3CA2EFA28DBF52F00ED207F /* ShoesViewController.swift */; };
 		D3EA4F0428CD01EB005127B1 /* UnitConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3EA4F0328CD01EB005127B1 /* UnitConversions.swift */; };
 		D3EA4F0628CD08F0005127B1 /* runCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3EA4F0528CD08EF005127B1 /* runCell.swift */; };
 		E1E8EF44A1FF954909F975B3 /* Pods_Running_JournalTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC18EDD68BFB6CF438A93FDC /* Pods_Running_JournalTests.framework */; };
@@ -85,6 +86,7 @@
 		D39EBDEE28B4F9A700279F40 /* AutoKeyboardScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoKeyboardScrollView.swift; sourceTree = "<group>"; };
 		D3A95B9028B87A6C00037060 /* Pt2AddRunInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pt2AddRunInfoVC.swift; sourceTree = "<group>"; };
 		D3C109E928BE57F900A48C05 /* Pt3AddRunInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pt3AddRunInfoVC.swift; sourceTree = "<group>"; };
+		D3CA2EFA28DBF52F00ED207F /* ShoesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoesViewController.swift; sourceTree = "<group>"; };
 		D3EA4F0328CD01EB005127B1 /* UnitConversions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitConversions.swift; sourceTree = "<group>"; };
 		D3EA4F0528CD08EF005127B1 /* runCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = runCell.swift; sourceTree = "<group>"; };
 		E69CECD1B121434A91D488E4 /* Pods-Running Journal.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Running Journal.debug.xcconfig"; path = "Target Support Files/Pods-Running Journal/Pods-Running Journal.debug.xcconfig"; sourceTree = "<group>"; };
@@ -211,6 +213,7 @@
 				D3C109E928BE57F900A48C05 /* Pt3AddRunInfoVC.swift */,
 				D329767828D0126800BBEDA1 /* ViewRunInfoVC.swift */,
 				D38F2A4B28D801FF00CA53B5 /* SettingsVC.swift */,
+				D3CA2EFA28DBF52F00ED207F /* ShoesViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -481,6 +484,7 @@
 				D38F2A4C28D801FF00CA53B5 /* SettingsVC.swift in Sources */,
 				D30A1D4E28ADF75700DA2692 /* SceneDelegate.swift in Sources */,
 				D39EBDEB28B3A5DC00279F40 /* AddRunInfoVC.swift in Sources */,
+				D3CA2EFB28DBF53000ED207F /* ShoesViewController.swift in Sources */,
 				D3C109EA28BE57F900A48C05 /* Pt3AddRunInfoVC.swift in Sources */,
 				D392D83C28AE0757005C830B /* SharingVC.swift in Sources */,
 				D392D83A28AE0745005C830B /* PastRunsVC.swift in Sources */,

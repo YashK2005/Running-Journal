@@ -62,3 +62,38 @@ class settingsUnitsCell: UITableViewCell { //settingsVC --> cell for segmented c
         // Configure the view for the selected state
     }
 }
+
+class settingsNewScreenCell: UITableViewCell {
+    @IBOutlet weak var settingLabel: UILabel!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        selectionStyle = .none
+        
+        // Initialization code
+    }
+
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+
+        // Configure the view for the selected state
+    }
+}
+
+class shoeCell: UITableViewCell {
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var distanceLabel: UILabel!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        
+        // Initialization code
+    }
+
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+
+        // Configure the view for the selected state
+    }
+}
