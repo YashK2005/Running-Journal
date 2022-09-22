@@ -43,6 +43,17 @@ class SettingsVC: UIViewController {
         
         
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        //save user settings in userDefaults
+        let distanceIndexPath = IndexPath(row: 0, section: 0)
+        let distanceCell = settingsTableView.cellForRow(at: distanceIndexPath) as! settingsUnitsCell
+        userDefaults.set(distanceCell.segmentControl.titleForSegment(at: distanceCell.segmentControl.selectedSegmentIndex), forKey: K.userDefaults.distance)
+        
+        let temperatureIndexPath = IndexPath(row: 1, section: 0)
+        let temperatureCell = settingsTableView.cellForRow(at: temperatureIndexPath) as! settingsUnitsCell
+        userDefaults.set(temperatureCell.segmentControl.titleForSegment(at: temperatureCell.segmentControl.selectedSegmentIndex), forKey: K.userDefaults.temperature)
+    }
     /*
     // MARK: - Navigation
 

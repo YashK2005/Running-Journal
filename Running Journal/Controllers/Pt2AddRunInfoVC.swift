@@ -32,6 +32,7 @@ class Pt2AddRunInfoVC: UIViewController {
                                    "Nike"  : 150,
                                    "Hoka"  : 12]
     var shoeName = ""
+    var shoes:[NSManagedObject] = []
     
     
     
@@ -55,7 +56,7 @@ class Pt2AddRunInfoVC: UIViewController {
             }
         }
         
-
+        getShoeData()
         print(run)
         self.hideKeyboardWhenTappedAround()
         
@@ -181,10 +182,15 @@ class Pt2AddRunInfoVC: UIViewController {
                     
                         
                     case "shoe":
-                    if shoeDict.keys.contains("\(dictValue)")
+                    var shoeNames:[String] = []
+                    for shoe in self.shoes
+                    {
+                        shoeNames.append(shoe.value(forKey: "shoeName") as! String)
+                    }
+                    if shoeNames.contains("\(dictValue)") && "\(dictValue)" != "Deleted Shoe"
                     {
                         shoeName = "\(dictValue)"
-                        shoeUsedButton.setTitle("\(dictValue) - \(shoeDict["\(dictValue)"]!)\(distanceUnits)", for: .normal)
+                        shoeUsedButton.setTitle("\(dictValue)", for: .normal)
                         
                     }
                         
@@ -210,6 +216,8 @@ class Pt2AddRunInfoVC: UIViewController {
             }
         }
     }
+    
+    
     //MARK: - Run Type Menu Setup
     func runTypeMenuSetup() {
         let menuOptions:[UICommand] = [
@@ -287,12 +295,106 @@ class Pt2AddRunInfoVC: UIViewController {
     }
     
 //MARK: - Shoe Menu Setup
+    
+    func getShoeData()
+    {
+        guard let appDelegate =
+           UIApplication.shared.delegate as? AppDelegate else {
+             return
+         }
+         
+         let managedContext =
+           appDelegate.persistentContainer.viewContext
+         
+         //2
+         let fetchRequest =
+           NSFetchRequest<NSManagedObject>(entityName: "Shoe")
+        
+        
+         //3
+         do {
+           shoes = try managedContext.fetch(fetchRequest)
+         } catch let error as NSError {
+           print("Could not fetch. \(error), \(error.userInfo)")
+         }
+        
+        shoeMenuSetup()
+    }
     func shoeMenuSetup() { //add functionality for adding a new shoe
+        
         var menuOptions:[UIAction] = []
-        for (key, value) in shoeDict {
-            menuOptions.append(UIAction(title: "\(key) - \(value)\(distanceUnits)") { [self] (action) in self.shoeUsedButton.setTitle("\(key) - \(value)\(distanceUnits)", for: .normal)
-                shoeName = key
+        for shoe in shoes {
+            menuOptions.append(UIAction(title: "\(shoe.value(forKey: "shoeName") ?? "shoeName")") { [self] (action) in self.shoeUsedButton.setTitle("\(shoe.value(forKey: "shoeName") ?? "shoeName")", for: .normal)
+                shoeName = "\(shoe.value(forKey: "shoeName") ?? "")"
             })}
+        menuOptions.append(UIAction(title: "Add a New Shoe", image: UIImage(systemName: "plus")) { [self] (action) in
+            let refreshAlert = UIAlertController(title: "Add A Shoe", message: "Enter shoe name",  preferredStyle: UIAlertController.Style.alert)
+
+            
+            refreshAlert.addTextField()
+            let textField = refreshAlert.textFields![0]
+            
+            
+            refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+               //   print("Handle Cancel Logic here")
+            }))
+            
+            refreshAlert.addAction(UIAlertAction(title: "Save", style: .default, handler: { (action: UIAlertAction!) in
+               //Add shoe to database
+                guard let appDelegate =
+                    UIApplication.shared.delegate as? AppDelegate else {
+                    return
+                  }
+                var shoeNames:[String] = []
+                for shoe in self.shoes
+                {
+                    shoeNames.append(shoe.value(forKey: "shoeName") as! String)
+                }
+                var text = textField.text!.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+                text = text.capitalized
+                
+                
+                if text == "" || shoeNames.contains(text ?? "") || text == "Deleted Shoe"
+                {
+                    
+                    let errorAlert = UIAlertController(title: "Error", message: "Shoe name must be unique",  preferredStyle: UIAlertController.Style.alert)
+                    errorAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+                       //   print("Handle Cancel Logic here")
+                    }))
+                    self.present(errorAlert, animated: true, completion: nil)
+                }
+                else
+                {
+                    let managedContext =
+                        appDelegate.persistentContainer.viewContext
+                      
+                      // 2
+                    let entity =
+                        NSEntityDescription.entity(forEntityName: "Shoe",
+                                                   in: managedContext)!
+                    let shoe = NSManagedObject(entity: entity,
+                                                  insertInto: managedContext)
+                    shoe.setValue(text, forKey: "shoeName")
+                    shoe.setValue(0, forKey: "shoeDistance")
+                    
+                    
+                    do {
+                        try managedContext.save()
+                    } catch let error as NSError {
+                        print("Could not save. \(error), \(error.userInfo)")
+                    }
+                    self.getShoeData()
+                    self.shoeUsedButton.setTitle("\(text)", for: .normal)
+                        shoeName = "\(text)"
+                    
+                }
+                
+                
+            }))
+
+            self.present(refreshAlert, animated: true, completion: nil)
+            shoeMenuSetup()
+        })
         
         //TODO: add another option for adding a new shoe
         let shoeMenu = UIMenu(children: menuOptions)

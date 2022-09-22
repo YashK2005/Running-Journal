@@ -9,7 +9,9 @@ import UIKit
 import CoreData
 
 class ShoesViewController: UIViewController {
-
+    let userDefaults = UserDefaults.standard
+    var distanceUnits = "km"
+    
     var shoes: [NSManagedObject] = []
     @IBOutlet weak var shoeTableView: UITableView!
     
@@ -54,7 +56,7 @@ class ShoesViewController: UIViewController {
             text = text.capitalized
             
             
-            if text == "" || shoeNames.contains(text ?? "")
+            if text == "" || shoeNames.contains(text ?? "") || text == "Deleted Shoe"
             {
                 
                 let errorAlert = UIAlertController(title: "Error", message: "Shoe name must be unique",  preferredStyle: UIAlertController.Style.alert)
@@ -121,8 +123,11 @@ class ShoesViewController: UIViewController {
            print("Could not fetch. \(error), \(error.userInfo)")
          }
         
+        
+        
         shoeTableView.reloadData()
     }
+    
     
     
     /* // MARK: - Navigation
@@ -157,8 +162,45 @@ extension ShoesViewController: UITableViewDataSource
         let shoe = shoes[indexPath.row]
         let cell = shoeTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! shoeCell
         let name: String = (shoe.value(forKeyPath: "shoeName"))! as! String
-        cell.distanceLabel.text = "Distance"
         cell.nameLabel.text = name
+        
+        //calculate shoe distance
+        guard let appDelegate =
+           UIApplication.shared.delegate as? AppDelegate else
+        {
+            return cell
+        }
+         
+         let managedContext =
+           appDelegate.persistentContainer.viewContext
+         
+         //2
+         let fetchRequest =
+           NSFetchRequest<NSManagedObject>(entityName: "UserRun")
+        
+        fetchRequest.predicate = NSPredicate(format: "shoe == %@", name)
+     //   fetchRequest.sortDescriptors = descriptors
+         
+         //3
+        var runs:[NSManagedObject] = []
+         do {
+           runs = try managedContext.fetch(fetchRequest)
+         } catch let error as NSError {
+           print("Could not fetch. \(error), \(error.userInfo)")
+         }
+        
+        var distance = 0.0
+        for runWithShoe in runs
+        {
+            distance += runWithShoe.value(forKey: "distance") as! Double
+        }
+        let units = userDefaults.string(forKey: K.userDefaults.distance) ?? "km"
+        if units == "mi"
+        {
+            distance = unitConversions.kmToMiles(km: distance)
+        }
+        distance = round(distance * 100) / 100.0
+        cell.distanceLabel.text = "\(distance)\(units)"
         
         return cell
         
