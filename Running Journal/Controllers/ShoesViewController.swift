@@ -6,15 +6,18 @@
 //
 
 import UIKit
+import CoreData
 
 class ShoesViewController: UIViewController {
 
+    var shoes: [NSManagedObject] = []
     @IBOutlet weak var shoeTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         shoeTableView.delegate = self
         shoeTableView.dataSource = self
+        getShoeData()
 
         // Do any additional setup after loading the view.
     }
@@ -24,10 +27,103 @@ class ShoesViewController: UIViewController {
     }
     
     @IBAction func addShoeButtonClicked(_ sender: UIButton) {
+        
+        let refreshAlert = UIAlertController(title: "Add A Shoe", message: "Enter shoe name",  preferredStyle: UIAlertController.Style.alert)
+
+        
+        refreshAlert.addTextField()
+        let textField = refreshAlert.textFields![0]
+        
+        
+        refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+           //   print("Handle Cancel Logic here")
+        }))
+        
+        refreshAlert.addAction(UIAlertAction(title: "Save", style: .default, handler: { (action: UIAlertAction!) in
+           //Add shoe to database
+            guard let appDelegate =
+                UIApplication.shared.delegate as? AppDelegate else {
+                return
+              }
+            var shoeNames:[String] = []
+            for shoe in self.shoes
+            {
+                shoeNames.append(shoe.value(forKey: "shoeName") as! String)
+            }
+            var text = textField.text!.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+            text = text.capitalized
+            
+            
+            if text == "" || shoeNames.contains(text ?? "")
+            {
+                
+                let errorAlert = UIAlertController(title: "Error", message: "Shoe name must be unique",  preferredStyle: UIAlertController.Style.alert)
+                errorAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+                   //   print("Handle Cancel Logic here")
+                }))
+                self.present(errorAlert, animated: true, completion: nil)
+            }
+            else
+            {
+                let managedContext =
+                    appDelegate.persistentContainer.viewContext
+                  
+                  // 2
+                let entity =
+                    NSEntityDescription.entity(forEntityName: "Shoe",
+                                               in: managedContext)!
+                let shoe = NSManagedObject(entity: entity,
+                                              insertInto: managedContext)
+                shoe.setValue(text, forKey: "shoeName")
+                shoe.setValue(0, forKey: "shoeDistance")
+                
+                do {
+                    try managedContext.save()
+                } catch let error as NSError {
+                    print("Could not save. \(error), \(error.userInfo)")
+                }
+                self.getShoeData()
+                
+            }
+            
+            
+        }))
+
+        self.present(refreshAlert, animated: true, completion: nil)
+        
+        
+    
+        
     }
     
-     @IBAction func deleteShoeButtonClicked(_ sender: UIButton) {
-     }
+    @IBAction func deleteShoeButtonClicked(_ sender: UIButton) {
+    }
+    
+    func getShoeData()
+    {
+        guard let appDelegate =
+           UIApplication.shared.delegate as? AppDelegate else {
+             return
+         }
+         
+         let managedContext =
+           appDelegate.persistentContainer.viewContext
+         
+         //2
+         let fetchRequest =
+           NSFetchRequest<NSManagedObject>(entityName: "Shoe")
+        
+        
+         //3
+         do {
+           shoes = try managedContext.fetch(fetchRequest)
+         } catch let error as NSError {
+           print("Could not fetch. \(error), \(error.userInfo)")
+         }
+        
+        shoeTableView.reloadData()
+    }
+    
     
     /* // MARK: - Navigation
 
@@ -53,15 +149,16 @@ extension ShoesViewController: UITableViewDataSource
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return shoes.count
         
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+        let shoe = shoes[indexPath.row]
         let cell = shoeTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! shoeCell
+        let name: String = (shoe.value(forKeyPath: "shoeName"))! as! String
         cell.distanceLabel.text = "Distance"
-        cell.nameLabel.text = "Shoe Name"
+        cell.nameLabel.text = name
         
         return cell
         
