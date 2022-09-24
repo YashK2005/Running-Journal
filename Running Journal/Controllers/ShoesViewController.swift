@@ -98,8 +98,6 @@ class ShoesViewController: UIViewController {
         
     }
     
-    @IBAction func deleteShoeButtonClicked(_ sender: UIButton) {
-    }
     
     func getShoeData()
     {
@@ -146,6 +144,67 @@ extension ShoesViewController: UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("you tapped me!")
     }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(style: .destructive, title: "Delete") { [unowned self] action, view, completionHandler in
+            //delete shoe from coredata, change shoeUsed to Deleted Shoe for each run, remove shoe from tableview
+            let deleteAlert = UIAlertController(title: "Delete Shoe", message: "Shoe will be permanently deleted.",  preferredStyle: UIAlertController.Style.alert)
+            deleteAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+               //   print("Handle Cancel Logic here")
+                self.getShoeData()
+                
+            }))
+            deleteAlert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { (action: UIAlertAction!) in
+                print("deleting")
+                let deletedShoeName:String = self.shoes[indexPath.row].value(forKey: "shoeName") as! String
+                
+                print(deletedShoeName)
+                guard let appDelegate =
+                   UIApplication.shared.delegate as? AppDelegate else
+                {
+                    return
+                }
+                 
+                 let managedContext =
+                   appDelegate.persistentContainer.viewContext
+                 
+                 //2
+                 let fetchRequest =
+                   NSFetchRequest<NSManagedObject>(entityName: "UserRun")
+                
+                fetchRequest.predicate = NSPredicate(format: "shoe == %@", deletedShoeName)
+             //   fetchRequest.sortDescriptors = descriptors
+                 
+                 //3
+                var runs:[NSManagedObject] = []
+                 do {
+                   runs = try managedContext.fetch(fetchRequest)
+                 } catch let error as NSError {
+                   print("Could not fetch. \(error), \(error.userInfo)")
+                 }
+                for run in runs
+                {
+                    run.setValue("Deleted Shoe", forKey: "shoe")
+                }
+                managedContext.delete(self.shoes[indexPath.row])
+                
+                do {
+                    try managedContext.save()
+                } catch let error as NSError {
+                    print("Could not save. \(error), \(error.userInfo)")
+                }
+                self.getShoeData()
+            }))
+            
+            self.present(deleteAlert, animated: true, completion: nil)
+            
+            
+            
+           // shoeTableView.deleteRows(at: [indexPath], with: .fade)
+        }
+        return UISwipeActionsConfiguration(actions: [delete])
+    }
+    
     
     
 }
