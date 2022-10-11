@@ -211,7 +211,7 @@ class AddRunInfoVC: UIViewController, UITextFieldDelegate {
                 run["distance"] = labeldistance
             }
             let runTimeSeconds = Int(Double(hour)*3600 + Double(minutes)*60 + Double(seconds))
-            
+            print(runTimeSeconds)
             if runTimeSeconds != 0
             {
                 run["runTimeSeconds"] = runTimeSeconds

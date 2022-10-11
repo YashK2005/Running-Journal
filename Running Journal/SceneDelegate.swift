@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import CloudKit
+import CoreData
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -50,6 +52,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
 
-
+    func windowScene(_ windowScene: UIWindowScene, userDidAcceptCloudKitShareWith cloudKitShareMetadata: CKShare.Metadata) {
+        //TODO: present UIAlert to ask user if they would like to confirm adding person as a friend
+        
+        let acceptSharesOperation = CKAcceptSharesOperation(shareMetadatas: [cloudKitShareMetadata])
+        acceptSharesOperation.perShareCompletionBlock = {metadata, share, error in
+            if error != nil {
+                print(error?.localizedDescription)
+            }
+            
+        }
+        CKContainer(identifier: cloudKitShareMetadata.containerIdentifier).add(acceptSharesOperation)
+        let container = CKContainer.default()
+        let sharedDB = container.sharedCloudDatabase
+        let persistentContainer = NSPersistentCloudKitContainer(name: "Running_Journal")
+      //  persistentContainer.acceptShareInvitations(from: [cloudKitShareMetadata], into: sha)
+        
+    }
+    
 }
 

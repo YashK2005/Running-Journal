@@ -20,7 +20,8 @@ class PastRunsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        
         // Do any additional setup after loading the view.
         
         menuSetup()
@@ -255,10 +256,12 @@ extension PastRunsVC: UITableViewDataSource
         //getting coredata values to display on run cell
         let distance: Double = (run.value(forKeyPath: "distance"))! as! Double
         let date: Date = run.value(forKeyPath: "runDate") as! Date
+        let runTime: Int = (run.value(forKeyPath: "runTimeSeconds") ?? 0) as! Int
         let formatter = DateFormatter()
         formatter.dateFormat = "MMM d, y"
         var pace: Int = ((run.value(forKeyPath: "secondsPerKm") ?? 0) as! Int)
         let runType: String = ((run.value(forKeyPath: "runType") ?? "") as! String)
+        
         
         
       //  print(date)
@@ -281,7 +284,7 @@ extension PastRunsVC: UITableViewDataSource
             cell.dateLabel.text = "\(formatter.string(from: date))"
         }
        
-        if pace != 0
+        if runTime != 0
         {
             if distanceUnits == "mi"
             {

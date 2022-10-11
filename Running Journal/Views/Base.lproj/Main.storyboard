@@ -18,14 +18,95 @@
                     <view key="view" contentMode="scaleToFill" id="x4M-HC-ASP">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oxR-ot-6fO">
+                                <rect key="frame" x="272" y="0.0" width="48" height="34"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain">
+                                    <imageReference key="image" image="person.badge.plus" catalog="system" symbolScale="large"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="addFriendButtonClicked:" destination="jas-Z5-OJB" eventType="touchUpInside" id="ymO-8L-6WF"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rdo-uo-1Y5">
+                                <rect key="frame" x="0.0" y="0.0" width="52" height="34"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="gear" catalog="system"/>
+                                <connections>
+                                    <action selector="sharingSettingsButtonClicked:" destination="jas-Z5-OJB" eventType="touchUpInside" id="kwc-YQ-ugu"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sharing" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y8E-U1-rH3">
+                                <rect key="frame" x="113.5" y="0.0" width="93" height="34"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="LaZ-bH-xik">
+                                <rect key="frame" x="0.0" y="42" width="320" height="477"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="70" id="S2d-YF-n8f" customClass="sharingPeopleCell" customModule="Running_Journal" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="320" height="70"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="S2d-YF-n8f" id="byp-u8-P45">
+                                            <rect key="frame" x="0.0" y="0.0" width="293.5" height="70"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Person Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3je-Q6-dah">
+                                                    <rect key="frame" x="8" y="2" width="285.5" height="33.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                                    <color key="textColor" systemColor="systemGreenColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recent Run: Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xBN-ne-itf">
+                                                    <rect key="frame" x="8" y="41" width="285.5" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="xBN-ne-itf" firstAttribute="leading" secondItem="byp-u8-P45" secondAttribute="leading" constant="8" id="DS2-PJ-G8K"/>
+                                                <constraint firstItem="3je-Q6-dah" firstAttribute="top" secondItem="byp-u8-P45" secondAttribute="top" constant="2" id="NxJ-VN-OUZ"/>
+                                                <constraint firstItem="3je-Q6-dah" firstAttribute="leading" secondItem="byp-u8-P45" secondAttribute="leading" constant="8" id="aMy-sd-EdM"/>
+                                                <constraint firstAttribute="trailing" secondItem="3je-Q6-dah" secondAttribute="trailing" id="nj6-mH-tMA"/>
+                                                <constraint firstAttribute="bottom" secondItem="xBN-ne-itf" secondAttribute="bottom" constant="8" id="pU0-dd-vOb"/>
+                                                <constraint firstAttribute="trailing" secondItem="xBN-ne-itf" secondAttribute="trailing" id="w6A-wg-CqK"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="nameLabel" destination="3je-Q6-dah" id="QPT-6p-PYl"/>
+                                            <outlet property="recentRunLabel" destination="xBN-ne-itf" id="9Ll-yW-fE3"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="1cl-7L-Ucj"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="1cl-7L-Ucj" firstAttribute="trailing" secondItem="LaZ-bH-xik" secondAttribute="trailing" id="32B-kc-2UE"/>
+                            <constraint firstItem="1cl-7L-Ucj" firstAttribute="trailing" secondItem="oxR-ot-6fO" secondAttribute="trailing" id="EBN-TP-e9w"/>
+                            <constraint firstItem="Y8E-U1-rH3" firstAttribute="top" secondItem="1cl-7L-Ucj" secondAttribute="top" id="FSE-Wy-Hj1"/>
+                            <constraint firstItem="Y8E-U1-rH3" firstAttribute="centerX" secondItem="x4M-HC-ASP" secondAttribute="centerX" id="IGG-gg-BJ1"/>
+                            <constraint firstItem="oxR-ot-6fO" firstAttribute="top" secondItem="1cl-7L-Ucj" secondAttribute="top" id="QaJ-uc-AUe"/>
+                            <constraint firstItem="Rdo-uo-1Y5" firstAttribute="leading" secondItem="x4M-HC-ASP" secondAttribute="leading" id="dWv-hk-Uw7"/>
+                            <constraint firstItem="Rdo-uo-1Y5" firstAttribute="top" secondItem="1cl-7L-Ucj" secondAttribute="top" id="nkd-je-oA2"/>
+                            <constraint firstItem="LaZ-bH-xik" firstAttribute="top" secondItem="Rdo-uo-1Y5" secondAttribute="bottom" constant="8" id="nph-xV-fsI"/>
+                            <constraint firstItem="1cl-7L-Ucj" firstAttribute="bottom" secondItem="LaZ-bH-xik" secondAttribute="bottom" id="o8h-eS-Gwo"/>
+                            <constraint firstItem="LaZ-bH-xik" firstAttribute="leading" secondItem="1cl-7L-Ucj" secondAttribute="leading" id="p2R-QW-oCy"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Sharing" image="person.2.fill" catalog="system" id="AIx-kD-Y2X"/>
+                    <connections>
+                        <outlet property="sharingTableView" destination="LaZ-bH-xik" id="dWb-ys-sw4"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0gx-8f-EoU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="419" y="1298"/>
+            <point key="canvasLocation" x="416.25" y="2253.1690140845071"/>
         </scene>
         <!--Past Runs-->
         <scene sceneID="HWD-q2-mYX">
@@ -246,7 +327,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lux-Jk-WmJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2336" y="-286"/>
+            <point key="canvasLocation" x="1264" y="1342"/>
         </scene>
         <!--View Run InfoVC-->
         <scene sceneID="yK3-G2-x3b">
@@ -355,7 +436,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CeU-63-gbr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1313" y="-266"/>
+            <point key="canvasLocation" x="1313" y="-286"/>
         </scene>
         <!--Add Run InfoVC-->
         <scene sceneID="4Hh-hX-Dgw">
@@ -1119,7 +1200,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="40F-NP-pSt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3293" y="-286"/>
+            <point key="canvasLocation" x="2100" y="1342"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
@@ -1130,6 +1211,7 @@
         <image name="figure.walk" catalog="system" width="95" height="128"/>
         <image name="gear" catalog="system" width="128" height="122"/>
         <image name="person.2.fill" catalog="system" width="128" height="81"/>
+        <image name="person.badge.plus" catalog="system" width="128" height="125"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="trash" catalog="system" width="117" height="128"/>
         <systemColor name="labelColor">
@@ -1137,6 +1219,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemPurpleColor">
             <color red="0.68627450980392157" green="0.32156862745098042" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

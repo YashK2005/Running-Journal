@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21D62" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21279" systemVersion="21G115" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Shoe" representedClassName="Shoe" syncable="YES" codeGenerationType="class">
         <attribute name="shoeDistance" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="shoeName" optional="YES" attributeType="String"/>
-        <relationship name="runs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="UserRun" inverseName="shoeUsed" inverseEntity="UserRun"/>
     </entity>
     <entity name="UserRun" representedClassName="UserRun" syncable="YES" codeGenerationType="class">
         <attribute name="distance" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
@@ -22,10 +21,12 @@
         <attribute name="sorenessDuring" optional="YES" attributeType="String"/>
         <attribute name="temperature" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="weather" optional="YES" attributeType="String"/>
-        <relationship name="shoeUsed" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Shoe" inverseName="runs" inverseEntity="Shoe"/>
     </entity>
-    <elements>
-        <element name="Shoe" positionX="-45" positionY="117" width="128" height="88"/>
-        <element name="UserRun" positionX="-337.2666015625" positionY="-44.52383422851562" width="128" height="298"/>
-    </elements>
+    <configuration name="Cloud" usedWithCloudKit="YES">
+        <memberEntity name="UserRun"/>
+    </configuration>
+    <configuration name="Local">
+        <memberEntity name="UserRun"/>
+        <memberEntity name="Shoe"/>
+    </configuration>
 </model>

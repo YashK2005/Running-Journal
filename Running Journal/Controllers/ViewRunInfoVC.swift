@@ -35,7 +35,7 @@ class ViewRunInfoVC: UIViewController {
         
         let date: Date = run.value(forKeyPath: "runDate") as! Date
         let formatter = DateFormatter()
-        formatter.dateFormat = "MMM d, y - HH:mm a"
+        formatter.dateFormat = "MMM d, y - h:mm a"
         dateTimeLabel.text = "\(formatter.string(from: date))"
         
         setupTableViewArrays()
@@ -115,8 +115,21 @@ class ViewRunInfoVC: UIViewController {
              //   validValues.append(dict[dictKey]!)
                 
                 let result = getArrayText(key: dictKey, value: "\(dict[dictKey]!)")
-                validKeys.append(result[0])
-                validValues.append(result[1])
+                print(result)
+                if result[0] == "Run Time" && result[1] == "00:00"
+                {
+                    
+                }
+                else if result[0] == "Pace" && !(validKeys.contains("Run Time"))
+                {
+                    
+                }
+                else
+                {
+                    validKeys.append(result[0])
+                    validValues.append(result[1])
+                }
+                
                 
                 
                 //print("\(dictKey) \(dict[dictKey]!)")
@@ -142,6 +155,7 @@ class ViewRunInfoVC: UIViewController {
                 let hours = totalSeconds / 3600
                 let minutes = String(format: "%02d", ((totalSeconds % 3600) / 60))
                 let seconds = String(format: "%02d", (totalSeconds % 3600) % 60)
+                
                 if hours > 0 {return ["Run Time", "\(hours):\(minutes):\(seconds)"]}
                 else {return ["Run Time", "\(minutes):\(seconds)"]}
             
