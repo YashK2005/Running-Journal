@@ -11,11 +11,14 @@ import CloudKit
 import CoreData
 
 class SharingVC: UIViewController {
-    var userIDs:[CKRecord.ID] = []
-    var userNames:[String] = []
-    var records:[CKRecord] = []
-    var uniqueIndexes:[Int] = []
-    var zoneIDS:[CKRecordZone.ID] = []
+    
+    struct recordsByFullName {
+        var fullName:String
+        var records:[CKRecord]
+        var recentUpload:Date
+    
+    }
+    var recordArray:[recordsByFullName] = []
     
     @IBOutlet weak var sharingTableView: UITableView!
         
@@ -27,108 +30,19 @@ class SharingVC: UIViewController {
         
         // Do any additional setup after loading the view.
         print("sharing")
-        
-        Task{
-            do {
-                let id = await getZoneID()
-                let runRecords = try await getAllRuns(zoneID: id)
-                print("E", runRecords)
-                for record in runRecords
-                {
-                    records.append(record)
-                    userIDs.append(record.creatorUserRecordID!)
-                }
-                userNames = try await getParticipantNames()
-                print(userNames)
-                removeDuplicates()
-                print(userNames, records)
-                
-                sharingTableView.reloadData()
-            }
-            catch
-            {
-                print(error)
-            }
-            //var indexesToDelete:[Int] = []
-            
-        }
-        
-        
+        getZoneOwnerNames()
     }
     
     @IBAction func sharingSettingsButtonClicked(_ sender: UIButton) {
-       
-//        let privateDB = CKContainer.default().privateCloudDatabase
-//        let predicate = NSPredicate(format: "CD_distance = %@", 5)
-//        let query = CKQuery(recordType: "CD_UserRun", predicate: predicate)
-//        privateDB.fetch(withQuery: query, completionHandler: {_ in
-//
-//        })
-   
-      
+
     }
     
     @IBAction func addFriendButtonClicked(_ sender: UIButton) {
         presentUICloudSharingController()
-        
-        print("hi")
-        
+
     }
     
-    
-    func getAllRuns(zoneID: CKRecordZone.ID) async throws -> [CKRecord]
-    {
-       // let zoneID = getZoneID()
-        
-        let container = CKContainer.default()
-       // container.shareParticipant(forUserRecordID: <#T##CKRecord.ID#>)
-        let cloudDB = container.sharedCloudDatabase
-        let pred = NSPredicate(value: true)
-        
-  //      let descriptors = NSSortDescriptor(keyPath:, ascending: <#T##Bool#>)
-        let query = CKQuery(recordType: "CD_UserRun", predicate: pred)
-        let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
-        
-        query.sortDescriptors = [sortDescriptor]
-        
-//        for id in zoneIDS
-//        {
-//            print(container.shareParticipant(forUserRecordID: id))
-//        }
-        let (runResults, _) = try await cloudDB.records(matching: query, inZoneWith: zoneID, resultsLimit: 1)
-    
-        return runResults
-            .compactMap { _, result in
-                guard let record = try? result.get()
-                       // print(result),
-                      
-                   //     let runUser = record.value(forKeyPath: "createdUserRecordName") as? String
-                        
-                else {return nil}
-                
-             //   print(CKUserIdentity().nameComponents?.givenName)
-                return record
-            }
-    }
-    
-    func getParticipantNames() async throws -> [String] //adds full name of participants to array
-    {
-        var participantNames:[String] = []
-        let container = CKContainer.default()
-        for userID in userIDs {
-            let participant = try await container.shareParticipant(forUserRecordID: userID)
-            let participantFirstName = participant.userIdentity.nameComponents?.givenName ?? ""
-            let participantLastName = participant.userIdentity.nameComponents?.familyName ?? ""
-            let participantFullName = participantFirstName + " " + participantLastName
-            //print(participant.userIdentity.nameComponents?.familyName)
-            participantNames.append(participantFullName)
-        }
-      //  let participants = try await container.share
-       // await print(try container.shareParticipants(forUserRecordIDs: userIDs))
-        return participantNames
-    }
-    
-    func getZoneID() async  -> CKRecordZone.ID
+    func getZoneOwnerNames()
     {
         let container = CKContainer.default()
         let sharedDB = container.sharedCloudDatabase
@@ -145,42 +59,62 @@ class SharingVC: UIViewController {
                     if recordZones[i].zoneID.zoneName == "com.apple.coredata.cloudkit.zone"
                     {
                         id = recordZones[i].zoneID
-                       // print(recordZones[i].share.)
-                        self.zoneIDS.append(id)
-                        print(id.ownerName)
-                       // print(container.share)
+                        print("IIII: \(id)")
                         
+                        let participantID = CKRecord.ID(recordName: id.ownerName)
+                        container.fetchShareParticipant(withUserRecordID: participantID, completionHandler: {(record, error) in
+                            if error != nil {print(error?.localizedDescription)}
+                            
+                            let fullName = (record?.userIdentity.nameComponents?.givenName ?? "First") + " " + (record?.userIdentity.nameComponents?.familyName ?? "Last")
+                            let pred = NSPredicate(value: true)
+                            let query = CKQuery(recordType: "CD_UserRun", predicate: pred)
+                       //     let sortDescriptor = NSSortDescriptor(key: "createdTimestamp", ascending: false)
+                          //  query.sortDescriptors = [sortDescriptor]
+                            
+                            
+                            sharedDB.fetch(withQuery: query, inZoneWith: id, completionHandler: {(result) in
+                                do {
+                                    let betterResult = try result.get().matchResults
+                                    var records:[CKRecord] = []
+                                    var recentDate = Date(timeIntervalSince1970: TimeInterval(0))
+                                    for rec in betterResult
+                                    {
+                                        let record = try rec.1.get()
+                                        records.append(record)
+                                       // print(record.value(forKey: "createdTimestamp"))
+                                        let currentDate = record.creationDate!
+                                        print(currentDate)
+                                        if currentDate > recentDate{
+                                            recentDate = currentDate
+                                        }
+                                    }
+                                    
+                                    
+                                    print(recentDate)
+                                   
+                                    let fullRecord = recordsByFullName(fullName: fullName, records: records, recentUpload: recentDate)
+                                    self.recordArray.append(fullRecord)
+                                    DispatchQueue.main.async {
+                                        self.sharingTableView.reloadData()
+                                    }
+                                }
+                                catch
+                                {
+                                    print(error.localizedDescription)
+                                }
+                                
+                            })
                         
+                            DispatchQueue.main.async {
+                                self.sharingTableView.reloadData()
+                            }
+                        })
                     }
                 }
-                
             }
         })
-        
-      //  try await print(container.shareParticipant(forUserRecordID: ckrecordid))
-        
-        while id.zoneName != "com.apple.coredata.cloudkit.zone" {
-           // print("stucl")
-        }
-        
-        return id
-        
-                        
     }
-    
-    func removeDuplicates() //gets the indexes of unique first names
-    {
-        var result:[String] = []
-        for (index, name) in userNames.enumerated()
-        {
-            if result.contains(name) == false{
-                result.append(name)
-                uniqueIndexes.append(index)
-            }
-        }
-    }
-                                                        
-   
+  
     
     func presentUICloudSharingController()
     {
@@ -286,23 +220,27 @@ extension SharingVC: UITableViewDataSource
 {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return uniqueIndexes.count //TODO: get sharing people count
+        return recordArray.count //TODO: get sharing people count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = sharingTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! sharingPeopleCell
-        let index = uniqueIndexes[indexPath.row]
-        cell.nameLabel.text = userNames[index]
-        let date = records[index].creationDate!
+        let record = recordArray[indexPath.row]
+        cell.nameLabel.text = record.fullName
         
+        
+        
+        let date = record.recentUpload
+        //print(record)
+
         let relativeFormatter = DateFormatter()
         relativeFormatter.timeStyle = .none
         relativeFormatter.dateStyle = .medium
         relativeFormatter.doesRelativeDateFormatting = true
-        
+
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, MMM d"
-        
+
         var dateString = ""
         let string = relativeFormatter.string(from: date)
         if let _ = string.rangeOfCharacter(from: .decimalDigits)
@@ -313,7 +251,7 @@ extension SharingVC: UITableViewDataSource
         {
             dateString = string
         }
-        
+
         
         
         cell.recentRunLabel.text = "Last Upload: \(dateString)"
