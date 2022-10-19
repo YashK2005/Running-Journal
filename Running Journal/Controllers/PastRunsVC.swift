@@ -203,10 +203,7 @@ class PastRunsVC: UIViewController {
     
     //MARK: - Add Run
     
-    @IBAction func myUnwindAction(unwindSegue: UIStoryboardSegue)
-    {
-        
-    }
+   
     /*
     
     // MARK: - Navigation

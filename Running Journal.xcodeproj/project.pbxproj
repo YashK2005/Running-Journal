@@ -209,16 +209,16 @@
 			isa = PBXGroup;
 			children = (
 				D392D83628AE0454005C830B /* TabBarController.swift */,
-				D30A1D8228AE01A200DA2692 /* NotificationsVC.swift */,
 				D392D83928AE0745005C830B /* PastRunsVC.swift */,
-				D392D83B28AE0757005C830B /* SharingVC.swift */,
 				D39EBDEA28B3A5DC00279F40 /* AddRunInfoVC.swift */,
 				D3A95B9028B87A6C00037060 /* Pt2AddRunInfoVC.swift */,
 				D3C109E928BE57F900A48C05 /* Pt3AddRunInfoVC.swift */,
 				D329767828D0126800BBEDA1 /* ViewRunInfoVC.swift */,
 				D38F2A4B28D801FF00CA53B5 /* SettingsVC.swift */,
 				D3CA2EFA28DBF52F00ED207F /* ShoesViewController.swift */,
+				D392D83B28AE0757005C830B /* SharingVC.swift */,
 				D32A106E28FF9ADA007D334E /* SharingPersonVC.swift */,
+				D30A1D8228AE01A200DA2692 /* NotificationsVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";

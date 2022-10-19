@@ -30,7 +30,7 @@ class SharingVC: UIViewController {
         
         // Do any additional setup after loading the view.
         print("sharing")
-        getZoneOwnerNames()
+        getAllRuns()
     }
     
     @IBAction func sharingSettingsButtonClicked(_ sender: UIButton) {
@@ -42,7 +42,7 @@ class SharingVC: UIViewController {
 
     }
     
-    func getZoneOwnerNames()
+    func getAllRuns()
     {
         let container = CKContainer.default()
         let sharedDB = container.sharedCloudDatabase
@@ -182,6 +182,7 @@ class SharingVC: UIViewController {
             let index = sender as! Int
             let recordsToSend = recordArray[index].records
             destinationVC.runs = recordsToSend
+            destinationVC.userFullName = recordArray[index].fullName
         }
     }
 }

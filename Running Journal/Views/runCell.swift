@@ -7,7 +7,7 @@
 
 import UIKit
 
-class runCell: UITableViewCell { //past runs screen
+class runCell: UITableViewCell { //past runs screen + sharingpeople
 
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
@@ -15,6 +15,8 @@ class runCell: UITableViewCell { //past runs screen
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        selectionStyle = .none
+        accessoryType = .disclosureIndicator
         
         // Initialization code
     }
