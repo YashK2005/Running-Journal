@@ -20,6 +20,7 @@
 		D30A1D7228ADF76000DA2692 /* Running_JournalUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A1D7128ADF76000DA2692 /* Running_JournalUITestsLaunchTests.swift */; };
 		D30A1D8328AE01A200DA2692 /* NotificationsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A1D8228AE01A200DA2692 /* NotificationsVC.swift */; };
 		D329767928D0126800BBEDA1 /* ViewRunInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D329767828D0126800BBEDA1 /* ViewRunInfoVC.swift */; };
+		D32A106F28FF9ADA007D334E /* SharingPersonVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32A106E28FF9ADA007D334E /* SharingPersonVC.swift */; };
 		D38F2A4C28D801FF00CA53B5 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38F2A4B28D801FF00CA53B5 /* SettingsVC.swift */; };
 		D38F2A4E28D94B3600CA53B5 /* K.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38F2A4D28D94B3500CA53B5 /* K.swift */; };
 		D392D83728AE0454005C830B /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D392D83628AE0454005C830B /* TabBarController.swift */; };
@@ -76,6 +77,7 @@
 		D30A1D7128ADF76000DA2692 /* Running_JournalUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Running_JournalUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		D30A1D8228AE01A200DA2692 /* NotificationsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsVC.swift; sourceTree = "<group>"; };
 		D329767828D0126800BBEDA1 /* ViewRunInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRunInfoVC.swift; sourceTree = "<group>"; };
+		D32A106E28FF9ADA007D334E /* SharingPersonVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingPersonVC.swift; sourceTree = "<group>"; };
 		D38F2A4B28D801FF00CA53B5 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		D38F2A4D28D94B3500CA53B5 /* K.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K.swift; sourceTree = "<group>"; };
 		D392D83628AE0454005C830B /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 				D329767828D0126800BBEDA1 /* ViewRunInfoVC.swift */,
 				D38F2A4B28D801FF00CA53B5 /* SettingsVC.swift */,
 				D3CA2EFA28DBF52F00ED207F /* ShoesViewController.swift */,
+				D32A106E28FF9ADA007D334E /* SharingPersonVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -484,6 +487,7 @@
 				D392D83728AE0454005C830B /* TabBarController.swift in Sources */,
 				D39EBDEF28B4F9A800279F40 /* AutoKeyboardScrollView.swift in Sources */,
 				D38F2A4C28D801FF00CA53B5 /* SettingsVC.swift in Sources */,
+				D32A106F28FF9ADA007D334E /* SharingPersonVC.swift in Sources */,
 				D30A1D4E28ADF75700DA2692 /* SceneDelegate.swift in Sources */,
 				D39EBDEB28B3A5DC00279F40 /* AddRunInfoVC.swift in Sources */,
 				D3CA2EFB28DBF53000ED207F /* ShoesViewController.swift in Sources */,

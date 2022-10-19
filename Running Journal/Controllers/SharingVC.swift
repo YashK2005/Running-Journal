@@ -25,7 +25,7 @@ class SharingVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         sharingTableView.dataSource = self
-        sharingTableView.dataSource = self
+        sharingTableView.delegate = self
         sharingTableView.rowHeight = 70
         
         // Do any additional setup after loading the view.
@@ -59,7 +59,6 @@ class SharingVC: UIViewController {
                     if recordZones[i].zoneID.zoneName == "com.apple.coredata.cloudkit.zone"
                     {
                         id = recordZones[i].zoneID
-                        print("IIII: \(id)")
                         
                         let participantID = CKRecord.ID(recordName: id.ownerName)
                         container.fetchShareParticipant(withUserRecordID: participantID, completionHandler: {(record, error) in
@@ -83,20 +82,13 @@ class SharingVC: UIViewController {
                                         records.append(record)
                                        // print(record.value(forKey: "createdTimestamp"))
                                         let currentDate = record.creationDate!
-                                        print(currentDate)
                                         if currentDate > recentDate{
                                             recentDate = currentDate
                                         }
                                     }
-                                    
-                                    
-                                    print(recentDate)
-                                   
                                     let fullRecord = recordsByFullName(fullName: fullName, records: records, recentUpload: recentDate)
                                     self.recordArray.append(fullRecord)
-                                    DispatchQueue.main.async {
-                                        self.sharingTableView.reloadData()
-                                    }
+                                    self.reloadData()
                                 }
                                 catch
                                 {
@@ -105,14 +97,20 @@ class SharingVC: UIViewController {
                                 
                             })
                         
-                            DispatchQueue.main.async {
-                                self.sharingTableView.reloadData()
-                            }
+                            self.reloadData()
                         })
                     }
                 }
             }
         })
+    }
+    
+    func reloadData()
+    {
+        DispatchQueue.main.async {
+            self.recordArray.sort(by: { $0.recentUpload > $1.recentUpload })
+            self.sharingTableView.reloadData()
+        }
     }
   
     
@@ -173,42 +171,27 @@ class SharingVC: UIViewController {
                     
                     self.present(sharingController, animated: true)
                 }
-                
             }
         })
-        
-        let share = CKShare(recordZoneID: zoneID)
-        print(share)
-        print(share.creationDate)
-        print("urla: \(share.url)")
-        share.publicPermission = .readOnly
-        
-        
-        
-        print(share.owner)
     }
     
-    
-    
-    
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "sharingToPerson"
+        {
+            let destinationVC = segue.destination as! SharingPersonVC
+            let index = sender as! Int
+            let recordsToSend = recordArray[index].records
+            destinationVC.runs = recordsToSend
+        }
     }
-    */
-
 }
 
 extension SharingVC: UITableViewDelegate
 {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         print("you tapped me!")
+        performSegue(withIdentifier: "sharingToPerson", sender: indexPath.row)
         
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -227,12 +210,21 @@ extension SharingVC: UITableViewDataSource
         let cell = sharingTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! sharingPeopleCell
         let record = recordArray[indexPath.row]
         cell.nameLabel.text = record.fullName
+        cell.recentRunLabel.text = getTableViewDate(record: record)
+        cell.selectionStyle = .none
         
-        
-        
+        return cell
+    }
+    
+    func getTableViewDate(record:recordsByFullName) -> String
+    {
+        var dateString = ""
         let date = record.recentUpload
-        //print(record)
-
+        if date == Date(timeIntervalSince1970: TimeInterval(0))
+        {
+            return "N/A"
+        }
+        
         let relativeFormatter = DateFormatter()
         relativeFormatter.timeStyle = .none
         relativeFormatter.dateStyle = .medium
@@ -241,7 +233,6 @@ extension SharingVC: UITableViewDataSource
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, MMM d"
 
-        var dateString = ""
         let string = relativeFormatter.string(from: date)
         if let _ = string.rangeOfCharacter(from: .decimalDigits)
         {
@@ -251,12 +242,8 @@ extension SharingVC: UITableViewDataSource
         {
             dateString = string
         }
-
-        
-        
-        cell.recentRunLabel.text = "Last Upload: \(dateString)"
-        cell.selectionStyle = .none
-        
-        return cell
+        return dateString
     }
 }
+
+
