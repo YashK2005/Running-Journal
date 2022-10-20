@@ -16,7 +16,7 @@ class runCell: UITableViewCell { //past runs screen + sharingpeople
     override func awakeFromNib() {
         super.awakeFromNib()
         selectionStyle = .none
-        accessoryType = .disclosureIndicator
+        accessoryType = .disclosureIndicator  
         
         // Initialization code
     }

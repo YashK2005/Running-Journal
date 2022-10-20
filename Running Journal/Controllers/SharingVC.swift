@@ -12,6 +12,8 @@ import CoreData
 
 class SharingVC: UIViewController {
     
+    var zoneCount = 0
+    
     struct recordsByFullName {
         var fullName:String
         var records:[CKRecord]
@@ -20,18 +22,34 @@ class SharingVC: UIViewController {
     }
     var recordArray:[recordsByFullName] = []
     
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var settingButton: UIButton!
+    @IBOutlet weak var addFriendButton: UIButton!
     @IBOutlet weak var sharingTableView: UITableView!
         
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         sharingTableView.dataSource = self
         sharingTableView.delegate = self
         sharingTableView.rowHeight = 70
         
         // Do any additional setup after loading the view.
-        print("sharing")
-        getAllRuns()
+
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        if zoneCount == 0
+        {
+            settingButton.isEnabled = false
+            addFriendButton.isEnabled = false
+            loadingIndicator.center = self.view.center
+            getAllRuns()
+        }
+    }
+    
     
     @IBAction func sharingSettingsButtonClicked(_ sender: UIButton) {
 
@@ -54,6 +72,7 @@ class SharingVC: UIViewController {
             }
             if let recordZones = recordZone {
                 print("CCC" + String(recordZones.count))
+                self.zoneCount = recordZones.count
                 for i in 0..<recordZones.count
                 {
                     if recordZones[i].zoneID.zoneName == "com.apple.coredata.cloudkit.zone"
@@ -70,7 +89,7 @@ class SharingVC: UIViewController {
                        //     let sortDescriptor = NSSortDescriptor(key: "createdTimestamp", ascending: false)
                           //  query.sortDescriptors = [sortDescriptor]
                             
-                            
+                           
                             sharedDB.fetch(withQuery: query, inZoneWith: id, completionHandler: {(result) in
                                 do {
                                     let betterResult = try result.get().matchResults
@@ -88,7 +107,11 @@ class SharingVC: UIViewController {
                                     }
                                     let fullRecord = recordsByFullName(fullName: fullName, records: records, recentUpload: recentDate)
                                     self.recordArray.append(fullRecord)
-                                    self.reloadData()
+                                    if self.recordArray.count == recordZones.count
+                                    {
+                                        self.reloadData()
+                                    }
+                                    
                                 }
                                 catch
                                 {
@@ -96,10 +119,9 @@ class SharingVC: UIViewController {
                                 }
                                 
                             })
-                        
-                            self.reloadData()
                         })
                     }
+                    print("RELOADING")
                 }
             }
         })
@@ -108,8 +130,15 @@ class SharingVC: UIViewController {
     func reloadData()
     {
         DispatchQueue.main.async {
+           
+           // self.loadingVC.removeFromSuperview()
+            self.loadingIndicator.stopAnimating()
+            self.settingButton.isEnabled = true
+            self.addFriendButton.isEnabled = true
+            print("REMOVED")
             self.recordArray.sort(by: { $0.recentUpload > $1.recentUpload })
             self.sharingTableView.reloadData()
+            print("RELOAD DATA")
         }
     }
   
