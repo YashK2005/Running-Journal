@@ -42,6 +42,14 @@ class SharingPersonVC: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "personToRun"
+        {
+            let destinationVC = segue.destination as? SharingRunVC
+            destinationVC?.runArray = [selectedRuns[sender as? Int ?? 0]]
+            destinationVC?.ownerName = userFullName
+        }
+    }
     /*
     // MARK: - Navigation
 
@@ -58,7 +66,7 @@ extension SharingPersonVC: UITableViewDelegate
 {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("you tapped me!")
-        //performSegue(withIdentifier: "pastRunsToViewRun", sender: self)
+        performSegue(withIdentifier: "personToRun", sender: indexPath.row)
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 69

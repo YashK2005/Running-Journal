@@ -30,6 +30,7 @@ class SharingVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //setupSettingsMenu()
         
         sharingTableView.dataSource = self
         sharingTableView.delegate = self
@@ -49,6 +50,23 @@ class SharingVC: UIViewController {
             getAllRuns()
         }
     }
+    
+    func setupSettingsMenu()
+    {
+        var menuOptions:[UIAction] = []
+        print("Afaf")
+        menuOptions.append(UIAction(title: "Manage who is sharing with me") { action in
+           //TODO: add new screen with list of people sharing
+        })
+        menuOptions.append(UIAction(title: "Manage who I am sharing with") { action in
+            self.presentUICloudSharingController()
+        })
+        let menu = UIMenu(children: menuOptions)
+        settingButton.menu = menu
+        settingButton.showsMenuAsPrimaryAction = true
+        print(settingButton.menu)
+    }
+    
     
     
     @IBAction func sharingSettingsButtonClicked(_ sender: UIButton) {
@@ -135,6 +153,7 @@ class SharingVC: UIViewController {
             self.loadingIndicator.stopAnimating()
             self.settingButton.isEnabled = true
             self.addFriendButton.isEnabled = true
+            self.setupSettingsMenu()
             print("REMOVED")
             self.recordArray.sort(by: { $0.recentUpload > $1.recentUpload })
             self.sharingTableView.reloadData()

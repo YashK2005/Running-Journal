@@ -110,28 +110,15 @@ class PastRunsVC: UIViewController {
                                   UICommand(title: "Tempo Run", action: #selector(tagTempoSort)),
                                   UICommand(title: "Recovery Run", action: #selector(tagRecoverySort)),
                                   UICommand(title: "Fartlek", action: #selector(tagFartlekSort)),
-                                  
         ]
         
         let tagsSubMenu = UIMenu(title: "Run Type", children: tagsSubMenuOptions)
-        
-        
-        
         let date = UICommand(title: "Date", action: #selector(dateSort))
-        
         let distance = UICommand(title: "Distance", action: #selector(distanceSort))
         let pace = UICommand(title: "Pace", action: #selector(paceSort))
         
         let menu = UIMenu(children: [date, distance, pace, tagsSubMenu])
-        
-      
-        
-        //handler to intercept event related to UIActions.
-        
-        
         sortButton.menu = menu
-        
-        
     }
     
     @objc func dateSort() {
