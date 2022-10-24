@@ -114,3 +114,22 @@ class sharingPeopleCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
 }
+
+class deleteCell: UITableViewCell {
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var deleteButton: UIButton!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        deleteButton.setImage(UIImage(systemName: "minus.circle.fill")?.withTintColor(.red), for: .normal)
+     //   selectionStyle = .none
+        
+        // Initialization code
+    }
+    @IBAction func deleteButtonClicked(_ sender: UIButton) {
+        
+    }
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+    }
+}

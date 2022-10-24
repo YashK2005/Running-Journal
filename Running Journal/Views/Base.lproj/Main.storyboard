@@ -109,11 +109,101 @@
                         <outlet property="settingButton" destination="Rdo-uo-1Y5" id="zqV-uw-Xc5"/>
                         <outlet property="sharingTableView" destination="LaZ-bH-xik" id="dWb-ys-sw4"/>
                         <segue destination="aIx-ZF-dC8" kind="presentation" identifier="sharingToPerson" modalPresentationStyle="fullScreen" id="n11-Ci-ZhX"/>
+                        <segue destination="Alr-2M-aqv" kind="presentation" identifier="sharingToSettings" modalPresentationStyle="fullScreen" id="UYl-1f-ESF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0gx-8f-EoU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="416.25" y="2253.1690140845071"/>
+        </scene>
+        <!--Sharing SettingsVC-->
+        <scene sceneID="PqW-zc-ODZ">
+            <objects>
+                <viewController id="Alr-2M-aqv" customClass="SharingSettingsVC" customModule="Running_Journal" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="TvY-n4-xRu">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MhL-kT-xHa">
+                                <rect key="frame" x="0.0" y="0.0" width="62" height="34.5"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Back"/>
+                                <connections>
+                                    <action selector="backButtonClicked:" destination="aIx-ZF-dC8" eventType="touchUpInside" id="KgN-dv-v9h"/>
+                                    <action selector="backButtonClicked:" destination="Alr-2M-aqv" eventType="touchUpInside" id="neW-dH-5hZ"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="TEi-7z-BSw">
+                                <rect key="frame" x="8" y="42.5" width="304" height="525.5"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="x6Z-aR-gYA" customClass="runInfoCell" customModule="Running_Journal" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="304" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="x6Z-aR-gYA" id="QgG-Je-CdP">
+                                            <rect key="frame" x="0.0" y="0.0" width="304" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="deleteCell" id="gId-nD-MMe" customClass="deleteCell" customModule="Running_Journal" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="93.5" width="304" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gId-nD-MMe" id="eqd-ep-lVd">
+                                            <rect key="frame" x="0.0" y="0.0" width="304" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fub-j3-aZ2">
+                                                    <rect key="frame" x="8" y="5" width="50" height="34"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="50" id="k4t-F6-OXk"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Button"/>
+                                                    <buttonConfiguration key="configuration" style="plain" image="minus.circle.fill" catalog="system"/>
+                                                    <connections>
+                                                        <action selector="deleteButtonClicked:" destination="gId-nD-MMe" eventType="touchUpInside" id="NCB-vT-62i"/>
+                                                    </connections>
+                                                </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Full Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iY1-q2-3Fs">
+                                                    <rect key="frame" x="66" y="11.5" width="230" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="iY1-q2-3Fs" secondAttribute="trailing" constant="8" id="1FO-44-stn"/>
+                                                <constraint firstItem="iY1-q2-3Fs" firstAttribute="centerY" secondItem="eqd-ep-lVd" secondAttribute="centerY" id="3Eg-AC-FHQ"/>
+                                                <constraint firstItem="Fub-j3-aZ2" firstAttribute="leading" secondItem="eqd-ep-lVd" secondAttribute="leading" constant="8" id="IyZ-CD-5Qp"/>
+                                                <constraint firstItem="iY1-q2-3Fs" firstAttribute="leading" secondItem="Fub-j3-aZ2" secondAttribute="trailing" constant="8" id="jVd-85-nvp"/>
+                                                <constraint firstItem="Fub-j3-aZ2" firstAttribute="centerY" secondItem="eqd-ep-lVd" secondAttribute="centerY" id="nvB-R3-Ow7"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="deleteButton" destination="Fub-j3-aZ2" id="ih4-Zv-gCD"/>
+                                            <outlet property="nameLabel" destination="iY1-q2-3Fs" id="yfm-do-0y5"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="BCs-LX-1Y6"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="MhL-kT-xHa" firstAttribute="leading" secondItem="BCs-LX-1Y6" secondAttribute="leading" id="25X-2a-2lX"/>
+                            <constraint firstItem="BCs-LX-1Y6" firstAttribute="bottom" secondItem="TEi-7z-BSw" secondAttribute="bottom" id="270-un-101"/>
+                            <constraint firstItem="TEi-7z-BSw" firstAttribute="leading" secondItem="BCs-LX-1Y6" secondAttribute="leading" constant="8" id="BSr-yG-kUM"/>
+                            <constraint firstItem="MhL-kT-xHa" firstAttribute="top" secondItem="BCs-LX-1Y6" secondAttribute="top" id="CuI-mS-bql"/>
+                            <constraint firstItem="BCs-LX-1Y6" firstAttribute="trailing" secondItem="TEi-7z-BSw" secondAttribute="trailing" constant="8" id="YIf-5b-pzX"/>
+                            <constraint firstItem="TEi-7z-BSw" firstAttribute="top" secondItem="MhL-kT-xHa" secondAttribute="bottom" constant="8" id="b0d-s4-FCp"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="peopleTableView" destination="TEi-7z-BSw" id="xlP-pa-UPS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="B1n-wy-Tfe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="416" y="3039"/>
         </scene>
         <!--Sharing PersonVC-->
         <scene sceneID="Soq-3N-twJ">
@@ -1408,12 +1498,13 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="44U-t6-3QW"/>
+        <segue reference="b8F-cl-dam"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="bell.fill" catalog="system" width="123" height="128"/>
         <image name="figure.walk" catalog="system" width="95" height="128"/>
         <image name="gear" catalog="system" width="128" height="122"/>
+        <image name="minus.circle.fill" catalog="system" width="128" height="123"/>
         <image name="person.2.fill" catalog="system" width="128" height="81"/>
         <image name="person.badge.plus" catalog="system" width="128" height="125"/>
         <image name="plus" catalog="system" width="128" height="113"/>

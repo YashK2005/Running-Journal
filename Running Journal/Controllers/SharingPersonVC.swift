@@ -38,6 +38,17 @@ class SharingPersonVC: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        if runs.count == 0 //exits if the person has no runs
+        {
+            let alert = UIAlertController(title: "No runs found", message: "\(userFullName) has not uploaded any runs", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
+                self.dismiss(animated: true)
+            }))
+            present(alert, animated: true)
+        }
+    }
+    
     @IBAction func backButtonClicked(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }

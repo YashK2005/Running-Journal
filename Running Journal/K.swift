@@ -13,4 +13,6 @@ struct K
         static let distance = "distanceUnits"
         static let temperature = "temperatureUnits"
     }
+    
+    static var reloadSharing = false
 }

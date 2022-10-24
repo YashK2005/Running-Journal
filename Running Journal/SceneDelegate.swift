@@ -56,17 +56,64 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //TODO: present UIAlert to ask user if they would like to confirm adding person as a friend
         
         let acceptSharesOperation = CKAcceptSharesOperation(shareMetadatas: [cloudKitShareMetadata])
+        acceptSharesOperation.queuePriority = .veryHigh
         acceptSharesOperation.perShareCompletionBlock = {metadata, share, error in
             if error != nil {
                 print(error?.localizedDescription)
             }
-            
+            DispatchQueue.main.async {
+                print(self.window?.rootViewController)
+                self.window?.rootViewController?.dismiss(animated: false, completion: nil)
+                if let tabBarController = self.window!.rootViewController as? UITabBarController {
+                    K.reloadSharing = true
+                    if tabBarController.selectedIndex != 2
+                    {
+                        tabBarController.selectedIndex = 2
+                    }
+                    else
+                    {
+                        tabBarController.selectedIndex = 1
+                        tabBarController.selectedIndex = 2
+                        
+                    }
+                }
+            }
         }
+        
+        
+    
+        
         CKContainer(identifier: cloudKitShareMetadata.containerIdentifier).add(acceptSharesOperation)
+        
+        
         let container = CKContainer.default()
-        let sharedDB = container.sharedCloudDatabase
+        let privateDB = container.privateCloudDatabase
+        let zoneID = CKRecordZone.ID(zoneName: "com.apple.coredata.cloudkit.zone")
+//        privateDB.fetch(withRecordZoneID: zoneID) { zone, error in
+//            if zone?.share != nil
+//            {
+//                privateDB.fetch(withRecordID: (zone?.share!.recordID)!) { record, error in
+//                    let share = record as! CKShare
+//                    let owner = cloudKitShareMetadata.ownerIdentity.userRecordID
+//                   // cloudKitShareMetadata.share.owner
+//                    share.addParticipant(cloudKitShareMetadata.share.owner)
+//                }
+//
+//            }
+//            else
+//            {
+//                let share = CKShare(recordZoneID: zoneID)
+//                share.publicPermission = .none
+//                privateDB.save(share) { record, error in
+//                    let share = record as! CKShare
+//                    share.addParticipant(cloudKitShareMetadata.share.owner)
+//                }
+//
+//            }
+//        }
         let persistentContainer = NSPersistentCloudKitContainer(name: "Running_Journal")
       //  persistentContainer.acceptShareInvitations(from: [cloudKitShareMetadata], into: sha)
+        
         
     }
     

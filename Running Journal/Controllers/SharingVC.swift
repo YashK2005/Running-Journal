@@ -14,12 +14,14 @@ class SharingVC: UIViewController {
     
     var zoneCount = 0
     
+    
     struct recordsByFullName {
         var fullName:String
         var records:[CKRecord]
         var recentUpload:Date
-    
+        var zoneID: CKRecordZone.ID
     }
+    
     var recordArray:[recordsByFullName] = []
     
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
@@ -29,6 +31,9 @@ class SharingVC: UIViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+      //  NotificationCenter.default.addObserver(self, selector: #selector(viewAppeared), name: UIApplication.willEnterForegroundNotification, object: nil)
+        
         
         //setupSettingsMenu()
         
@@ -40,16 +45,53 @@ class SharingVC: UIViewController {
 
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-        if zoneCount == 0
+    @objc func viewAppeared()
+    {
+        print("VIEWAPPEARED")
+        if zoneCount == 0 || K.reloadSharing == true
         {
             settingButton.isEnabled = false
             addFriendButton.isEnabled = false
+            recordArray = []
+            sharingTableView.reloadData()
             loadingIndicator.center = self.view.center
+            loadingIndicator.startAnimating()
             getAllRuns()
+            
+            K.reloadSharing = false
+        }
+        else
+        {
+            settingButton.isEnabled = true
+            addFriendButton.isEnabled = true
         }
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        print("viewdidappear")
+        if zoneCount == 0 || K.reloadSharing == true
+        {
+            settingButton.isEnabled = false
+            addFriendButton.isEnabled = false
+            recordArray = []
+            sharingTableView.reloadData()
+            loadingIndicator.center = self.view.center
+            loadingIndicator.startAnimating()
+            getAllRuns()
+            
+            K.reloadSharing == false
+        }
+        else
+        {
+            settingButton.isEnabled = true
+            addFriendButton.isEnabled = true
+        }
+    }
+    
+    
+    
+    
     
     func setupSettingsMenu()
     {
@@ -57,6 +99,7 @@ class SharingVC: UIViewController {
         print("Afaf")
         menuOptions.append(UIAction(title: "Manage who is sharing with me") { action in
            //TODO: add new screen with list of people sharing
+            self.performSegue(withIdentifier: "sharingToSettings", sender: self)
         })
         menuOptions.append(UIAction(title: "Manage who I am sharing with") { action in
             self.presentUICloudSharingController()
@@ -66,6 +109,8 @@ class SharingVC: UIViewController {
         settingButton.showsMenuAsPrimaryAction = true
         print(settingButton.menu)
     }
+    
+    
     
     
     
@@ -91,6 +136,10 @@ class SharingVC: UIViewController {
             if let recordZones = recordZone {
                 print("CCC" + String(recordZones.count))
                 self.zoneCount = recordZones.count
+                if recordZones.count == 0
+                {
+                    self.reloadData()
+                }
                 for i in 0..<recordZones.count
                 {
                     if recordZones[i].zoneID.zoneName == "com.apple.coredata.cloudkit.zone"
@@ -123,7 +172,7 @@ class SharingVC: UIViewController {
                                             recentDate = currentDate
                                         }
                                     }
-                                    let fullRecord = recordsByFullName(fullName: fullName, records: records, recentUpload: recentDate)
+                                    let fullRecord = recordsByFullName(fullName: fullName, records: records, recentUpload: recentDate, zoneID: id)
                                     self.recordArray.append(fullRecord)
                                     if self.recordArray.count == recordZones.count
                                     {
@@ -158,6 +207,16 @@ class SharingVC: UIViewController {
             self.recordArray.sort(by: { $0.recentUpload > $1.recentUpload })
             self.sharingTableView.reloadData()
             print("RELOAD DATA")
+            if self.recordArray.count == 0
+            {
+                
+                let alert = UIAlertController(title: "No one is sharing with you", message: "Click the add friend button to share your runs and ask your friends to share with you.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
+                    self.dismiss(animated: true)
+                }))
+                self.present(alert, animated: true)
+                
+            }
         }
     }
   
@@ -179,6 +238,7 @@ class SharingVC: UIViewController {
         privateDB.fetch(withRecordZoneID: zoneID, completionHandler: {(zone, error) in
             if zone?.share != nil //share already created
             {
+                
                 let shareID = zone?.share?.recordID
                 
                 print(shareID!.zoneID.ownerName)
@@ -231,6 +291,11 @@ class SharingVC: UIViewController {
             let recordsToSend = recordArray[index].records
             destinationVC.runs = recordsToSend
             destinationVC.userFullName = recordArray[index].fullName
+        }
+        if segue.identifier == "sharingToSettings"
+        {
+            let destinationVC = segue.destination as! SharingSettingsVC
+            destinationVC.records = recordArray
         }
     }
 }
