@@ -39,6 +39,7 @@ class SharingVC: UIViewController {
         
         sharingTableView.dataSource = self
         sharingTableView.delegate = self
+        
         sharingTableView.rowHeight = 70
         
         // Do any additional setup after loading the view.
@@ -76,6 +77,7 @@ class SharingVC: UIViewController {
             addFriendButton.isEnabled = false
             recordArray = []
             sharingTableView.reloadData()
+            sharingTableView.scrollsToTop = true
             loadingIndicator.center = self.view.center
             loadingIndicator.startAnimating()
             getAllRuns()
@@ -89,9 +91,24 @@ class SharingVC: UIViewController {
         }
     }
     
-    
-    
-    
+
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        //if the user scrolls from up to down, the table view is reloaded
+        let translation = scrollView.panGestureRecognizer.translation(in: scrollView.superview)
+        if translation.y > 50
+        {
+            print("FAEF")
+            if loadingIndicator.isAnimating == false //loading indicator is not visible
+            {
+                settingButton.isEnabled = false
+                addFriendButton.isEnabled = false
+                recordArray = []
+                loadingIndicator.startAnimating()
+                getAllRuns()
+            }
+        }
+        print(targetContentOffset.pointee.y - scrollView.contentSize.height)
+    }
     
     func setupSettingsMenu()
     {
