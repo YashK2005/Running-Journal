@@ -66,14 +66,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 self.window?.rootViewController?.dismiss(animated: false, completion: nil)
                 if let tabBarController = self.window!.rootViewController as? UITabBarController {
                     K.reloadSharing = true
-                    if tabBarController.selectedIndex != 2
+                    if tabBarController.selectedIndex != 1
                     {
-                        tabBarController.selectedIndex = 2
+                        tabBarController.selectedIndex = 1
                     }
                     else
                     {
+                        tabBarController.selectedIndex = 0
                         tabBarController.selectedIndex = 1
-                        tabBarController.selectedIndex = 2
                         
                     }
                 }

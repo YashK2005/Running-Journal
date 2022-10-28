@@ -18,7 +18,6 @@
 		D30A1D6628ADF76000DA2692 /* Running_JournalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A1D6528ADF76000DA2692 /* Running_JournalTests.swift */; };
 		D30A1D7028ADF76000DA2692 /* Running_JournalUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A1D6F28ADF76000DA2692 /* Running_JournalUITests.swift */; };
 		D30A1D7228ADF76000DA2692 /* Running_JournalUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A1D7128ADF76000DA2692 /* Running_JournalUITestsLaunchTests.swift */; };
-		D30A1D8328AE01A200DA2692 /* NotificationsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A1D8228AE01A200DA2692 /* NotificationsVC.swift */; };
 		D329767928D0126800BBEDA1 /* ViewRunInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D329767828D0126800BBEDA1 /* ViewRunInfoVC.swift */; };
 		D32A106F28FF9ADA007D334E /* SharingPersonVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32A106E28FF9ADA007D334E /* SharingPersonVC.swift */; };
 		D32A107129019153007D334E /* SharingRunVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32A107029019152007D334E /* SharingRunVC.swift */; };
@@ -77,7 +76,6 @@
 		D30A1D6B28ADF76000DA2692 /* Running JournalUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Running JournalUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D30A1D6F28ADF76000DA2692 /* Running_JournalUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Running_JournalUITests.swift; sourceTree = "<group>"; };
 		D30A1D7128ADF76000DA2692 /* Running_JournalUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Running_JournalUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		D30A1D8228AE01A200DA2692 /* NotificationsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsVC.swift; sourceTree = "<group>"; };
 		D329767828D0126800BBEDA1 /* ViewRunInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRunInfoVC.swift; sourceTree = "<group>"; };
 		D32A106E28FF9ADA007D334E /* SharingPersonVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingPersonVC.swift; sourceTree = "<group>"; };
 		D32A107029019152007D334E /* SharingRunVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingRunVC.swift; sourceTree = "<group>"; };
@@ -224,7 +222,6 @@
 				D32A106E28FF9ADA007D334E /* SharingPersonVC.swift */,
 				D32A107029019152007D334E /* SharingRunVC.swift */,
 				D32A10722904DF52007D334E /* SharingSettingsVC.swift */,
-				D30A1D8228AE01A200DA2692 /* NotificationsVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -487,7 +484,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D329767928D0126800BBEDA1 /* ViewRunInfoVC.swift in Sources */,
-				D30A1D8328AE01A200DA2692 /* NotificationsVC.swift in Sources */,
 				D32A10732904DF52007D334E /* SharingSettingsVC.swift in Sources */,
 				D30A1D4C28ADF75700DA2692 /* AppDelegate.swift in Sources */,
 				D38F2A4E28D94B3600CA53B5 /* K.swift in Sources */,

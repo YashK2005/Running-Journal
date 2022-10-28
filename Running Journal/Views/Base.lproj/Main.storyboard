@@ -1267,24 +1267,6 @@
             </objects>
             <point key="canvasLocation" x="2796" y="525"/>
         </scene>
-        <!--Notifications-->
-        <scene sceneID="Dfh-wg-Icv">
-            <objects>
-                <viewController id="mYK-pP-MM9" customClass="NotificationsVC" customModule="Running_Journal" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="ysX-Wx-Jde">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="bSG-Zc-VK7"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Notifications" id="lPp-KJ-yeY">
-                        <imageReference key="image" image="bell.fill" catalog="system" symbolScale="large"/>
-                    </tabBarItem>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="uYX-2b-3eU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="338" y="-1192"/>
-        </scene>
         <!--tabViewController-->
         <scene sceneID="MYe-aR-qSq">
             <objects>
@@ -1295,7 +1277,6 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="mYK-pP-MM9" kind="relationship" relationship="viewControllers" id="n0h-mg-WAL"/>
                         <segue destination="jU1-AF-LpR" kind="relationship" relationship="viewControllers" id="mgi-MY-y01"/>
                         <segue destination="jas-Z5-OJB" kind="relationship" relationship="viewControllers" id="Szo-eg-QUb"/>
                     </connections>
@@ -1501,7 +1482,6 @@
         <segue reference="b8F-cl-dam"/>
     </inferredMetricsTieBreakers>
     <resources>
-        <image name="bell.fill" catalog="system" width="123" height="128"/>
         <image name="figure.walk" catalog="system" width="95" height="128"/>
         <image name="gear" catalog="system" width="128" height="122"/>
         <image name="minus.circle.fill" catalog="system" width="128" height="123"/>

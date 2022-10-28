@@ -31,19 +31,9 @@ class SharingVC: UIViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-      //  NotificationCenter.default.addObserver(self, selector: #selector(viewAppeared), name: UIApplication.willEnterForegroundNotification, object: nil)
-        
-        
-        //setupSettingsMenu()
-        
         sharingTableView.dataSource = self
         sharingTableView.delegate = self
-        
         sharingTableView.rowHeight = 70
-        
-        // Do any additional setup after loading the view.
-
     }
     
     @objc func viewAppeared()
@@ -126,18 +116,12 @@ class SharingVC: UIViewController {
         settingButton.showsMenuAsPrimaryAction = true
         print(settingButton.menu)
     }
-    
-    
-    
-    
-    
-    @IBAction func sharingSettingsButtonClicked(_ sender: UIButton) {
 
+    @IBAction func sharingSettingsButtonClicked(_ sender: UIButton) {
     }
     
     @IBAction func addFriendButtonClicked(_ sender: UIButton) {
         presentUICloudSharingController()
-
     }
     
     func getAllRuns()
@@ -195,13 +179,11 @@ class SharingVC: UIViewController {
                                     {
                                         self.reloadData()
                                     }
-                                    
                                 }
                                 catch
                                 {
                                     print(error.localizedDescription)
                                 }
-                                
                             })
                         })
                     }
@@ -232,7 +214,6 @@ class SharingVC: UIViewController {
                     self.dismiss(animated: true)
                 }))
                 self.present(alert, animated: true)
-                
             }
         }
     }
@@ -241,41 +222,33 @@ class SharingVC: UIViewController {
     func presentUICloudSharingController()
     {
         let container = CKContainer.default()
-        
-        
         let privateDB = container.privateCloudDatabase
         let zoneID = CKRecordZone.ID(zoneName: "com.apple.coredata.cloudkit.zone")
         let zoneName = zoneID.zoneName
         let zone = CKRecordZone(zoneID: zoneID)
         print("\(zoneID) - \(zoneName)")
-       // let zoneName = CKRecordZone.ID.defaultZoneName
-        
         print("CKRECORDSHARE: \(CKRecordZone(zoneID: zoneID).share)")
         
         privateDB.fetch(withRecordZoneID: zoneID, completionHandler: {(zone, error) in
             if zone?.share != nil //share already created
             {
-                
                 let shareID = zone?.share?.recordID
-                
                 print(shareID!.zoneID.ownerName)
-                
            //     print((zone.share.owner.userIdentity.nameComponents?.familyName ?? "") + (zone.share.owner.userIdentity.nameComponents?.givenName ?? ""))
                 privateDB.fetch(withRecordID: shareID!, completionHandler: {(share, error) in
                     DispatchQueue.main.async {
                         let shareController = UICloudSharingController(share: share as! CKShare, container: container)
                         shareController.availablePermissions = [UICloudSharingController.PermissionOptions.allowReadOnly, UICloudSharingController.PermissionOptions.allowPrivate]
+                       shareController.delegate = self
                         self.present(shareController, animated: true, completion: nil)
                     }
-                    
                 })
-                
-               // let sharingController = UICloudSharingController(share: zone.share!, container: container)
             }
             else //share doesn't exist and must be created
             {
                 let share = CKShare(recordZoneID: zoneID)
-                
+                share[CKShare.SystemFieldKey.title] = "Running Journal" as CKRecordValue
+                //TODO: share[CKShare.SystemFieldKey.thumbnailImageData]
                 share.publicPermission = .readOnly
                 
                 DispatchQueue.main.async {
@@ -293,7 +266,7 @@ class SharingVC: UIViewController {
 
                     sharingController.availablePermissions = [UICloudSharingController.PermissionOptions.allowReadOnly, UICloudSharingController.PermissionOptions.allowPrivate]
                     
-                    
+                    sharingController.delegate = self
                     self.present(sharingController, animated: true)
                 }
             }
@@ -375,6 +348,25 @@ extension SharingVC: UITableViewDataSource
         }
         return dateString
     }
+}
+
+extension SharingVC: UICloudSharingControllerDelegate
+{
+    func itemTitle(for csc: UICloudSharingController) -> String? {
+        return "Running Journal"
+    }
+    //TODO: use image thumbnail data (app logo)
+//    func itemThumbnailData(for csc: UICloudSharingController) -> Data? {
+//        <#code#>
+//    }
+    func cloudSharingController(_ csc: UICloudSharingController, failedToSaveShareWithError error: Error) {
+        print(error.localizedDescription)
+    }
+    
+    
+    
+    
+
 }
 
 

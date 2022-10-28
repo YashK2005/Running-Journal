@@ -11,7 +11,7 @@ class TabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.selectedIndex = 1 //sets the pastruns tab as the default when app is opened
+        self.selectedIndex = 0 //sets the pastruns tab as the default when app is opened
         // Do any additional setup after loading the view.
     }
     
