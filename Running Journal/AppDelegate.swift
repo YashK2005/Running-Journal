@@ -80,6 +80,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        }
         return container
     }()
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        //print("Userinfola \(userInfo)")
+    }
 
     // MARK: - Core Data Saving support
 

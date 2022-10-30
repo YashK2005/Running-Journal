@@ -79,6 +79,8 @@ class SharingVC: UIViewController {
             settingButton.isEnabled = true
             addFriendButton.isEnabled = true
         }
+        
+        
     }
     
 
@@ -314,7 +316,7 @@ extension SharingVC: UITableViewDataSource
         let cell = sharingTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! sharingPeopleCell
         let record = recordArray[indexPath.row]
         cell.nameLabel.text = record.fullName
-        cell.recentRunLabel.text = getTableViewDate(record: record)
+        cell.recentRunLabel.text = "Last Upload: " + getTableViewDate(record: record)
         cell.selectionStyle = .none
         
         return cell

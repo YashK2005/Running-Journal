@@ -54,6 +54,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func windowScene(_ windowScene: UIWindowScene, userDidAcceptCloudKitShareWith cloudKitShareMetadata: CKShare.Metadata) {
         //TODO: present UIAlert to ask user if they would like to confirm adding person as a friend
+        print(UIApplication.shared.isRegisteredForRemoteNotifications)
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                DispatchQueue.main.async {
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
+                //UIApplication.registerForRemoteNotifications()
+            }
+        }
         
         let acceptSharesOperation = CKAcceptSharesOperation(shareMetadatas: [cloudKitShareMetadata])
         acceptSharesOperation.queuePriority = .veryHigh
@@ -78,44 +89,48 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     }
                 }
             }
+            //setting up notifications
+            let database = CKContainer.default().sharedCloudDatabase
+            database.fetchAllSubscriptions { result, error in
+                if error != nil{
+                    print(error?.localizedDescription)
+                }
+                else
+                {
+                    if result != nil {
+                        let subscription = CKDatabaseSubscription()
+                        subscription.recordType = "CD_UserRun"
+                        //let subscription = CKQuerySubscription(recordType: "CD_UserRun", predicate: predicate, options: .firesOnRecordCreation)
+                        let notification = CKSubscription.NotificationInfo()
+                        notification.alertBody = "\(share?.owner.userIdentity.nameComponents?.givenName ?? "A Friend") uploaded a run!"
+                        subscription.notificationInfo = notification
+                        CKContainer.default().sharedCloudDatabase.save(subscription) { Result, error in
+                            if let error = error {
+                                print(error.localizedDescription)
+                            }
+                        }
+                    }
+                }
+            }
+            
+            let subscription = CKDatabaseSubscription()
+            subscription.recordType = "CD_UserRun"
+            //let subscription = CKQuerySubscription(recordType: "CD_UserRun", predicate: predicate, options: .firesOnRecordCreation)
+            let notification = CKSubscription.NotificationInfo()
+            let name = share?.owner.userIdentity.nameComponents
+            notification.alertBody = "\(name?.givenName ?? "A friend") uploaded a run!"
+           // notification.setValue(name?.givenName ?? "First" + (name?.familyName ?? "Last"), forKey: "name")
+            //notification.selector
+            //subscription.val
+            subscription.notificationInfo = notification
+            
+            CKContainer.default().sharedCloudDatabase.save(subscription) { Result, error in
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+            }
         }
-        
-        
-    
-        
         CKContainer(identifier: cloudKitShareMetadata.containerIdentifier).add(acceptSharesOperation)
-        
-        
-        let container = CKContainer.default()
-        let privateDB = container.privateCloudDatabase
-        let zoneID = CKRecordZone.ID(zoneName: "com.apple.coredata.cloudkit.zone")
-//        privateDB.fetch(withRecordZoneID: zoneID) { zone, error in
-//            if zone?.share != nil
-//            {
-//                privateDB.fetch(withRecordID: (zone?.share!.recordID)!) { record, error in
-//                    let share = record as! CKShare
-//                    let owner = cloudKitShareMetadata.ownerIdentity.userRecordID
-//                   // cloudKitShareMetadata.share.owner
-//                    share.addParticipant(cloudKitShareMetadata.share.owner)
-//                }
-//
-//            }
-//            else
-//            {
-//                let share = CKShare(recordZoneID: zoneID)
-//                share.publicPermission = .none
-//                privateDB.save(share) { record, error in
-//                    let share = record as! CKShare
-//                    share.addParticipant(cloudKitShareMetadata.share.owner)
-//                }
-//
-//            }
-//        }
-        let persistentContainer = NSPersistentCloudKitContainer(name: "Running_Journal")
-      //  persistentContainer.acceptShareInvitations(from: [cloudKitShareMetadata], into: sha)
-        
-        
     }
-    
 }
 
