@@ -12,6 +12,8 @@ struct K
     struct userDefaults {
         static let distance = "distanceUnits"
         static let temperature = "temperatureUnits"
+        static let read = "readDict"
+        static let recentDate = "recentDate"
     }
     
     static var reloadSharing = false

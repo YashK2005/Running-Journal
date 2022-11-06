@@ -103,6 +103,7 @@ class shoeCell: UITableViewCell {
 class sharingPeopleCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var recentRunLabel: UILabel!
+    @IBOutlet weak var readImageView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

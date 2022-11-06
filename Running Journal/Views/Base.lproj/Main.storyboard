@@ -30,22 +30,31 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Person Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3je-Q6-dah">
-                                                    <rect key="frame" x="8" y="2" width="285.5" height="33.5"/>
+                                                    <rect key="frame" x="32" y="2" width="261.5" height="33.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                                     <color key="textColor" systemColor="systemGreenColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recent Run: Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xBN-ne-itf">
-                                                    <rect key="frame" x="8" y="41" width="285.5" height="21"/>
+                                                    <rect key="frame" x="24" y="41" width="269.5" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="unread" translatesAutoresizingMaskIntoConstraints="NO" id="Nbr-PB-6m1">
+                                                    <rect key="frame" x="4" y="10" width="18" height="18"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="18" id="8FK-Rg-YmN"/>
+                                                        <constraint firstAttribute="height" constant="18" id="ozz-gp-Pgk"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="xBN-ne-itf" firstAttribute="leading" secondItem="byp-u8-P45" secondAttribute="leading" constant="8" id="DS2-PJ-G8K"/>
+                                                <constraint firstItem="Nbr-PB-6m1" firstAttribute="leading" secondItem="byp-u8-P45" secondAttribute="leading" constant="4" id="33a-B2-0Fw"/>
+                                                <constraint firstItem="xBN-ne-itf" firstAttribute="leading" secondItem="byp-u8-P45" secondAttribute="leading" constant="24" id="DS2-PJ-G8K"/>
                                                 <constraint firstItem="3je-Q6-dah" firstAttribute="top" secondItem="byp-u8-P45" secondAttribute="top" constant="2" id="NxJ-VN-OUZ"/>
-                                                <constraint firstItem="3je-Q6-dah" firstAttribute="leading" secondItem="byp-u8-P45" secondAttribute="leading" constant="8" id="aMy-sd-EdM"/>
+                                                <constraint firstItem="3je-Q6-dah" firstAttribute="centerY" secondItem="Nbr-PB-6m1" secondAttribute="centerY" id="TrC-c7-xGi"/>
+                                                <constraint firstItem="3je-Q6-dah" firstAttribute="leading" secondItem="byp-u8-P45" secondAttribute="leading" constant="32" id="aMy-sd-EdM"/>
                                                 <constraint firstAttribute="trailing" secondItem="3je-Q6-dah" secondAttribute="trailing" id="nj6-mH-tMA"/>
                                                 <constraint firstAttribute="bottom" secondItem="xBN-ne-itf" secondAttribute="bottom" constant="8" id="pU0-dd-vOb"/>
                                                 <constraint firstAttribute="trailing" secondItem="xBN-ne-itf" secondAttribute="trailing" id="w6A-wg-CqK"/>
@@ -53,6 +62,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="nameLabel" destination="3je-Q6-dah" id="QPT-6p-PYl"/>
+                                            <outlet property="readImageView" destination="Nbr-PB-6m1" id="ObE-ZM-UH9"/>
                                             <outlet property="recentRunLabel" destination="xBN-ne-itf" id="9Ll-yW-fE3"/>
                                         </connections>
                                     </tableViewCell>
@@ -1489,6 +1499,7 @@
         <image name="person.badge.plus" catalog="system" width="128" height="125"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="trash" catalog="system" width="117" height="128"/>
+        <image name="unread" width="37" height="37"/>
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

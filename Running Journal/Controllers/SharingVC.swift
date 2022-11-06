@@ -78,6 +78,7 @@ class SharingVC: UIViewController {
         {
             settingButton.isEnabled = true
             addFriendButton.isEnabled = true
+            sharingTableView.reloadData()
         }
         
         
@@ -200,6 +201,8 @@ class SharingVC: UIViewController {
         DispatchQueue.main.async {
            
            // self.loadingVC.removeFromSuperview()
+            
+            
             self.loadingIndicator.stopAnimating()
             self.settingButton.isEnabled = true
             self.addFriendButton.isEnabled = true
@@ -208,6 +211,7 @@ class SharingVC: UIViewController {
             self.recordArray.sort(by: { $0.recentUpload > $1.recentUpload })
             self.sharingTableView.reloadData()
             print("RELOAD DATA")
+            
             if self.recordArray.count == 0
             {
                 
@@ -251,6 +255,7 @@ class SharingVC: UIViewController {
                 let share = CKShare(recordZoneID: zoneID)
                 share[CKShare.SystemFieldKey.title] = "Running Journal" as CKRecordValue
                 //TODO: share[CKShare.SystemFieldKey.thumbnailImageData]
+                share[CKShare.SystemFieldKey.thumbnailImageData] = NSDataAsset(name: "AppIcon")?.data
                 share.publicPermission = .readOnly
                 
                 DispatchQueue.main.async {
@@ -297,7 +302,15 @@ extension SharingVC: UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         print("you tapped me!")
+        
+        //modifying unread default
+        let defaults = UserDefaults.standard
+        var dict = defaults.dictionary(forKey: K.userDefaults.read) ?? [:]
+        dict[recordArray[indexPath.row].fullName] = "read"
+        defaults.set(dict, forKey: K.userDefaults.read)
+        
         performSegue(withIdentifier: "sharingToPerson", sender: indexPath.row)
+
         
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -317,13 +330,44 @@ extension SharingVC: UITableViewDataSource
         let record = recordArray[indexPath.row]
         cell.nameLabel.text = record.fullName
         cell.recentRunLabel.text = "Last Upload: " + getTableViewDate(record: record)
+        
+        //setting unread icon
+        let defaults = UserDefaults.standard
+        var dict = defaults.dictionary(forKey: K.userDefaults.read) ?? [:]
+        let lastReadDate = (defaults.value(forKey: K.userDefaults.recentDate) ?? Date()) as! Date
+        print(lastReadDate)
+        print(record.recentUpload)
+        var readValue = (dict[record.fullName] ?? "unread") as! String
+        if record.recentUpload > lastReadDate
+        {
+            readValue = "unread"
+        }
+        if readValue == "read"
+        {
+            cell.readImageView.image = nil
+        }
+        else
+        {
+            cell.readImageView.image = UIImage(named: "unread")
+        }
+        dict[record.fullName] = readValue
+        defaults.set(dict, forKey: K.userDefaults.read)
+
         cell.selectionStyle = .none
         
+        //setting the last read date
+        if indexPath.row + 1 == recordArray.count
+        {
+            let defaults = UserDefaults.standard
+            defaults.set(Date(), forKey: K.userDefaults.recentDate)
+        }
         return cell
     }
     
     func getTableViewDate(record:recordsByFullName) -> String
     {
+
+        //set date
         var dateString = ""
         let date = record.recentUpload
         if date == Date(timeIntervalSince1970: TimeInterval(0))
@@ -358,9 +402,10 @@ extension SharingVC: UICloudSharingControllerDelegate
         return "Running Journal"
     }
     //TODO: use image thumbnail data (app logo)
-//    func itemThumbnailData(for csc: UICloudSharingController) -> Data? {
-//        <#code#>
-//    }
+    func itemThumbnailData(for csc: UICloudSharingController) -> Data? {
+        let icon = NSDataAsset(name: "AppIcon")
+        return icon?.data
+    }
     func cloudSharingController(_ csc: UICloudSharingController, failedToSaveShareWithError error: Error) {
         print(error.localizedDescription)
     }

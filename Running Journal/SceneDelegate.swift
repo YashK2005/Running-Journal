@@ -89,6 +89,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     }
                 }
             }
+            //setting up userdefaults for read/unread
+            var name = share?.owner.userIdentity.nameComponents
+            let fullName = (name?.givenName ?? "First") + " " + (name?.familyName ?? "Last")
+            let defaults = UserDefaults.standard
+            var dict = defaults.dictionary(forKey: K.userDefaults.read) ?? [:]
+            dict[fullName] = "unread"
+            defaults.set(dict, forKey: K.userDefaults.read)
+            
             //setting up notifications
             let database = CKContainer.default().sharedCloudDatabase
             database.fetchAllSubscriptions { result, error in
@@ -113,11 +121,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 }
             }
             
+            
             let subscription = CKDatabaseSubscription()
             subscription.recordType = "CD_UserRun"
             //let subscription = CKQuerySubscription(recordType: "CD_UserRun", predicate: predicate, options: .firesOnRecordCreation)
             let notification = CKSubscription.NotificationInfo()
-            let name = share?.owner.userIdentity.nameComponents
+            name = share?.owner.userIdentity.nameComponents
             notification.alertBody = "\(name?.givenName ?? "A friend") uploaded a run!"
            // notification.setValue(name?.givenName ?? "First" + (name?.familyName ?? "Last"), forKey: "name")
             //notification.selector

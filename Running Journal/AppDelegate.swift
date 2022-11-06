@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
              print(urls[urls.count-1] as URL)
+        print(UserDefaults.standard.value(forKey: "unread") ?? false)
         return true
     }
 
@@ -82,6 +83,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }()
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        
+        let userDefaults = UserDefaults.standard
+        userDefaults.setValue(true, forKey: "unread")
         //print("Userinfola \(userInfo)")
     }
 
