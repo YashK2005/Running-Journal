@@ -31,9 +31,29 @@ class SharingVC: UIViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        sharingTableView.dataSource = self
-        sharingTableView.delegate = self
-        sharingTableView.rowHeight = 70
+        //if CKContainer.default().i
+        let defaults = UserDefaults.standard
+        if FileManager.default.ubiquityIdentityToken != nil {
+            sharingTableView.dataSource = self
+            sharingTableView.delegate = self
+            sharingTableView.rowHeight = 70
+            
+        }
+        else
+        {
+            print("iCloud unavailable")
+            addFriendButton.isEnabled = false
+            settingButton.isEnabled = false
+            let alert = UIAlertController(title: "No account found", message: "You must be logged into iCloud to access the sharing features.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                self.addFriendButton.isEnabled = false
+                self.settingButton.isEnabled = false
+            }))
+            present(alert, animated: true)
+        }
+        
+       // getUserName()
+        
     }
     
     @objc func viewAppeared()
@@ -149,26 +169,36 @@ class SharingVC: UIViewController {
                     if recordZones[i].zoneID.zoneName == "com.apple.coredata.cloudkit.zone"
                     {
                         id = recordZones[i].zoneID
+                        print(id)
                         
                         let participantID = CKRecord.ID(recordName: id.ownerName)
-                        container.fetchShareParticipant(withUserRecordID: participantID, completionHandler: {(record, error) in
-                            if error != nil {print(error?.localizedDescription)}
-                            
-                            let fullName = (record?.userIdentity.nameComponents?.givenName ?? "First") + " " + (record?.userIdentity.nameComponents?.familyName ?? "Last")
+                        
+                        sharedDB.fetch(withQuery: CKQuery(recordType: "UserName", predicate: NSPredicate(value: true)), inZoneWith: recordZones[i].zoneID) { name in
+                            let index = i
+                       
                             let pred = NSPredicate(value: true)
                             let query = CKQuery(recordType: "CD_UserRun", predicate: pred)
                        //     let sortDescriptor = NSSortDescriptor(key: "createdTimestamp", ascending: false)
                           //  query.sortDescriptors = [sortDescriptor]
                             
-                           
-                            sharedDB.fetch(withQuery: query, inZoneWith: id, completionHandler: {(result) in
+                            
+                            sharedDB.fetch(withQuery: query, inZoneWith: recordZones[index].zoneID, completionHandler: {(result) in
                                 do {
+                                    print(id)
+                                    let betterName = try name.get().matchResults
+                                    let recName = try betterName[0].1.get()
+                                    let fullName = (recName.value(forKey: "firstName") as? String ?? "First") + " " + (recName.value(forKey: "lastName") as? String ?? "Last")
+                                    //let fullName = (record?.userIdentity.nameComponents?.givenName ?? "First") + " " + (record?.userIdentity.nameComponents?.familyName ?? "Last")
+                                   // record?.userIdentity.
+                                    // print(record?.userIdentity)
                                     let betterResult = try result.get().matchResults
                                     var records:[CKRecord] = []
                                     var recentDate = Date(timeIntervalSince1970: TimeInterval(0))
                                     for rec in betterResult
                                     {
+                                        
                                         let record = try rec.1.get()
+                                       // print(record)
                                         records.append(record)
                                        // print(record.value(forKey: "createdTimestamp"))
                                         let currentDate = record.creationDate!
@@ -188,7 +218,7 @@ class SharingVC: UIViewController {
                                     print(error.localizedDescription)
                                 }
                             })
-                        })
+                        }
                     }
                     print("RELOADING")
                 }
@@ -198,6 +228,9 @@ class SharingVC: UIViewController {
     
     func reloadData()
     {
+        if FileManager.default.ubiquityIdentityToken == nil {
+            return
+        }
         DispatchQueue.main.async {
            
            // self.loadingVC.removeFromSuperview()
@@ -211,6 +244,7 @@ class SharingVC: UIViewController {
             self.recordArray.sort(by: { $0.recentUpload > $1.recentUpload })
             self.sharingTableView.reloadData()
             print("RELOAD DATA")
+            
             
             if self.recordArray.count == 0
             {
@@ -227,7 +261,28 @@ class SharingVC: UIViewController {
     
     func presentUICloudSharingController()
     {
+        
         let container = CKContainer.default()
+        let defaults = UserDefaults.standard
+//        if defaults.value(forKey: K.userDefaults.discoverability) == nil //ask for user discoverability
+//        {
+//            container.requestApplicationPermission(CKContainer.ApplicationPermissions.userDiscoverability) { [self] status, error in
+//                switch status {
+//                case .granted:
+//                    print("SUCCESS")
+//                    defaults.set(true, forKey: K.userDefaults.discoverability)
+//
+//                default:
+//                    self.getUserName()
+//                    defaults.set(false, forKey: K.userDefaults.discoverability)
+//
+//                }
+//            }
+//        }
+//        else if (defaults.value(forKey: K.userDefaults.discoverability) as? Bool ?? false) == false && (defaults.value(forKey: K.userDefaults.firstName) as? String ?? "") == ""
+//        { //get user's name
+//            getUserName()
+//        }
         let privateDB = container.privateCloudDatabase
         let zoneID = CKRecordZone.ID(zoneName: "com.apple.coredata.cloudkit.zone")
         let zoneName = zoneID.zoneName
@@ -243,6 +298,7 @@ class SharingVC: UIViewController {
            //     print((zone.share.owner.userIdentity.nameComponents?.familyName ?? "") + (zone.share.owner.userIdentity.nameComponents?.givenName ?? ""))
                 privateDB.fetch(withRecordID: shareID!, completionHandler: {(share, error) in
                     DispatchQueue.main.async {
+                        
                         let shareController = UICloudSharingController(share: share as! CKShare, container: container)
                         shareController.availablePermissions = [UICloudSharingController.PermissionOptions.allowReadOnly, UICloudSharingController.PermissionOptions.allowPrivate]
                        shareController.delegate = self
@@ -255,31 +311,116 @@ class SharingVC: UIViewController {
                 let share = CKShare(recordZoneID: zoneID)
                 share[CKShare.SystemFieldKey.title] = "Running Journal" as CKRecordValue
                 //TODO: share[CKShare.SystemFieldKey.thumbnailImageData]
-                share[CKShare.SystemFieldKey.thumbnailImageData] = NSDataAsset(name: "AppIcon")?.data
+            //    share[CKShare.SystemFieldKey.thumbnailImageData] = NSDataAsset(name: "Logo")?.data
                 share.publicPermission = .readOnly
+               
                 
-                DispatchQueue.main.async {
-                    let sharingController = UICloudSharingController (preparationHandler: {(UICloudSharingController, handler:
-                        @escaping (CKShare?, CKContainer?, Error?) -> Void) in
-                        let modifyOp = CKModifyRecordsOperation(recordsToSave:
-                            [share], recordIDsToDelete: nil)
-                        modifyOp.modifyRecordsCompletionBlock = { (record, recordID,
-                            error) in
-                            handler(share, CKContainer.default(), error)
+                let db = CKContainer.default().privateCloudDatabase
+                db.save(share) { record, error in
+                    DispatchQueue.main.async { [self] in
+                        if (UserDefaults.standard.bool(forKey: K.userDefaults.nameSaved) ?? false) == false
+                        {
+                            getUserName(share: share)
                         }
-                        CKContainer.default().privateCloudDatabase.add(modifyOp)
-                        print("urli: \(share.url)")
-                    })
-
-                    sharingController.availablePermissions = [UICloudSharingController.PermissionOptions.allowReadOnly, UICloudSharingController.PermissionOptions.allowPrivate]
-                    
-                    sharingController.delegate = self
-                    self.present(sharingController, animated: true)
+                        
+                        let shareController = UICloudSharingController(share: share as! CKShare, container: container)
+                        shareController.availablePermissions = [UICloudSharingController.PermissionOptions.allowReadOnly, UICloudSharingController.PermissionOptions.allowPrivate]
+                       shareController.delegate = self
+                        self.present(shareController, animated: true, completion: nil)
+                    }
                 }
+                
+//                DispatchQueue.main.async {
+//                    let sharingController = UICloudSharingController (preparationHandler: {(UICloudSharingController, handler:
+//                        @escaping (CKShare?, CKContainer?, Error?) -> Void) in
+//                        let modifyOp = CKModifyRecordsOperation(recordsToSave:
+//                            [share], recordIDsToDelete: nil)
+//                        modifyOp.modifyRecordsCompletionBlock = { (record, recordID,
+//                            error) in
+//                            handler(share, CKContainer.default(), error)
+//                        }
+//                        CKContainer.default().privateCloudDatabase.add(modifyOp)
+//                        print("urli: \(share.url)")
+//                    })
+//
+//                    sharingController.availablePermissions = [UICloudSharingController.PermissionOptions.allowReadOnly, UICloudSharingController.PermissionOptions.allowPrivate]
+//
+//                    sharingController.delegate = self
+//                    self.present(sharingController, animated: true)
+//                }
             }
         })
     }
     
+    func getUserName(share: CKShare)
+    {
+        let defaults = UserDefaults.standard
+        let zoneID = CKRecordZone.ID(zoneName: "com.apple.coredata.cloudkit.zone")
+        let zoneName = zoneID.zoneName
+        let zone = CKRecordZone(zoneID: zoneID)
+        
+        
+        let rec = CKRecord.ID(recordName: "UserName", zoneID: zoneID)
+        
+        let nameRecord = CKRecord(recordType: "UserName", recordID: rec)
+        CKContainer.default().requestApplicationPermission(CKContainer.ApplicationPermissions.userDiscoverability) { [self] status, error in
+            switch status {
+            case .granted:
+                print("SUCCESS")
+               // let first = CKContainer.ident
+                
+                
+                
+               // CKRecordZone.
+          //      let rec = CKRecord.ID(recordName: "UserName", zoneID: .)
+                nameRecord.setValue(share.owner.userIdentity.nameComponents?.givenName, forKey: "firstName")
+                nameRecord.setValue(share.owner.userIdentity.nameComponents?.familyName, forKey: "lastName")
+                let db = CKContainer.default().privateCloudDatabase
+                
+                
+                db.save(nameRecord) { record, error in
+                    UserDefaults.standard.set(true, forKey: K.userDefaults.nameSaved)
+                    print("GOOD")
+                }
+//                nameRecord.setValue(ck.owner.userIdentity.nameComponents?.givenName, forKey: "firstName")
+                
+            default:
+                //user denies
+                let alert = UIAlertController(title: "Enter name", message: "Your name will only be visible to people you choose to share with.", preferredStyle: .alert)
+                alert.addTextField{ (textField) in
+                    textField.placeholder = "First Name"
+                }
+                alert.addTextField { textField in
+                    textField.placeholder = "Last Name"
+                }
+                alert.addAction(UIAlertAction(title: "Submit", style: .default, handler: { action in
+                    let textFields = alert.textFields
+                    let first = textFields![0]
+                    let last = textFields![1]
+                    if (first.text ?? "").trimmingCharacters(in: .whitespaces) != "" && (last.text ?? "").trimmingCharacters(in: .whitespaces) != ""
+                    { //save user's first and last name
+                        //CKRecord(coder: NSCoder())
+                        let defaults = UserDefaults.standard
+                        defaults.set(first.text!, forKey: K.userDefaults.firstName)
+                        defaults.set(last.text!, forKey: K.userDefaults.lastName)
+                        
+                        let privateDB = CKContainer.default().privateCloudDatabase
+                        nameRecord.setValue(first.text!, forKey: "firstName")
+                        nameRecord.setValue(last.text!, forKey: "lastName")
+                        privateDB.save(nameRecord) { record, error in
+                            UserDefaults.standard.set(true, forKey: K.userDefaults.nameSaved)
+                        }
+                        
+                    }
+                    else {self.getUserName(share: share)}
+                }))
+                self.present(alert, animated: true, completion: nil)
+            }
+            
+        }
+    }
+            
+            
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "sharingToPerson"
         {
@@ -399,6 +540,7 @@ extension SharingVC: UITableViewDataSource
 extension SharingVC: UICloudSharingControllerDelegate
 {
     func itemTitle(for csc: UICloudSharingController) -> String? {
+        
         return "Running Journal"
     }
     //TODO: use image thumbnail data (app logo)

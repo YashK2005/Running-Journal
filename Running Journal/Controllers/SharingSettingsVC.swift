@@ -91,6 +91,8 @@ extension SharingSettingsVC: UITableViewDataSource
                     }
                     K.reloadSharing = true
                 }
+          
+                
             }))
             self.present(confirmationAlert, animated: true)
         }

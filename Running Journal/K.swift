@@ -14,6 +14,12 @@ struct K
         static let temperature = "temperatureUnits"
         static let read = "readDict"
         static let recentDate = "recentDate"
+        
+        static let firstName = "firstName"
+        static let lastName = "lastName"
+        static let discoverability = "discoverability"
+        
+        static let nameSaved = "nameSaved"
     }
     
     static var reloadSharing = false

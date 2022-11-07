@@ -53,7 +53,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func windowScene(_ windowScene: UIWindowScene, userDidAcceptCloudKitShareWith cloudKitShareMetadata: CKShare.Metadata) {
+
         //TODO: present UIAlert to ask user if they would like to confirm adding person as a friend
+        //asking user for notificatin permission
         print(UIApplication.shared.isRegisteredForRemoteNotifications)
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
             if let error = error {
@@ -70,8 +72,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         acceptSharesOperation.queuePriority = .veryHigh
         acceptSharesOperation.perShareCompletionBlock = {metadata, share, error in
             if error != nil {
+                
                 print(error?.localizedDescription)
             }
+            print(share?.url)
+            print("HIHI \(share?[CKShare.SystemFieldKey.title])")
             DispatchQueue.main.async {
                 print(self.window?.rootViewController)
                 self.window?.rootViewController?.dismiss(animated: false, completion: nil)
@@ -91,7 +96,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
             //setting up userdefaults for read/unread
             var name = share?.owner.userIdentity.nameComponents
-            let fullName = (name?.givenName ?? "First") + " " + (name?.familyName ?? "Last")
+            let fullName = (name?.givenName ?? "First") + " " + (name?.familyName ?? "Last") //TODO: public database
             let defaults = UserDefaults.standard
             var dict = defaults.dictionary(forKey: K.userDefaults.read) ?? [:]
             dict[fullName] = "unread"
@@ -99,20 +104,46 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             //setting up notifications
             let database = CKContainer.default().sharedCloudDatabase
+            //database.fetch
             database.fetchAllSubscriptions { result, error in
                 if error != nil{
                     print(error?.localizedDescription)
                 }
-                else
+                else if true
                 {
-                    if result != nil {
-                        let subscription = CKDatabaseSubscription()
-                        subscription.recordType = "CD_UserRun"
+                    var check = true
+//                    for res in result!
+//                    {
+//
+//                        let reszone = res as! CKRecordZoneSubscription
+//                        if reszone.zoneID == share?.recordID.zoneID
+//                        {
+//                            check = false
+//                        }
+//                    }
+                    if result!.isEmpty  //if check == true
+                    {
+            
+                        
+//                        let subscription = CKDatabaseSubscription()
+//                        subscription.recordType = "CD_UserRun"
+                        
+                        
                         //let subscription = CKQuerySubscription(recordType: "CD_UserRun", predicate: predicate, options: .firesOnRecordCreation)
                         let notification = CKSubscription.NotificationInfo()
-                        notification.alertBody = "\(share?.owner.userIdentity.nameComponents?.givenName ?? "A Friend") uploaded a run!"
-                        subscription.notificationInfo = notification
-                        CKContainer.default().sharedCloudDatabase.save(subscription) { Result, error in
+//                        notification.desir
+                        
+                        notification.alertBody = "A friend uploaded a run!" //"\(share?.owner.userIdentity.nameComponents?.givenName ?? "A Friend") uploaded a run!"
+                        
+                        let sub = CKDatabaseSubscription() //CKRecordZoneSubscription(zoneID: (share?.recordID.zoneID)!)
+                        
+                        
+                        sub.recordType = "CD_UserRun"
+                        sub.notificationInfo = notification
+                        
+                       // subscription.notificationInfo = notification
+                        
+                        CKContainer.default().sharedCloudDatabase.save(sub) { Result, error in
                             if let error = error {
                                 print(error.localizedDescription)
                             }
@@ -122,22 +153,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
             
             
-            let subscription = CKDatabaseSubscription()
-            subscription.recordType = "CD_UserRun"
-            //let subscription = CKQuerySubscription(recordType: "CD_UserRun", predicate: predicate, options: .firesOnRecordCreation)
-            let notification = CKSubscription.NotificationInfo()
-            name = share?.owner.userIdentity.nameComponents
-            notification.alertBody = "\(name?.givenName ?? "A friend") uploaded a run!"
-           // notification.setValue(name?.givenName ?? "First" + (name?.familyName ?? "Last"), forKey: "name")
-            //notification.selector
-            //subscription.val
-            subscription.notificationInfo = notification
-            
-            CKContainer.default().sharedCloudDatabase.save(subscription) { Result, error in
-                if let error = error {
-                    print(error.localizedDescription)
-                }
-            }
+//            let subscription = CKDatabaseSubscription()
+//            subscription.recordType = "CD_UserRun"
+//            //let subscription = CKQuerySubscription(recordType: "CD_UserRun", predicate: predicate, options: .firesOnRecordCreation)
+//            let notification = CKSubscription.NotificationInfo()
+//            name = share?.owner.userIdentity.nameComponents
+//            notification.alertBody = "\(name?.givenName ?? "A friend") uploaded a run!"
+//           // notification.setValue(name?.givenName ?? "First" + (name?.familyName ?? "Last"), forKey: "name")
+//            //notification.selector
+//            //subscription.val
+//            subscription.notificationInfo = notification
+//
+//            CKContainer.default().sharedCloudDatabase.save(subscription) { Result, error in
+//                if let error = error {
+//                    print(error.localizedDescription)
+//                }
+//            }
         }
         CKContainer(identifier: cloudKitShareMetadata.containerIdentifier).add(acceptSharesOperation)
     }
