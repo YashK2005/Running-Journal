@@ -184,9 +184,12 @@ class SharingVC: UIViewController {
                             
                             sharedDB.fetch(withQuery: query, inZoneWith: recordZones[index].zoneID, completionHandler: {(result) in
                                 do {
+                                    let zoneid = recordZones[index].zoneID
                                     print(id)
                                     let betterName = try name.get().matchResults
                                     let recName = try betterName[0].1.get()
+                                    print(recName)
+                                    print(recName.value(forKey: "firstName"))
                                     let fullName = (recName.value(forKey: "firstName") as? String ?? "First") + " " + (recName.value(forKey: "lastName") as? String ?? "Last")
                                     //let fullName = (record?.userIdentity.nameComponents?.givenName ?? "First") + " " + (record?.userIdentity.nameComponents?.familyName ?? "Last")
                                    // record?.userIdentity.
@@ -205,8 +208,9 @@ class SharingVC: UIViewController {
                                         if currentDate > recentDate{
                                             recentDate = currentDate
                                         }
+                                        
                                     }
-                                    let fullRecord = recordsByFullName(fullName: fullName, records: records, recentUpload: recentDate, zoneID: id)
+                                    let fullRecord = recordsByFullName(fullName: fullName, records: records, recentUpload: recentDate, zoneID: zoneid)
                                     self.recordArray.append(fullRecord)
                                     if self.recordArray.count == recordZones.count
                                     {
@@ -322,7 +326,10 @@ class SharingVC: UIViewController {
                         {
                             getUserName(share: share)
                         }
-                        
+                        while UserDefaults.standard.bool(forKey: K.userDefaults.nameSaved) ?? false == false
+                        {
+                            
+                        }
                         let shareController = UICloudSharingController(share: share as! CKShare, container: container)
                         shareController.availablePermissions = [UICloudSharingController.PermissionOptions.allowReadOnly, UICloudSharingController.PermissionOptions.allowPrivate]
                        shareController.delegate = self
@@ -386,35 +393,45 @@ class SharingVC: UIViewController {
                 
             default:
                 //user denies
-                let alert = UIAlertController(title: "Enter name", message: "Your name will only be visible to people you choose to share with.", preferredStyle: .alert)
-                alert.addTextField{ (textField) in
-                    textField.placeholder = "First Name"
-                }
-                alert.addTextField { textField in
-                    textField.placeholder = "Last Name"
-                }
-                alert.addAction(UIAlertAction(title: "Submit", style: .default, handler: { action in
-                    let textFields = alert.textFields
-                    let first = textFields![0]
-                    let last = textFields![1]
-                    if (first.text ?? "").trimmingCharacters(in: .whitespaces) != "" && (last.text ?? "").trimmingCharacters(in: .whitespaces) != ""
-                    { //save user's first and last name
-                        //CKRecord(coder: NSCoder())
-                        let defaults = UserDefaults.standard
-                        defaults.set(first.text!, forKey: K.userDefaults.firstName)
-                        defaults.set(last.text!, forKey: K.userDefaults.lastName)
-                        
-                        let privateDB = CKContainer.default().privateCloudDatabase
-                        nameRecord.setValue(first.text!, forKey: "firstName")
-                        nameRecord.setValue(last.text!, forKey: "lastName")
-                        privateDB.save(nameRecord) { record, error in
-                            UserDefaults.standard.set(true, forKey: K.userDefaults.nameSaved)
-                        }
-                        
+                print("JEEFA")
+              
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "Enter name", message: "Your name will only be visible to people you choose to share with.", preferredStyle: .alert)
+                    alert.addTextField{ (textField) in
+                        textField.placeholder = "First Name"
                     }
-                    else {self.getUserName(share: share)}
-                }))
-                self.present(alert, animated: true, completion: nil)
+                    alert.addTextField { textField in
+                        textField.placeholder = "Last Name"
+                    }
+                    alert.addAction(UIAlertAction(title: "Submit", style: .default, handler: { action in
+                        let textFields = alert.textFields
+                        let first = textFields![0]
+                        let last = textFields![1]
+                        if (first.text ?? "").trimmingCharacters(in: .whitespaces) != "" && (last.text ?? "").trimmingCharacters(in: .whitespaces) != ""
+                        { //save user's first and last name
+                            //CKRecord(coder: NSCoder())
+                            let defaults = UserDefaults.standard
+                            defaults.set(first.text!, forKey: K.userDefaults.firstName)
+                            defaults.set(last.text!, forKey: K.userDefaults.lastName)
+                            
+                            let privateDB = CKContainer.default().privateCloudDatabase
+                            nameRecord.setValue(first.text!, forKey: "firstName")
+                            nameRecord.setValue(last.text!, forKey: "lastName")
+                            privateDB.save(nameRecord) { record, error in
+                                UserDefaults.standard.set(true, forKey: K.userDefaults.nameSaved)
+                            }
+                            
+                        }
+                        else {self.getUserName(share: share)}
+                    }))
+                    
+                    print(presentedViewController)
+                    print(self.isBeingPresented)
+                    self.presentedViewController?.present(alert, animated: true)
+                   // present(alert, animated: true, completion: nil)
+                    
+                }
+                
             }
             
         }

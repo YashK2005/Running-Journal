@@ -134,12 +134,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //                        notification.desir
                         
                         notification.alertBody = "A friend uploaded a run!" //"\(share?.owner.userIdentity.nameComponents?.givenName ?? "A Friend") uploaded a run!"
-                        
+                        //notification.
                         let sub = CKDatabaseSubscription() //CKRecordZoneSubscription(zoneID: (share?.recordID.zoneID)!)
                         
                         
                         sub.recordType = "CD_UserRun"
                         sub.notificationInfo = notification
+                      //  sub.
                         
                        // subscription.notificationInfo = notification
                         

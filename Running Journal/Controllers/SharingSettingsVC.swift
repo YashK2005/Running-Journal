@@ -18,8 +18,18 @@ class SharingSettingsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print(records.count)
-        
-        records.sort { $0.fullName > $1.fullName }
+        for rec in records
+        {
+            print(rec.fullName)
+            print(rec.zoneID)
+        }
+        records.sort { $0.fullName < $1.fullName }
+        for rec in records
+        {
+            print(rec.fullName)
+            print(rec.zoneID)
+        }
+        peopleTableView.reloadData()
         
         peopleTableView.delegate = self
         peopleTableView.dataSource = self
@@ -65,7 +75,7 @@ extension SharingSettingsVC: UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+        //print(indexPath)
         let cell = peopleTableView.dequeueReusableCell(withIdentifier: "deleteCell", for: indexPath) as! deleteCell
         cell.nameLabel.text = records[indexPath.row].fullName
         cell.deleteButton.tintColor = .red
@@ -80,7 +90,10 @@ extension SharingSettingsVC: UITableViewDataSource
                                         
             confirmationAlert.addAction(UIAlertAction(title: "Remove", style: .destructive, handler: { action in
                 let shareRecordID = CKRecord.ID(recordName: CKRecordNameZoneWideShare, zoneID: self.records[indexPath.row].zoneID)
-                
+                print("FFEFE")
+                print(self.records[indexPath.row].fullName)
+                print(shareRecordID)
+                print(indexPath.row)
                 let container = CKContainer.default()
                 container.sharedCloudDatabase.delete(withRecordID: shareRecordID) { record, error in
                     print("DELETED")
