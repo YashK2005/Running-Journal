@@ -57,6 +57,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //TODO: present UIAlert to ask user if they would like to confirm adding person as a friend
         //asking user for notificatin permission
         print(UIApplication.shared.isRegisteredForRemoteNotifications)
+        UIApplication.shared.registerForRemoteNotifications()
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
             if let error = error {
                 print(error.localizedDescription)

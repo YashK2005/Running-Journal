@@ -11,7 +11,16 @@ class TabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.selectedIndex = 0 //sets the pastruns tab as the default when app is opened
+        print(UserDefaults.standard.bool(forKey: K.userDefaults.unread))
+        if (UserDefaults.standard.bool(forKey: K.userDefaults.unread)) == true
+        {
+            self.tabBar.items?[1].badgeColor = .systemRed
+            tabBar.items?[1].badgeValue = ""
+        }
+        
+        
+        self.selectedIndex = 0
+        //sets the pastruns tab as the default when app is opened
         // Do any additional setup after loading the view.
     }
     

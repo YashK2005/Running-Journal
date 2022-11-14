@@ -20,6 +20,11 @@ struct K
         static let discoverability = "discoverability"
         
         static let nameSaved = "nameSaved"
+        
+        static let unread = "unread"
+        
+        static let appRunsCount = "appRunsCount"
+        static let lastVersionPromptedForReview = "lastVersionPromptedForReview"
     }
     
     static var reloadSharing = false

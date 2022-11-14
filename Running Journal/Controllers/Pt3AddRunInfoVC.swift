@@ -72,6 +72,7 @@ class Pt3AddRunInfoVC: UIViewController {
             
             refreshAlert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { (action: UIAlertAction!) in
                //   TODO: add run to database
+                addRunHelp.requestReview()
                 self.addRunDict()
                 self.addRunDatabase()
                 self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)

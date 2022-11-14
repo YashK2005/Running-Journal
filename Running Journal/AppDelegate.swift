@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import CloudKit
 import IQKeyboardManagerSwift
 
 @UIApplicationMain
@@ -85,8 +86,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
         let userDefaults = UserDefaults.standard
-        userDefaults.setValue(true, forKey: "unread")
+        userDefaults.setValue(true, forKey: K.userDefaults.unread)
         //print("Userinfola \(userInfo)")
+        
     }
 
     // MARK: - Core Data Saving support

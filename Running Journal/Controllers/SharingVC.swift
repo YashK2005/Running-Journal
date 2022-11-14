@@ -13,6 +13,7 @@ import CoreData
 class SharingVC: UIViewController {
     
     var zoneCount = 0
+    var unreadCount = 0
     
     
     struct recordsByFullName {
@@ -33,7 +34,7 @@ class SharingVC: UIViewController {
         super.viewDidLoad()
         //if CKContainer.default().i
         let defaults = UserDefaults.standard
-        if FileManager.default.ubiquityIdentityToken != nil {
+        if FileManager.default.ubiquityIdentityToken != nil { //user logged into icloud
             sharingTableView.dataSource = self
             sharingTableView.delegate = self
             sharingTableView.rowHeight = 70
@@ -51,32 +52,29 @@ class SharingVC: UIViewController {
             }))
             present(alert, animated: true)
         }
-        
-       // getUserName()
-        
     }
     
-    @objc func viewAppeared()
-    {
-        print("VIEWAPPEARED")
-        if zoneCount == 0 || K.reloadSharing == true
-        {
-            settingButton.isEnabled = false
-            addFriendButton.isEnabled = false
-            recordArray = []
-            sharingTableView.reloadData()
-            loadingIndicator.center = self.view.center
-            loadingIndicator.startAnimating()
-            getAllRuns()
-            
-            K.reloadSharing = false
-        }
-        else
-        {
-            settingButton.isEnabled = true
-            addFriendButton.isEnabled = true
-        }
-    }
+//    @objc func viewAppeared()
+//    {
+//        print("VIEWAPPEARED")
+//        if zoneCount == 0 || K.reloadSharing == true
+//        {
+//            settingButton.isEnabled = false
+//            addFriendButton.isEnabled = false
+//            recordArray = []
+//            sharingTableView.reloadData()
+//            loadingIndicator.center = self.view.center
+//            loadingIndicator.startAnimating()
+//            getAllRuns()
+//
+//            K.reloadSharing = false
+//        }
+//        else
+//        {
+//            settingButton.isEnabled = true
+//            addFriendButton.isEnabled = true
+//        }
+//    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
@@ -116,6 +114,7 @@ class SharingVC: UIViewController {
                 settingButton.isEnabled = false
                 addFriendButton.isEnabled = false
                 recordArray = []
+                sharingTableView.reloadData()
                 loadingIndicator.startAnimating()
                 getAllRuns()
             }
@@ -239,14 +238,19 @@ class SharingVC: UIViewController {
            
            // self.loadingVC.removeFromSuperview()
             
-            
+            self.unreadCount = 0
             self.loadingIndicator.stopAnimating()
             self.settingButton.isEnabled = true
             self.addFriendButton.isEnabled = true
             self.setupSettingsMenu()
             print("REMOVED")
             self.recordArray.sort(by: { $0.recentUpload > $1.recentUpload })
+            self.tabBarController?.tabBar.items?[1].badgeValue = nil
+            UserDefaults.standard.set(false, forKey: K.userDefaults.unread)
             self.sharingTableView.reloadData()
+            print("FEFAa")
+            print(UserDefaults.standard.bool(forKey: K.userDefaults.unread))
+            
             print("RELOAD DATA")
             
             
@@ -464,8 +468,18 @@ extension SharingVC: UITableViewDelegate
         //modifying unread default
         let defaults = UserDefaults.standard
         var dict = defaults.dictionary(forKey: K.userDefaults.read) ?? [:]
+        if dict[recordArray[indexPath.row].fullName] as? String ?? "" == "unread"
+        {
+            unreadCount = unreadCount - 1
+        }
+        if unreadCount == 0
+        {
+            self.tabBarController?.tabBar.items?[1].badgeValue = nil
+            UserDefaults.standard.set(false, forKey: K.userDefaults.unread)
+        }
         dict[recordArray[indexPath.row].fullName] = "read"
         defaults.set(dict, forKey: K.userDefaults.read)
+        
         
         performSegue(withIdentifier: "sharingToPerson", sender: indexPath.row)
 
@@ -506,7 +520,10 @@ extension SharingVC: UITableViewDataSource
         }
         else
         {
+            self.tabBarController?.tabBar.items?[1].badgeValue = ""
+            UserDefaults.standard.set(true, forKey: K.userDefaults.unread)
             cell.readImageView.image = UIImage(named: "unread")
+            unreadCount += 1
         }
         dict[record.fullName] = readValue
         defaults.set(dict, forKey: K.userDefaults.read)

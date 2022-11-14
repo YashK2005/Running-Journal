@@ -75,6 +75,10 @@ extension SettingsVC: UITableViewDelegate
         {
             performSegue(withIdentifier: "settingsToShoes", sender: self)
         }
+        if indexPath.row == 3
+        {
+            addRunHelp.requestReviewManually()
+        }
     }
     
     
@@ -85,7 +89,7 @@ extension SettingsVC: UITableViewDataSource
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return 4
         
     }
     
@@ -132,8 +136,6 @@ extension SettingsVC: UITableViewDataSource
             {
                 cell.segmentControl.selectedSegmentIndex = 1
             }
-            
-            
             return cell
         }
         else if indexPath.row == 2
@@ -141,11 +143,15 @@ extension SettingsVC: UITableViewDataSource
             let cell = settingsTableView.dequeueReusableCell(withIdentifier: "newScreenCell", for: indexPath) as! settingsNewScreenCell
             cell.settingLabel.text = "Shoes"
             return cell
-           
-            
-            
         }
-        
+        else if indexPath.row == 3
+        {
+            let cell = settingsTableView.dequeueReusableCell(withIdentifier: "newScreenCell", for: indexPath) as! settingsNewScreenCell
+            cell.settingLabel.text = "Rate App in App Store"
+            cell.settingLabel.textColor = .systemPurple
+            cell.accessoryType = .none
+            return cell
+        }
         else
         {
             let cell = settingsTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! settingsUnitsCell
