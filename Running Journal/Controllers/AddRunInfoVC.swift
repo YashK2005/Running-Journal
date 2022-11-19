@@ -17,8 +17,10 @@ class AddRunInfoVC: UIViewController, UITextFieldDelegate {
     
     var run = [String: Any]()
     
+    var imported : Bool = false //false if run is being added manually or edited, true if run is being imported
+    var importRun : ImportRunVC.healthRun?
     
-    var edit : Bool = false //false if run is being added, true if run is being edited
+    var edit : Bool = false//false if run is being added, true if run is being edited
 //    var keys : [String] = [] //already entered fields
 //    var values : [Any] = [] //already entered values
     var dict = [String : Any]()
@@ -64,7 +66,7 @@ class AddRunInfoVC: UIViewController, UITextFieldDelegate {
             tempSelector.selectedSegmentIndex = 1
         }
         
-        if edit == false {self.distanceTextField.becomeFirstResponder()}
+        if edit == false && imported == false {self.distanceTextField.becomeFirstResponder()}
         
         
         // Do any additional setup after loading the view.
@@ -90,9 +92,10 @@ class AddRunInfoVC: UIViewController, UITextFieldDelegate {
         if edit == true {
             editingSetup()
         }
-        
-        
-        
+        if imported == true
+        {
+            importingSetup()
+        }
     }
     
     
@@ -293,13 +296,7 @@ class AddRunInfoVC: UIViewController, UITextFieldDelegate {
                     runTimePicker.selectRow(minutes, inComponent: 1, animated: false)
                     runTimePicker.selectRow(seconds, inComponent: 2, animated: false)
                     updatePace()
-                    
-                //    case "secondsPerKm":
-                        
-                  //  case "runType":
-                        
-                  //  case "runIntensity":
-                        
+  
                     case "location":
                     locationTextField.text = "\(dictValue)"
                         
@@ -312,33 +309,59 @@ class AddRunInfoVC: UIViewController, UITextFieldDelegate {
                     {
                         temperatureTextField.text = "\(unitConversions.celToFahr(celcius: dictValue as! Int))"
                     }
-                    
-                        
+     
                     case "weather":
                     weatherTextView.text = "\(dictValue)"
-                        
-                  //  case "shoe":
-                        
-                 //   case "lastMeal":
-                        
-                  //  case "sorenessBefore":
-                        
-                  //  case "sorenessDuring":
-                        
-                  //  case "sorenessAfter":
-                        
-                  //  case "publicNotes":
-                        
-                  //  case "privateNotes":
-                        
                     default:
                         let useless = 0
                 }
             }
-        
-                
-        
         }
+    }
+    
+    func importingSetup()
+    {
+        guard let runImport = importRun else { return }
+        datePicker.date = runImport.date //setting datePicker
+        //setting runTimePicker
+        let totalSeconds = Int(runImport.duration.magnitude)
+        hour = totalSeconds / 3600
+        minutes = (totalSeconds % 3600) / 60
+        seconds = (totalSeconds % 3600) % 60
+        if hour <= 24
+        {
+            runTimePicker.selectRow(hour, inComponent: 0, animated: false)
+            runTimePicker.selectRow(minutes, inComponent: 1, animated: false)
+            runTimePicker.selectRow(seconds, inComponent: 2, animated: false)
+        }
+        //setting distance text field
+        var distance = runImport.distance
+        if distance != 0.0
+        {
+            if distanceUnits == "km"
+            {
+                distanceTextField.text = "\(round(distance*100) / 100)"
+            }
+            else
+            {
+                distanceTextField.text = "\(unitConversions.kmToMiles(km: distance))"
+            }
+        }
+        updatePace()
+        //setting temperature text field
+        if let temp = runImport.temp
+        {
+            if temperatureUnits == "°C"
+            {
+                temperatureTextField.text = "\(temp)"
+            }
+            else
+            {
+                temperatureTextField.text = "\(unitConversions.celToFahr(celcius: temp))"
+            }
+        }
+        
+        
         
     }
     

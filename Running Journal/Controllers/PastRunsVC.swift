@@ -15,6 +15,7 @@ class PastRunsVC: UIViewController {
     var temperatureUnits = "°C"
     var runs: [NSManagedObject] = []
     
+    @IBOutlet weak var addRunButton: UIButton!
     @IBOutlet weak var sortButton: UIButton!
     @IBOutlet weak var runsTableView: UITableView!
     
@@ -25,6 +26,7 @@ class PastRunsVC: UIViewController {
         // Do any additional setup after loading the view.
         
         menuSetup()
+        addRunMenuSetup()
        // print("past runs")
         
         runsTableView.delegate = self
@@ -47,6 +49,22 @@ class PastRunsVC: UIViewController {
         getCoreDataRuns(descriptors: [NSSortDescriptor(key: "runDate", ascending: false)])
     }
     
+    @IBAction func addRunButtonClicked(_ sender: UIButton) {
+        //performSegue(withIdentifier: "pastRunsToAddRuns", sender: self)
+    }
+    
+    func addRunMenuSetup()
+    {
+        let manual = UIAction(title: "Add A Manual Run", image: UIImage(systemName: "pencil")) { action in
+            self.performSegue(withIdentifier: "pastRunsToAddRuns", sender: self)
+        }
+        let health = UIAction(title: "Import a Run", image: UIImage(systemName: "heart.fill")) { action in
+            //TODO: <#code#>
+            self.performSegue(withIdentifier: "pastRunsToImportRun", sender: self)
+        }
+        let menu = UIMenu(children: [manual, health])
+        addRunButton.menu = menu
+    }
     func getUserUnits() -> [String]
     {
         let distanceKey = K.userDefaults.distance
@@ -96,6 +114,9 @@ class PastRunsVC: UIViewController {
     //MARK: - Sort Menu
     
     func menuSetup() {
+        
+        
+        
 //
         let tagsSubMenuOptions = [UICommand(title: "Race", action: #selector(tagRaceSort)),
                                   UICommand(title: "Time Trial", action: #selector(tagTimeTrialSort)),

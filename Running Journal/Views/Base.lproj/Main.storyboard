@@ -323,14 +323,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N0h-5P-aHQ">
+                            <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N0h-5P-aHQ">
                                 <rect key="frame" x="273" y="0.0" width="47" height="34"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain">
                                     <imageReference key="image" image="plus" catalog="system" symbolScale="large"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <segue destination="Z9y-VP-Ank" kind="presentation" modalPresentationStyle="fullScreen" id="44U-t6-3QW"/>
+                                    <action selector="addRunButtonClicked:" destination="jU1-AF-LpR" eventType="touchUpInside" id="urT-vR-UAr"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pJT-Ze-zWk">
@@ -420,14 +420,17 @@
                         <imageReference key="image" image="figure.walk" catalog="system" symbolScale="large"/>
                     </tabBarItem>
                     <connections>
+                        <outlet property="addRunButton" destination="N0h-5P-aHQ" id="d00-aw-Pgq"/>
                         <outlet property="runsTableView" destination="5kz-2c-Mj5" id="4C2-fd-tV8"/>
                         <outlet property="sortButton" destination="waG-bI-f3r" id="ETN-bx-VOv"/>
                         <segue destination="TZ0-bR-ux8" kind="presentation" identifier="pastRunsToViewRun" modalPresentationStyle="fullScreen" id="So2-D8-Z2M"/>
+                        <segue destination="Z9y-VP-Ank" kind="presentation" identifier="pastRunsToAddRuns" modalPresentationStyle="fullScreen" id="yXd-73-VAH"/>
+                        <segue destination="8i8-z1-1eX" kind="presentation" identifier="pastRunsToImportRun" modalPresentationStyle="fullScreen" id="wXt-q8-LqZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LCg-FP-dBO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="418.125" y="525"/>
+            <point key="canvasLocation" x="-388" y="525"/>
         </scene>
         <!--SettingsVC-->
         <scene sceneID="PSh-mh-pxE">
@@ -536,6 +539,100 @@
             </objects>
             <point key="canvasLocation" x="1264" y="1342"/>
         </scene>
+        <!--Import RunVC-->
+        <scene sceneID="mp7-Sn-0YY">
+            <objects>
+                <viewController id="8i8-z1-1eX" customClass="ImportRunVC" customModule="Running_Journal" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hu1-Zm-d1G">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DwH-AZ-jrF">
+                                <rect key="frame" x="0.0" y="0.0" width="62" height="34.5"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Back"/>
+                                <connections>
+                                    <action selector="backButtonClicked:" destination="Z9y-VP-Ank" eventType="touchUpInside" id="bps-IS-s5y"/>
+                                    <action selector="backButtonClicked:" destination="TZ0-bR-ux8" eventType="touchUpInside" id="gzc-9s-9y7"/>
+                                    <action selector="backButtonClicked:" destination="8i8-z1-1eX" eventType="touchUpInside" id="llt-Jo-flD"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import a Run" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yPN-Ks-fhU">
+                                <rect key="frame" x="83.5" y="0.0" width="153" height="33.5"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="1X8-au-wJK">
+                                <rect key="frame" x="0.0" y="42.5" width="320" height="525.5"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="fb3-4n-ZNu" customClass="shoeCell" customModule="Running_Journal" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="320" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fb3-4n-ZNu" id="WcR-8j-sMy">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shoe Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BzN-od-0ao">
+                                                    <rect key="frame" x="8" y="11.5" width="88" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uru-zx-Dv1">
+                                                    <rect key="frame" x="245" y="11.5" width="67" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="uru-zx-Dv1" firstAttribute="centerY" secondItem="WcR-8j-sMy" secondAttribute="centerY" id="AvK-6D-Cpo"/>
+                                                <constraint firstAttribute="trailing" secondItem="uru-zx-Dv1" secondAttribute="trailing" constant="8" id="MZI-28-FYI"/>
+                                                <constraint firstItem="BzN-od-0ao" firstAttribute="leading" secondItem="WcR-8j-sMy" secondAttribute="leading" constant="8" id="RjL-B6-QfI"/>
+                                                <constraint firstItem="BzN-od-0ao" firstAttribute="centerY" secondItem="WcR-8j-sMy" secondAttribute="centerY" id="gDc-pG-IIH"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="distanceLabel" destination="uru-zx-Dv1" id="jxM-u1-gwQ"/>
+                                            <outlet property="nameLabel" destination="BzN-od-0ao" id="xgZ-kn-eN6"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Go to Settings -&gt; Health -&gt; Data Access &amp; Devices -&gt; Running Journal to allow Running Journal to import run information." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ssI-Lh-JKB">
+                                <rect key="frame" x="0.0" y="243.5" width="320" height="81.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="TqH-Rz-cAO"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="DwH-AZ-jrF" firstAttribute="leading" secondItem="TqH-Rz-cAO" secondAttribute="leading" id="CVt-zQ-U8G"/>
+                            <constraint firstItem="TqH-Rz-cAO" firstAttribute="bottom" secondItem="1X8-au-wJK" secondAttribute="bottom" id="KJI-2t-FRE"/>
+                            <constraint firstItem="1X8-au-wJK" firstAttribute="top" secondItem="DwH-AZ-jrF" secondAttribute="bottom" constant="8" id="LAH-cX-bdg"/>
+                            <constraint firstItem="ssI-Lh-JKB" firstAttribute="leading" secondItem="TqH-Rz-cAO" secondAttribute="leading" id="Na6-ug-Eo7"/>
+                            <constraint firstItem="DwH-AZ-jrF" firstAttribute="top" secondItem="TqH-Rz-cAO" secondAttribute="top" id="P2s-j6-GnC"/>
+                            <constraint firstItem="1X8-au-wJK" firstAttribute="leading" secondItem="TqH-Rz-cAO" secondAttribute="leading" id="Yoh-sB-LCX"/>
+                            <constraint firstAttribute="trailing" secondItem="ssI-Lh-JKB" secondAttribute="trailing" id="c1q-Ex-hg4"/>
+                            <constraint firstItem="TqH-Rz-cAO" firstAttribute="trailing" secondItem="1X8-au-wJK" secondAttribute="trailing" id="hNA-AO-Qpj"/>
+                            <constraint firstItem="ssI-Lh-JKB" firstAttribute="centerY" secondItem="hu1-Zm-d1G" secondAttribute="centerY" id="qnK-OT-wN6"/>
+                            <constraint firstItem="yPN-Ks-fhU" firstAttribute="top" secondItem="TqH-Rz-cAO" secondAttribute="top" id="tfy-T0-oas"/>
+                            <constraint firstItem="yPN-Ks-fhU" firstAttribute="centerX" secondItem="hu1-Zm-d1G" secondAttribute="centerX" id="wXA-HN-qni"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="healthRunsTableView" destination="1X8-au-wJK" id="Dlz-iK-CJp"/>
+                        <outlet property="noRunsLabel" destination="ssI-Lh-JKB" id="YgM-ei-OXT"/>
+                        <segue destination="Z9y-VP-Ank" kind="presentation" identifier="importToAddRun" modalPresentationStyle="fullScreen" id="QVp-hR-reb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zUX-9E-Dcw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-388" y="-277"/>
+        </scene>
         <!--View Run InfoVC-->
         <scene sceneID="yK3-G2-x3b">
             <objects>
@@ -643,7 +740,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CeU-63-gbr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1313" y="-286"/>
+            <point key="canvasLocation" x="416" y="-428"/>
         </scene>
         <!--Add Run InfoVC-->
         <scene sceneID="4Hh-hX-Dgw">
@@ -1293,7 +1390,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v8l-6e-k7e" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-468" y="527"/>
+            <point key="canvasLocation" x="-2196" y="525"/>
         </scene>
         <!--Shoes View Controller-->
         <scene sceneID="yRY-H9-F5X">
@@ -1489,7 +1586,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="b8F-cl-dam"/>
+        <segue reference="QVp-hR-reb"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="figure.walk" catalog="system" width="95" height="128"/>

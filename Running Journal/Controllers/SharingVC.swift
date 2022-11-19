@@ -79,6 +79,7 @@ class SharingVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         print("viewdidappear")
+        print(zoneCount, K.reloadSharing)
         if zoneCount == 0 || K.reloadSharing == true
         {
             settingButton.isEnabled = false
@@ -464,6 +465,7 @@ extension SharingVC: UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         print("you tapped me!")
+        print(zoneCount)
         
         //modifying unread default
         let defaults = UserDefaults.standard
@@ -585,11 +587,6 @@ extension SharingVC: UICloudSharingControllerDelegate
     func cloudSharingController(_ csc: UICloudSharingController, failedToSaveShareWithError error: Error) {
         print(error.localizedDescription)
     }
-    
-    
-    
-    
-
 }
 
 

@@ -140,7 +140,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         
                         
                         sub.recordType = "CD_UserRun"
-                        sub.notificationInfo = notification
+                        //sub.notificationInfo = notification
                       //  sub.
                         
                        // subscription.notificationInfo = notification

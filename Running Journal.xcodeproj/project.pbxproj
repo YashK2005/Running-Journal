@@ -31,6 +31,7 @@
 		D39EBDEB28B3A5DC00279F40 /* AddRunInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D39EBDEA28B3A5DC00279F40 /* AddRunInfoVC.swift */; };
 		D39EBDEF28B4F9A800279F40 /* AutoKeyboardScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D39EBDEE28B4F9A700279F40 /* AutoKeyboardScrollView.swift */; };
 		D3A95B9128B87A6C00037060 /* Pt2AddRunInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A95B9028B87A6C00037060 /* Pt2AddRunInfoVC.swift */; };
+		D3AFBC60292295FA00E523D6 /* ImportRunVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AFBC5F292295FA00E523D6 /* ImportRunVC.swift */; };
 		D3C109EA28BE57F900A48C05 /* Pt3AddRunInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C109E928BE57F900A48C05 /* Pt3AddRunInfoVC.swift */; };
 		D3CA2EFB28DBF53000ED207F /* ShoesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3CA2EFA28DBF52F00ED207F /* ShoesViewController.swift */; };
 		D3EA4F0428CD01EB005127B1 /* UnitConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3EA4F0328CD01EB005127B1 /* UnitConversions.swift */; };
@@ -89,6 +90,7 @@
 		D39EBDEA28B3A5DC00279F40 /* AddRunInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRunInfoVC.swift; sourceTree = "<group>"; };
 		D39EBDEE28B4F9A700279F40 /* AutoKeyboardScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoKeyboardScrollView.swift; sourceTree = "<group>"; };
 		D3A95B9028B87A6C00037060 /* Pt2AddRunInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pt2AddRunInfoVC.swift; sourceTree = "<group>"; };
+		D3AFBC5F292295FA00E523D6 /* ImportRunVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportRunVC.swift; sourceTree = "<group>"; };
 		D3C109E928BE57F900A48C05 /* Pt3AddRunInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pt3AddRunInfoVC.swift; sourceTree = "<group>"; };
 		D3CA2EFA28DBF52F00ED207F /* ShoesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoesViewController.swift; sourceTree = "<group>"; };
 		D3D2668B28E27C4A003596AB /* Running Journal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Running Journal.entitlements"; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 				D32A106E28FF9ADA007D334E /* SharingPersonVC.swift */,
 				D32A107029019152007D334E /* SharingRunVC.swift */,
 				D32A10722904DF52007D334E /* SharingSettingsVC.swift */,
+				D3AFBC5F292295FA00E523D6 /* ImportRunVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -498,6 +501,7 @@
 				D3C109EA28BE57F900A48C05 /* Pt3AddRunInfoVC.swift in Sources */,
 				D392D83C28AE0757005C830B /* SharingVC.swift in Sources */,
 				D392D83A28AE0745005C830B /* PastRunsVC.swift in Sources */,
+				D3AFBC60292295FA00E523D6 /* ImportRunVC.swift in Sources */,
 				D30A1D5628ADF75700DA2692 /* Running_Journal.xcdatamodeld in Sources */,
 				D3EA4F0428CD01EB005127B1 /* UnitConversions.swift in Sources */,
 				D3EA4F0628CD08F0005127B1 /* runCell.swift in Sources */,
