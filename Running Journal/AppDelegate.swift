@@ -9,17 +9,77 @@ import UIKit
 import CoreData
 import CloudKit
 import IQKeyboardManagerSwift
+import HealthKit
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     var window: UIWindow?
+    let healthKitStore:HKHealthStore = HKHealthStore()
     
+    func getNotificationPermission()
+    {
+        
+        print("FA")
+        let un = UNUserNotificationCenter.current()
+        un.requestAuthorization { success, error in
+            if error != nil{
+                print(error?.localizedDescription)
+            }
+        }
+        
+    }
+    func startObservingRuns(healthKitStore:HKHealthStore)
+    {
+        let sampleType = HKObjectType.workoutType()
+        var query = HKObserverQuery(sampleType: sampleType, predicate: HKQuery.predicateForWorkouts(with: .running)) { query, completionHandler, error in
+            
+            let content = UNMutableNotificationContent()
+            
+            content.title = "Running Journal"
+            content.body = "Add your run to Running Journal!"
+            content.badge = 1
+            
+            
+            let request = UNNotificationRequest(identifier: "runningJournal", content: content, trigger: nil)
+            UNUserNotificationCenter.current().add(request) { error in
+                if error != nil
+                {
+                    
+                    print(error?.localizedDescription)
+                }
+                else
+                {
+//                    let defaults = UserDefaults.standard
+//                    var badgeCount = defaults.integer(forKey: K.userDefaults.badgeCount)
+//                    badgeCount += 1
+//                    defaults.set(badgeCount, forKey: K.userDefaults.badgeCount)
+//                    UNUserNotificationCenter.current().setBadgeCount(badgeCount)
+                }
+            }
+        }
+        healthKitStore.execute(query)
+        print("AD")
+        healthKitStore.enableBackgroundDelivery(for: sampleType, frequency: .immediate) { succeeded, error in
+            if error != nil
+            {
+                print(error?.localizedDescription)
+            }
+            print("FEA")
+        }
+    }
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        if HKHealthStore.isHealthDataAvailable()
+        {
+            getNotificationPermission()
+            startObservingRuns(healthKitStore: healthKitStore)
+        }
+        
         IQKeyboardManager.shared.enable = true
         
         let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)

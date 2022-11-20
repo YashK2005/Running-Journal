@@ -265,7 +265,7 @@ class Pt3AddRunInfoVC: UIViewController {
                     privateTextField.text = "\(dictValue)"
                         
                     default:
-                        let useless = 0
+                        print("")
                 }
             }
         }

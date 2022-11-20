@@ -430,7 +430,7 @@ class SharingVC: UIViewController {
                         else {self.getUserName(share: share)}
                     }))
                     
-                    print(presentedViewController)
+                    
                     print(self.isBeingPresented)
                     self.presentedViewController?.present(alert, animated: true)
                    // present(alert, animated: true, completion: nil)

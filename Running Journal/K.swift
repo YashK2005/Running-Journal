@@ -25,6 +25,8 @@ struct K
         
         static let appRunsCount = "appRunsCount"
         static let lastVersionPromptedForReview = "lastVersionPromptedForReview"
+        
+        static let badgeCount = "badgeCount"
     }
     
     static var reloadSharing = false

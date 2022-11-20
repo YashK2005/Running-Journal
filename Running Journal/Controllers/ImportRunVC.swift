@@ -29,6 +29,10 @@ class ImportRunVC: UIViewController {
     var healthRuns:[healthRun] = []
     override func viewDidLoad() {
         super.viewDidLoad()
+        let defaults = UserDefaults.standard
+        defaults.set(0, forKey: K.userDefaults.badgeCount)
+        UNUserNotificationCenter.current().setBadgeCount(0)
+       // getNotificationPermission()
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
         noRunsLabel.isHidden = true
         distanceUnits = userDefaults.string(forKey: K.userDefaults.distance) ?? "km"
@@ -41,6 +45,7 @@ class ImportRunVC: UIViewController {
     
     @objc func willEnterForeground()
     {
+        
         if healthRunsTableView.isHidden
         {
             getRunsDataFromHealth()
@@ -54,6 +59,41 @@ class ImportRunVC: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
+//    func getNotificationPermission()
+//    {
+//        print("FA")
+//        let un = UNUserNotificationCenter.current()
+//        un.requestAuthorization { success, error in
+//            if error != nil{
+//                print(error?.localizedDescription)
+//            }
+//        }
+//    }
+//    func startObservingRuns(healthKitStore:HKHealthStore)
+//    {
+//        let sampleType = HKObjectType.workoutType()
+//        var query = HKObserverQuery(sampleType: sampleType, predicate: HKQuery.predicateForWorkouts(with: .running)) { query, completionHandler, error in
+//            let content = UNMutableNotificationContent()
+//            content.title = "Add your run to Running Journal!"
+//            let request = UNNotificationRequest(identifier: "runningJournal", content: content, trigger: nil)
+//            UNUserNotificationCenter.current().add(request) { error in
+//                if error != nil
+//                {
+//                    print(error?.localizedDescription)
+//                }
+//            }
+//        }
+//        healthKitStore.execute(query)
+//        print("AD")
+//        healthKitStore.enableBackgroundDelivery(for: sampleType, frequency: .immediate) { succeeded, error in
+//            if error != nil
+//            {
+//                print(error?.localizedDescription)
+//            }
+//            print("FEA")
+//        }
+//    }
+    
     func getRunsDataFromHealth()
     {
         if HKHealthStore.isHealthDataAvailable() { // Add code to use HealthKit here.
@@ -63,6 +103,8 @@ class ImportRunVC: UIViewController {
                 requestUserPermission(store: healthStore)
                 if HKHealthStore.isHealthDataAvailable()
                 {
+                    //startObservingRuns(healthKitStore: healthStore)
+                    //backgroundDelivery(store: healthStore)
                     let workouts = await readWorkouts(store: healthStore)
                     if workouts != nil
                     {
@@ -94,7 +136,7 @@ class ImportRunVC: UIViewController {
                                     let val = value as! HKQuantity
                                     return Int(val.doubleValue(for: .degreeCelsius()))
                                 })
-                                print(temp)
+                                
                                 self.healthRuns.append(healthRun(distance: sum, date: w.startDate, duration: w.duration, temp: temp))
                                 if w == workouts?.last || count > 20
                                 {
@@ -132,8 +174,7 @@ class ImportRunVC: UIViewController {
         
        // let workoutPredicate = HKQuery.predicateForWorkouts(with: .running)
         let query = HKSampleQuery(sampleType: runningType, predicate: workoutPredicate, limit: HKObjectQueryNoLimit, sortDescriptors: nil) { query, samples, error in
-            print(error?.localizedDescription)
-            print(samples)
+            
             guard let distanceSamples = samples as? [HKQuantitySample] else {return}
             let val = distanceSamples.map { $0.quantity.doubleValue(for: HKUnit.meter()) }
             print("AAF")
@@ -190,6 +231,22 @@ class ImportRunVC: UIViewController {
         noRunsLabel.isHidden = false
         
     }
+    
+//    func backgroundDelivery(store: HKHealthStore)
+//    {
+//        store.enableBackgroundDelivery(for: HKObjectType.workoutType(), frequency: .immediate) { success, error in
+//            guard error != nil && success else {return}
+//            let query = HKObserverQuery(sampleType: HKObjectType.workoutType(), predicate: HKQuery.predicateForWorkouts(with: .running)) { query, completionHandler, error in
+//                defer {
+//                    completionHandler()
+//                }
+//                guard error != nil else {return}
+//
+//            }
+//            store.execute(query)
+//        }
+//    }
+        
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "importToAddRun"

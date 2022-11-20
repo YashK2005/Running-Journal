@@ -211,7 +211,7 @@ class Pt2AddRunInfoVC: UIViewController {
                   //  case "privateNotes":
                         
                     default:
-                        let useless = 0
+                        print("")
                 }
             }
         }
@@ -385,7 +385,7 @@ class Pt2AddRunInfoVC: UIViewController {
                     }
                     self.getShoeData()
                     self.shoeUsedButton.setTitle("\(text)", for: .normal)
-                        shoeName = "\(text)"
+                    self.shoeName = "\(text)"
                     
                 }
                 

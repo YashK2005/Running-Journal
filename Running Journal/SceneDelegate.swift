@@ -71,6 +71,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let acceptSharesOperation = CKAcceptSharesOperation(shareMetadatas: [cloudKitShareMetadata])
         acceptSharesOperation.queuePriority = .veryHigh
+        
         acceptSharesOperation.perShareCompletionBlock = {metadata, share, error in
             if error != nil {
                 

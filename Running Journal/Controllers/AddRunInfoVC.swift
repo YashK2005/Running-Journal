@@ -155,7 +155,7 @@ class AddRunInfoVC: UIViewController, UITextFieldDelegate {
         if distanceTextField.hasText
         {
             let totalMinutes:Double = Double(hour)*60 + Double(minutes) + Double(seconds)/60
-            var pace:Double = (totalMinutes / (Double(distanceTextField.text!) ?? 0) ?? 0)
+            var pace:Double = (totalMinutes / (Double(distanceTextField.text!) ?? 0))
             
             if (pace == Double.infinity) || pace.isNaN
             {
@@ -222,7 +222,7 @@ class AddRunInfoVC: UIViewController, UITextFieldDelegate {
                 
                 print(pace)
                 run["pace"] = Int(round(pace))
-                print(run["pace"])
+                //print(run["pace"])
                 //run["pace"] = paceLabel.text
             }
             
@@ -313,7 +313,7 @@ class AddRunInfoVC: UIViewController, UITextFieldDelegate {
                     case "weather":
                     weatherTextView.text = "\(dictValue)"
                     default:
-                        let useless = 0
+                        print("")
                 }
             }
         }
@@ -335,7 +335,7 @@ class AddRunInfoVC: UIViewController, UITextFieldDelegate {
             runTimePicker.selectRow(seconds, inComponent: 2, animated: false)
         }
         //setting distance text field
-        var distance = runImport.distance
+        let distance = runImport.distance
         if distance != 0.0
         {
             if distanceUnits == "km"
