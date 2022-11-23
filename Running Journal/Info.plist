@@ -3,6 +3,8 @@
 <plist version="1.0">
 <dict>
 	<key>NSHealthShareUsageDescription</key>
+	<string>Allow access to Health get information about your runs including date, duration, and distance.</string>
+	<key>NSHealthUpdateUsageDescription</key>
 	<string>Allow access to Health to import workout information.</string>
 	<key>CKSharingSupported</key>
 	<true/>
