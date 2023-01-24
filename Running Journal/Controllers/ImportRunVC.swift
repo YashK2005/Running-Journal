@@ -31,7 +31,9 @@ class ImportRunVC: UIViewController {
         super.viewDidLoad()
         let defaults = UserDefaults.standard
         defaults.set(0, forKey: K.userDefaults.badgeCount)
-        UNUserNotificationCenter.current().setBadgeCount(0)
+        if #available(iOS 16.0, *) {
+            UNUserNotificationCenter.current().setBadgeCount(0)
+        }
        // getNotificationPermission()
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
         noRunsLabel.isHidden = true
