@@ -1,5 +1,6 @@
 # Running-Journal
 An iOS app developed for runners to log run details and share with others!
+[Here's my code](https://github.com/YashK2005/Running-Journal/tree/main/Running%20Journal)
 
 Link to app (on iOS App Store): https://apps.apple.com/app/id6444382884 
 
